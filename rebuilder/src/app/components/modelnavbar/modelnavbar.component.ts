@@ -17,9 +17,9 @@ export class ModelnavbarComponent {
 
   constructor() {
     this.items = [
-      { label: 'Details', icon: 'pi pi-th-large', routerLink: ['/model/:id'] },
-      { label: '3D', icon: 'pi pi-cloud-upload', routerLink: ['/model/:id/three'] },
-      { label: 'Instructions', icon: 'pi pi-cloud-upload', routerLink: ['/model/:id/instructions'] }
+      { label: 'Details', icon: 'pi ip-bars', routerLink: ['/model/:id'] },
+      { label: '3D', icon: 'pi pi-box', routerLink: ['/model/:id/three'] },
+      { label: 'Instructions', icon: 'pi pi-info-circle', routerLink: ['/model/:id/instructions'] }
     ];
     this.activeItem = this.items[0];
   }
