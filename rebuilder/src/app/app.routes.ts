@@ -11,7 +11,7 @@ export const routes: Routes = [
   { path: 'models', component: ModelsComponent },
   { path: 'submit', component: SubmitComponent },
   { path: 'model/:id', component: ModelComponent },
+  { path: 'model/:id/three', component: ThreeDComponent },
   { path: 'model/:id/instructions', component: InstructionComponent },
-  { path: 'model/:id/threed', component: ThreeDComponent },
   { path: '**', redirectTo: '' }
 ];

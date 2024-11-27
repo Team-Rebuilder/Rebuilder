@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../homenavbar/home.component';
 
 @Component({
   selector: 'app-submit',

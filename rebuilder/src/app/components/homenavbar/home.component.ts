@@ -1,7 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { RippleModule } from 'primeng/ripple';
 import { MenuItem } from 'primeng/api';
 
 
@@ -10,8 +9,7 @@ import { MenuItem } from 'primeng/api';
   standalone: true,
   imports: [
     CommonModule,
-    TabMenuModule,
-    RippleModule
+    TabMenuModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
