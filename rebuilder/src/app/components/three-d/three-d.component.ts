@@ -11,6 +11,8 @@ import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
   styleUrl: './three-d.component.css'
 })
 export class ThreeDComponent implements AfterViewInit {
+  // The general outline of the code below was adapted from: 
+  // https://medium.com/geekculture/hello-cube-your-first-three-js-scene-in-angular-176c44b9c6c0
   src = input.required<string>();
   modelCanvas = viewChild<ElementRef>("canvas");
 
