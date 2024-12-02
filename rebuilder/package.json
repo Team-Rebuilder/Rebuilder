@@ -19,9 +19,11 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@types/three": "^0.170.0",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.12",
     "rxjs": "~7.8.0",
+    "three": "^0.171.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
