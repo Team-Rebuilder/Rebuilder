@@ -10,8 +10,6 @@ import { ModelsService } from '../../services/models.service';
 import { CategoryService } from '../../services/category.service';
 import { HomeComponent } from '../homenavbar/home.component';
 
-// Declaration of Border Colors
-const DEFAULT_COLOR = "#E0E0E0";
 
 @Component({
   selector: 'app-submit',
@@ -38,8 +36,7 @@ export class SubmitComponent {
   username: string = localStorage.getItem('username') || '';
   usernameSet: boolean = false;
   formSubmitted: boolean = false;
-
-  borderStyle: string = `${ DEFAULT_COLOR } 2px solid`;
+  isLoading: boolean = false;
 
   // Temporary example
   // Taken from: https://primeng.org/treeselect#filter
@@ -120,11 +117,14 @@ export class SubmitComponent {
     }
   }
 
-  // TODO: Implement the submit function to Firebase
+  // Handle file submission
   async onSubmit(): Promise<void> {
     if (!this.isFormValid()) {
       return;
     }
+
+    // Set the loading state
+    this.isLoading = true;
 
     try {
       // First, upload the files
@@ -157,9 +157,11 @@ export class SubmitComponent {
     this.uploadedCSVs = [];
     this.uploadedDAEs = [];
 
+    this.isLoading = false;
     this.formSubmitted = true;
   }
 
+  // Check if the form is valid
   isFormValid(): boolean {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing
     return (
@@ -170,10 +172,6 @@ export class SubmitComponent {
       (this.uploadedPDFs.length > 0) &&    // At least one PDF is required
       (this.uploadedCSVs.length > 0)       // At least one CSV is required
     );
-  }
-
-  deleteInfo(): void {
-    this.submissionValue = null;
   }
 
   // Clear the form

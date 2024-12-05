@@ -1,6 +1,15 @@
 <app-home/>
 
 <div class="container">
+  <!-- Loading Spinner -->
+  @if (isLoading) {
+    <div class="loadingContainer">
+      <h1>Uploading...</h1>
+      <p>Do not refresh screen</p>
+      <div class="loader"></div>
+    </div>
+  }
+
   @if (!usernameSet) {
     <!-- Username Input -->
     <div class="usernameContainer">
@@ -100,14 +109,18 @@
         <input type="file" class="file-input hidden" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple><br/>
         <!-- TODO: Fix event emitter detection on p-fileUpload element -->
         <label for="image">Upload Image* (max. 5)</label>
-        <p-fileUpload #imgUpload name="image[]" (change)="onFilesSelected($event, 'image')" [multiple]="true" accept="image/*" fileLimit="5"
+        <p-fileUpload
+          (change)="onFilesSelected($event, 'image')"
+          [multiple]="true"
+          accept="image/*"
+          fileLimit="5"
           maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop image(s) to here to upload.
             @if (uploadedImages.length) {
               <ul>
                 @for (imgFile of uploadedImages; track imgFile.name) {
-                  <li>{{ imgFile.name }} - {{ imgFile.size }} bytes</li>
+                  <li>{{ imgFile.name }} - {{ (imgFile.size / 1024).toFixed(2) }} KB</li>
                 }
               </ul>
             }
@@ -120,13 +133,17 @@
         <input type="file" class="file-input hidden" accept="application/pdf" (change)="onFilesSelected($event, 'pdf')"><br />
         <!-- TODO: Fix event emitter detection on p-fileUpload element -->
         <label for="pdf">Upload PDF Instructions*</label>
-        <p-fileUpload name="pdf[]" (change)="onFilesSelected($event, 'pdf')" [multiple]="false" accept=".pdf" maxFileSize="1000000">
+        <p-fileUpload
+          (change)="onFilesSelected($event, 'pdf')"
+          [multiple]="false"
+          accept="application/pdf"
+          maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop .pdf instruction to here to upload.
             @if (uploadedPDFs.length) {
               <ul>
                 @for (pdfFile of uploadedPDFs; track pdfFile.name) {
-                  <li>{{ pdfFile.name }} - {{ pdfFile.size }} bytes</li>
+                  <li>{{ pdfFile.name }} - {{ (pdfFile.size / 1024).toFixed(2) }} KB</li>
                 }
               </ul>
             }
@@ -139,13 +156,17 @@
         <input type="file" class="file-input hidden" accept=".csv" (change)="onFilesSelected($event, 'csv')"><br />
         <!-- TODO: Fix event emitter detection on p-fileUpload element -->
         <label for="pdf">Upload CSV Parts Lists*</label>
-        <p-fileUpload name="csv[]" (change)="onFilesSelected($event, 'csv')" [multiple]="false" accept=".csv" maxFileSize="1000000">
+        <p-fileUpload
+          (change)="onFilesSelected($event, 'csv')"
+          [multiple]="false"
+          accept=".csv"
+          maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop .csv parts list to here to upload.
             @if (uploadedPDFs.length) {
               <ul>
                 @for (csvFile of uploadedCSVs; track csvFile.name) {
-                  <li>{{ csvFile.name }} - {{ csvFile.size }} bytes</li>
+                  <li>{{ csvFile.name }} - {{ (csvFile.size / 1024).toFixed(2) }} KB</li>
                 }
               </ul>
             }
@@ -158,13 +179,17 @@
         <input type="file" class="file-input hidden" accept=".dae" (change)="onFilesSelected($event, 'dae')"><br />
         <!-- TODO: Fix event emitter detection on p-fileUpload element -->
         <label for="pdf">Upload 3D Model (.dae)</label>
-        <p-fileUpload name="dae[]" (change)="onFilesSelected($event, 'dae')" [multiple]="false" accept=".dae" maxFileSize="1000000">
+        <p-fileUpload
+          (change)="onFilesSelected($event, 'dae')"
+          [multiple]="false"
+          accept=".dae"
+          maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop .dae 3D Model to here to upload.
             @if (uploadedPDFs.length) {
               <ul>
                 @for (daeFile of uploadedDAEs; track daeFile.name) {
-                  <li>{{ daeFile.name }} - {{ daeFile.size }} bytes</li>
+                  <li>{{ daeFile.name }} - {{ (daeFile.size / 1024).toFixed(2) }} KB</li>
                 }
               </ul>
             }
