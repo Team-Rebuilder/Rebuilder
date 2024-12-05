@@ -20,6 +20,7 @@ input[type=checkbox]:focus {
   justify-self: center;
   align-items: center;
   padding: 2rem 4rem;
+  width: 100%;
   left: 50%;
   transform: translate(-50%, 0%);
 }
@@ -31,6 +32,7 @@ input[type=checkbox]:focus {
   align-items: center;
   gap: 1rem;
   margin-top: 2rem;
+  width: 100%;
 }
 
 .welcomeContainer {
@@ -95,8 +97,13 @@ button:hover {
   background-color: #b7e0ff;
 }
 
+.usernameContainer input[type=text] {
+  width: 20rem;
+  text-align: center;
+}
+
 input[type=text] {
-  width: 16rem;
+  width: 24rem;
   height: 2.4rem;
   border: 2px solid #efefef;
   border-radius: 0.5rem;
@@ -111,6 +118,7 @@ input.ng-valid.ng-touched {
 input.ng-invalid.ng-touched {
   border-color: #FF8A8A;
 }
+
 textarea {
   border: 2px solid #efefef;
   border-radius: 0.5rem;

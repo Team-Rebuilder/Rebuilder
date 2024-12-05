@@ -7,6 +7,7 @@
       <h1>How can we call you?</h1>
       <input
         pInputText
+        maxlength="30"
         type="text"
         id="username"
         placeholder="Enter username"
@@ -19,6 +20,13 @@
       </p-button>
     </div>
   }
+  @else if(formSubmitted) {
+    <div class="welcomeContainer">
+      <h1>Thank you for your submission!</h1>
+      <p>Submit another model here!</p>
+      <p-button label="Submit Another" (click)="clearUsername()"></p-button>
+    </div>
+  }
   @else {
     <div class="welcomeContainer">
       <h1>Welcome, {{ username }}!</h1>
@@ -29,23 +37,35 @@
     <form [formGroup]="SubmitForm" (ngSubmit)="onSubmit()">
       <!-- Title Input -->
       <div class="inputContainer">
-        <label for="title">Title</label>
-        <input pInputText type="text" id="title" placeholder="Enter title" formControlName="title">
+        <label for="title">Title*</label>
+        <input
+          pInputText
+          type="text"
+          maxlength="50"
+          id="title"
+          placeholder="Enter title"
+          formControlName="title">
         @if (SubmitForm.get('title')?.invalid && SubmitForm.get('title')?.touched) {
           <small>This field is required</small>
         }
       </div>
 
       <!-- Category Selector -->
-      <!-- TODO: Fix style -->
       <div class="inputContainer">
-        <label for="category">Category</label>
-        <input pInputText type="text" id="category" placeholder="Enter category" formControlName="category">
+        <label for="category">Category*</label>
+        <input
+          pInputText
+          type="text"
+          maxlength="50"
+          id="category"
+          placeholder="Enter category"
+          formControlName="category">
         @if (SubmitForm.get('category')?.invalid && SubmitForm.get('category')?.touched) {
           <small>This field is required</small>
         }
       </div>
       <!-- disable temporarily -->
+      <!-- TODO: Fix style -->
       <!-- <div class="categoryContainer">
           <p-treeSelect
             formControlName="selectedNodes"
@@ -58,8 +78,15 @@
 
       <!-- Description Input -->
       <div class="inputContainer">
-        <label for="description">Description</label>
-        <textarea pInputTextarea id="description" rows="7" cols="88" placeholder="Enter description" [autoResize]="true"
+        <label for="description">Description*</label>
+        <textarea
+          pInputTextarea
+          id="description"
+          maxlength="1000"
+          rows="7"
+          cols="88"
+          placeholder="Enter description"
+          [autoResize]="true"
           formControlName="description">
         </textarea>
         @if (SubmitForm.get('description')?.invalid && SubmitForm.get('description')?.touched) {
@@ -69,8 +96,10 @@
 
       <!-- Image Upload -->
       <div class="upload-container">
-        <label for="image">Upload Image(s)</label>
-        <p-fileUpload name="image[]" (onUpload)="onUploadImage($event)" [multiple]="true" accept="image/*" fileLimit="5"
+        <input type="file" class="file-input hidden" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple><br/>
+        <!-- TODO: Fix event emitter detection on p-fileUpload element -->
+        <label for="image">Upload Image* (max. 5)</label>
+        <p-fileUpload #imgUpload name="image[]" (change)="onFilesSelected($event, 'image')" [multiple]="true" accept="image/*" fileLimit="5"
           maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop image(s) to here to upload.
@@ -87,8 +116,10 @@
 
       <!-- Instruction PDF File Upload -->
       <div class="upload-container">
-        <label for="pdf">Upload PDF Instructions</label>
-        <p-fileUpload name="pdf[]" (onUpload)="onUploadPDF($event)" [multiple]="false" accept=".pdf" maxFileSize="1000000">
+        <input type="file" class="file-input hidden" accept="application/pdf" (change)="onFilesSelected($event, 'pdf')"><br />
+        <!-- TODO: Fix event emitter detection on p-fileUpload element -->
+        <label for="pdf">Upload PDF Instructions*</label>
+        <p-fileUpload name="pdf[]" (change)="onFilesSelected($event, 'pdf')" [multiple]="false" accept=".pdf" maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop .pdf instruction to here to upload.
             @if (uploadedPDFs.length) {
@@ -104,8 +135,10 @@
 
       <!-- Parts List csv File Upload -->
       <div class="upload-container">
-        <label for="pdf">Upload CSV Parts Lists</label>
-        <p-fileUpload name="csv[]" (onUpload)="onUploadCSV($event)" [multiple]="false" accept=".csv" maxFileSize="1000000">
+        <input type="file" class="file-input hidden" accept=".csv" (change)="onFilesSelected($event, 'csv')"><br />
+        <!-- TODO: Fix event emitter detection on p-fileUpload element -->
+        <label for="pdf">Upload CSV Parts Lists*</label>
+        <p-fileUpload name="csv[]" (change)="onFilesSelected($event, 'csv')" [multiple]="false" accept=".csv" maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop .csv parts list to here to upload.
             @if (uploadedPDFs.length) {
@@ -121,8 +154,10 @@
 
       <!-- 3D dae Model Upload -->
       <div class="upload-container">
+        <input type="file" class="file-input hidden" accept=".dae" (change)="onFilesSelected($event, 'dae')"><br />
+        <!-- TODO: Fix event emitter detection on p-fileUpload element -->
         <label for="pdf">Upload 3D Model (.dae)</label>
-        <p-fileUpload name="dae[]" (onUpload)="onUploadDAE($event)" [multiple]="false" accept=".dae" maxFileSize="1000000">
+        <p-fileUpload name="dae[]" (change)="onFilesSelected($event, 'dae')" [multiple]="false" accept=".dae" maxFileSize="1000000">
           <ng-template pTemplate="content">
             Drag and drop .dae 3D Model to here to upload.
             @if (uploadedPDFs.length) {
@@ -138,10 +173,8 @@
 
       <!-- Submit Button -->
       <div class="buttoncontainer">
-        <p-button [disabled]="!isFormValid()" label="Submit" />
-        <!-- <button type="submit" [disabled]="!isFormValid()">Submit</button> -->
+        <p-button type="submit" [disabled]="!isFormValid()" label="Submit" />
         <p-button (click)="SubmitForm.reset()" label="Reset Form" />
-        <!-- <button (click)="SubmitForm.reset()">Clear Form</button> -->
       </div>
     </form>
   }

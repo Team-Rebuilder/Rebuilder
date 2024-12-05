@@ -20,10 +20,11 @@ import {
   deleteDoc,
   doc,
   DocumentReference,
-  Timestamp
+  Timestamp,
+  DocumentData
 } from '@angular/fire/firestore';
-import { Storage, ref } from '@angular/fire/storage';
-import { map, switchMap, firstValueFrom, filter, Observable, Subscription } from 'rxjs';
+import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
+import { map, switchMap, firstValueFrom, filter, Observable, Subscription, timestamp } from 'rxjs';
 import { Router } from '@angular/router';
 
 export interface Model {
@@ -33,10 +34,10 @@ export interface Model {
   category: string;
   timestamp: Timestamp;
   description: string;
-  imageUrl: string;
-  partsListUrl: string;
-  instructionUrl: string;
-  threemodelUrl: string;
+  imageUrls: string[];
+  partsListUrls: string[];
+  instructionUrls: string[];
+  threemodelUrls: string[];
 }
 
 @Injectable({
@@ -50,7 +51,6 @@ export class ModelsService {
   private storage: Storage = inject(Storage);
   router: Router = inject(Router);
   private provider = new GoogleAuthProvider();
-  LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif?a';
 
   // observable that is updated when the auth state changes
   // user$ = user(this.auth);
@@ -62,7 +62,9 @@ export class ModelsService {
   // Create a reference to the storage service
   storageRef = ref(this.storage);
 
+  // Variables for the document
   private docId: string = '';
+  private username: string = '';
 
   // Create a reference to the models collection
   modelsRef = collection(this.firestore, 'models');
@@ -97,31 +99,43 @@ export class ModelsService {
   // }
 
 
-  // Handle Submitting a new Model
-  // First, Ask username before proceeding (for getting unique id so that files can be stored in the user's directory)
-  // When user enters a submit page and types something in the input field,
-  //   it will add a new document to the models collection, with empty fields
-  // Then, as user fills out the form, it will temporarily store the data locally
-  // For images, partslist and instructions, it will upload the files to the storage service, and update the document with the urls
-  // Finally, when user clicks submit, it will update the document with the final data (that are stored locally)
-
-
-  // 1. Add a new document to the models collection with username
-  addModel = async (userName: string) => {
-    const newModelRef = await addDoc(this.modelsRef, {
-      userName: userName,
-      title: '',
-      category: '',
+  submitModel = async (modeldata: any) => {
+    await addDoc(this.modelsRef, {
+      userName: this.username,
+      title: modeldata.title,
+      category: modeldata.category,
       timestamp: Timestamp.now(),
-      description: '',
-      imageUrl: '',
-      partsListUrl: '',
-      instructionUrl: '',
-      threemodelUrl: ''
+      description: modeldata.description,
+      imageUrls: modeldata.imageUrls,
+      instructionUrls: modeldata.instructionUrls,
+      partsListUrls: modeldata.partsListUrls,
+      threemodelUrls: modeldata.threemodelUrls
+    }).then((docRef: DocumentReference) => {
+      // Update the document with the id
+      updateDoc(docRef, { id: docRef.id });
+
+      // Also store the document id
+      this.docId = docRef.id;
+    }).catch((error: any) => {
+      console.error('Error adding document: ', error);
     });
-    this.docId = newModelRef.id;
   }
 
+  // Handle file uploads (written with the help of AI)
+  uploadFiles = async (files: File[], filetype: string) => {
+    const uploadPromises = files.map(async (file) => {
+      const filePath = `${this.username}/${filetype}/${file.name}`;
+      const fileRef = ref(this.storage, filePath);
+      await uploadBytesResumable(fileRef, file);
 
+      // Generate a public URL for the file.
+      const publicFileURL = await getDownloadURL(fileRef);
+      return publicFileURL;
+    });
+
+    // Wait for all the upload promises to complete
+    const uploadedFilesUrls = await Promise.all(uploadPromises);
+    return uploadedFilesUrls;
+  }
 
 }

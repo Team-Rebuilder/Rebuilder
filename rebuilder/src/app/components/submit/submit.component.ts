@@ -1,10 +1,10 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { TreeSelectModule } from 'primeng/treeselect';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileUpload, FileUploadModule, UploadEvent } from 'primeng/fileupload';
 
 import { ModelsService } from '../../services/models.service';
 import { CategoryService } from '../../services/category.service';
@@ -35,9 +35,9 @@ export class SubmitComponent {
 
   SubmitForm: FormGroup;
   submissionValue: any; // Can be any type
-
-  username: string = '';
+  username: string = localStorage.getItem('username') || '';
   usernameSet: boolean = false;
+  formSubmitted: boolean = false;
 
   borderStyle: string = `${ DEFAULT_COLOR } 2px solid`;
 
@@ -47,39 +47,41 @@ export class SubmitComponent {
   selectedNodes: any;
 
   // Uploaded Image
-  uploadedImages: any[] = [];
-  uploadedPDFs: any[] = [];
-  uploadedCSVs: any[] = [];
-  uploadedDAEs: any[] = [];
+  uploadedImages: File[] = [];
+  uploadedPDFs: File[] = [];
+  uploadedCSVs: File[] = [];
+  uploadedDAEs: File[] = [];
 
   constructor(private categoryService: CategoryService) {
     this.categoryService.getFiles().then((files) => (this.nodes = files));
 
     this.SubmitForm = new FormGroup({
-      username: new FormControl('', Validators.required),
       title: new FormControl('', Validators.required),
       category: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      imageUrl: new FormControl('', Validators.required),
-      instructionUrl: new FormControl('', Validators.required),
-      partsListUrl: new FormControl(''),
-      threemodelUrl: new FormControl(''),
+      imageFile: new FormControl('', Validators.required),
+      instructionFile: new FormControl('', Validators.required),
+      partsListFile: new FormControl(''),
+      threemodelFile: new FormControl(''),
       // selectedNodes: new FormControl(),
     });
 
     this.watchChanges();
   }
 
-  // Set the username
+  // Set the username (also apply to local storage)
   setUsername(username: string): void {
     this.username = username;
+    localStorage.setItem('username', username);
     this.usernameSet = true;
   }
 
   // Clear the username
   clearUsername(): void {
     this.username = '';
+    localStorage.removeItem('username');
     this.usernameSet = false;
+    this.formSubmitted = false;   // This would be false anyway before submitting the form
   }
 
   // Watch values that need validation (email, phonenumber)
@@ -90,51 +92,76 @@ export class SubmitComponent {
     });
   }
 
-  // Handle the file upload: Image
-  // https://github.com/firebase/codelab-friendlychat-web/blob/main/angularfire-start/src/app/pages/chat-page/chat-page.component.ts
-  onUploadImage(event: any): void {
-    const imgFile: File = event.target.files[0];
-    if (!imgFile) {
-      return;
+  // Handle temporary file uploads
+  onFilesSelected(event: any, fileType: string) {
+    const files = event.target.files;
+    if (files) {
+      switch (fileType) {
+        case 'image':
+          this.uploadedImages.push(...files);
+          break;
+        case 'pdf':
+          this.uploadedPDFs.push(...files);
+          break;
+        case 'csv':
+          this.uploadedCSVs.push(...files);
+          break;
+        case 'dae':
+          this.uploadedDAEs.push(...files);
+          break;
+      }
     }
-
-    // this.modelsService.uploadImage(imgFile);
-    console.log(event);
-  }
-
-  // Handle the file upload: PDF
-  onUploadPDF(event: any): void {
-    // for (let file of event.files) {
-    //   this.uploadedPDFs.push(file);
-    // }
-    console.log(event);
-  }
-
-  // Handle the file upload: CSV
-  onUploadCSV(event: any): void {
-    // for (let file of event.files) {
-    //   this.uploadedCSVs.push(file);
-    // }
-    console.log(event);
-  }
-
-  // Handle the file upload: DAE
-  onUploadDAE(event: any): void {
-    // for (let file of event.files) {
-    //   this.uploadedDAEs.push(file);
-    // }
-    console.log(event);
   }
 
   // TODO: Implement the submit function to Firebase
-  onSubmit(): void {
-    if (this.isFormValid()) {
-      console.log(this.submissionValue);
+  async onSubmit(): Promise<void> {
+    if (!this.isFormValid()) {
+      return;
     }
+
+    try {
+      // First, upload the files
+      const imageUrls = this.uploadedImages.length ? await this.modelsService.uploadFiles(this.uploadedImages, 'image') : [];
+      const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.uploadedPDFs, 'pdf') : [];
+      const csvUrls = this.uploadedCSVs.length ? await this.modelsService.uploadFiles(this.uploadedCSVs, 'csv') : [];
+      const daeUrls = this.uploadedDAEs.length ? await this.modelsService.uploadFiles(this.uploadedDAEs, 'dae') : [];
+
+      // Then, submit the model
+      await this.modelsService.submitModel({
+        userName: this.username,
+        title: this.submissionValue.title,
+        category: this.submissionValue.category,
+        description: this.submissionValue.description,
+        imageUrls: imageUrls,
+        instructionUrls: pdfUrls,
+        partsListUrls: csvUrls,
+        threemodelUrls: daeUrls
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+
+    // Clear the form
+    this.SubmitForm.reset();
+    this.uploadedImages = [];
+    this.uploadedPDFs = [];
+    this.uploadedCSVs = [];
+    this.uploadedDAEs = [];
+
+    this.formSubmitted = true;
   }
 
   isFormValid(): boolean {
-    return this.SubmitForm.valid;
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing
+    return (
+      (this.SubmitForm.get('title')?.valid ?? false) &&
+      (this.SubmitForm.get('category')?.valid ?? false) &&
+      (this.SubmitForm.get('description')?.valid ?? false) &&
+      (this.uploadedImages.length > 0) &&  // At least one image is required
+      (this.uploadedPDFs.length > 0) &&    // At least one PDF is required
+      (this.uploadedCSVs.length > 0)       // At least one CSV is required
+    );
   }
 
   deleteInfo(): void {
