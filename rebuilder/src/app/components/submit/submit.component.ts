@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -24,6 +24,7 @@ const DEFAULT_COLOR = "#E0E0E0";
     TreeSelectModule,
     FileUploadModule
   ],
+  // encapsulation: ViewEncapsulation.None,
   templateUrl: './submit.component.html',
   styleUrl: './submit.component.css'
 })
