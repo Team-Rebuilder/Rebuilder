@@ -69,10 +69,17 @@ export class SubmitComponent {
     this.watchChanges();
   }
 
-  // Set the username (also apply to local storage)
+  // When the user changes the username
+  onUserNameChange(userNameValue: string) {
+    this.username = userNameValue;
+    localStorage.setItem('username', this.username);
+  }
+
+  // Set the username
   setUsername(username: string): void {
-    this.username = username;
-    localStorage.setItem('username', username);
+    if (!username) {
+      return;
+    }
     this.usernameSet = true;
   }
 
@@ -121,14 +128,14 @@ export class SubmitComponent {
 
     try {
       // First, upload the files
-      const imageUrls = this.uploadedImages.length ? await this.modelsService.uploadFiles(this.uploadedImages, 'image') : [];
-      const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.uploadedPDFs, 'pdf') : [];
-      const csvUrls = this.uploadedCSVs.length ? await this.modelsService.uploadFiles(this.uploadedCSVs, 'csv') : [];
-      const daeUrls = this.uploadedDAEs.length ? await this.modelsService.uploadFiles(this.uploadedDAEs, 'dae') : [];
+      const imageUrls = this.uploadedImages.length ? await this.modelsService.uploadFiles(this.username, this.uploadedImages, 'image') : [];
+      const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedPDFs, 'pdf') : [];
+      const csvUrls = this.uploadedCSVs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedCSVs, 'csv') : [];
+      const daeUrls = this.uploadedDAEs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedDAEs, 'dae') : [];
 
       // Then, submit the model
-      await this.modelsService.submitModel({
-        userName: this.username,
+      const modeldata = {
+        username: this.username,
         title: this.submissionValue.title,
         category: this.submissionValue.category,
         description: this.submissionValue.description,
@@ -136,7 +143,8 @@ export class SubmitComponent {
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,
         threemodelUrls: daeUrls
-      });
+      };
+      await this.modelsService.submitModel(modeldata);
 
     } catch (error) {
       console.error(error);

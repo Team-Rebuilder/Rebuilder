@@ -12,6 +12,7 @@
         id="username"
         placeholder="Enter username"
         (keydown.enter)="setUsername(username)"
+        (change)="onUserNameChange(username)"
         [(ngModel)]="username">
       <p-button
         [disabled]="!username"

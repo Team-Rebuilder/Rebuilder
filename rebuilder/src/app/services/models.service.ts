@@ -63,8 +63,7 @@ export class ModelsService {
   storageRef = ref(this.storage);
 
   // Variables for the document
-  private docId: string = '';
-  private username: string = '';
+  docId: string = '';
 
   // Create a reference to the models collection
   modelsRef = collection(this.firestore, 'models');
@@ -102,7 +101,7 @@ export class ModelsService {
   // Submit a model to the database
   submitModel = async (modeldata: any) => {
     await addDoc(this.modelsRef, {
-      userName: this.username,
+      userName: modeldata.username,
       title: modeldata.title,
       category: modeldata.category,
       timestamp: Timestamp.now(),
@@ -124,9 +123,9 @@ export class ModelsService {
 
   // Handle file uploads (written with the help of AI)
   // https://firebase.google.com/docs/storage/web/upload-files
-  uploadFiles = async (files: File[], filetype: string) => {
+  uploadFiles = async (username: string, files: File[], filetype: string) => {
     const uploadPromises = files.map(async (file) => {
-      const filePath = `${this.username}/${filetype}/${file.name}`;
+      const filePath = `${username}/${filetype}/${file.name}`;
       const fileRef = ref(this.storage, filePath);
       await uploadBytesResumable(fileRef, file);
 
