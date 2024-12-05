@@ -14,6 +14,7 @@
     <!-- Username Input -->
     <div class="usernameContainer">
       <h1>How can we call you?</h1>
+      <p>Enter username to proceed</p>
       <input
         pInputText
         maxlength="30"
@@ -25,7 +26,7 @@
         [(ngModel)]="username">
       <p-button
         [disabled]="!username"
-        label="Submit"
+        label="Next"
         (click)="setUsername(username)">
       </p-button>
     </div>

@@ -84,6 +84,13 @@ input[type=checkbox]:focus {
   width: 100%;
 }
 
+.usernameContainer p {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #777777;
+  text-align: center;
+}
+
 .welcomeContainer {
   display: flex;
   flex-direction: column;
@@ -107,8 +114,8 @@ input[type=checkbox]:focus {
 }
 
 .welcomeContainer p {
-  font-size: 1rem;
-  font-weight: 300;
+  font-size: 0.9rem;
+  font-weight: 400;
   color: #777777;
   text-align: center;
 }
