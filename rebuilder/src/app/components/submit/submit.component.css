@@ -1,0 +1,109 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'AlbertSans', sans-serif;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+input[type=checkbox]:focus {
+  outline: none;
+}
+
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: auto;
+}
+
+.usernamecontainer,
+.smscontainer,
+.emailcontainer {
+  margin: 0.5rem 0;
+  height: 2.4rem;
+  align-items: center;
+  display: flex;
+}
+
+button {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+  background-color: #efefef;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: #b7e0ff;
+}
+
+input[type=text] {
+  width: 15rem;
+  height: 2rem;
+  border: 2px solid #efefef;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: all 0.2s;
+}
+
+input.ng-valid.ng-touched {
+  border-color: #b7e0ff;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #FF8A8A;
+}
+
+/* Disable Autocomplete Styles for Webkit Browsers */
+/* https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+  box-shadow: 0 0 0px 1000px #ffffff inset;
+  -webkit-text-fill-color: #000000;
+}
+
+label {
+  display: inline-flex;
+  height: 2rem;
+  align-items: center;
+  margin-right: 0.8rem;
+  transition: all 0.2s;
+}
+
+.closeicon-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #e3e3e3;
+  padding: 0.2rem;
+  border-radius: 2rem;
+  box-shadow: -1px 3px 5px 0 rgba(120, 60, 20, 0.1);
+  transition: all 0.4s;
+  right: 13.6rem;
+  position: absolute;
+}
+
+.closeicon-container:hover {
+  box-shadow: -1px 3px 5px 0 rgba(120, 60, 20, 0.02);
+}
