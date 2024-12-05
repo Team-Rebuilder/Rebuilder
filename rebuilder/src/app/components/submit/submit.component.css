@@ -24,6 +24,50 @@ input[type=checkbox]:focus {
   transform: translate(-50%, 0%);
 }
 
+.usernameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.welcomeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.usernameContainer h1,
+.welcomeContainer h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  background: radial-gradient(circle at 100%, #14C38E, #9694FF 50%, #14C38E 75%, #14C38E 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: alternateTextColor 8s linear infinite;
+}
+
+.welcomeContainer p {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #777777;
+  text-align: center;
+}
+
+@keyframes alternateTextColor {
+  to {
+    background-position: 200% center;
+  }
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -52,8 +96,8 @@ button:hover {
 }
 
 input[type=text] {
-  width: 15rem;
-  height: 2rem;
+  width: 16rem;
+  height: 2.4rem;
   border: 2px solid #efefef;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -85,6 +129,8 @@ textarea.ng-invalid.ng-touched {
 small {
   margin-top: 0.2rem;
   color: #FF8A8A;
+  font-size: 0.8rem;
+  font-weight: 300;
 }
 
 /* Disable Autocomplete Styles for Webkit Browsers */
@@ -103,12 +149,21 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: #000000;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
 label {
   display: inline-flex;
   height: 2rem;
   align-items: center;
   margin-right: 0.8rem;
   transition: all 0.2s;
+  font-size: 1rem;
+  font-weight: 400;
   color: #777777;
 }
 

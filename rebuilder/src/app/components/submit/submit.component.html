@@ -1,173 +1,150 @@
 <app-home/>
 
 <div class="container">
-  <form [formGroup]="SubmitForm" (ngSubmit)="onSubmit()">
+  @if (!usernameSet) {
     <!-- Username Input -->
-    <div class="inputContainer">
-      <label for="username">Username</label>
-        <input
-          pInputText
-          type="text"
-          id="username"
-          placeholder="Enter username"
-          formControlName="username">
-      @if (SubmitForm.get('username')?.invalid && SubmitForm.get('username')?.touched) {
-        <small>This field is required</small>
-      }
-    </div>
-
-    <!-- Title Input -->
-    <div class="inputContainer">
-      <label for="title">Title</label>
+    <div class="usernameContainer">
+      <h1>How can we call you?</h1>
       <input
         pInputText
         type="text"
-        id="title"
-        placeholder="Enter title"
-        formControlName="title">
-      @if (SubmitForm.get('title')?.invalid && SubmitForm.get('title')?.touched) {
-        <small>This field is required</small>
-      }
+        id="username"
+        placeholder="Enter username"
+        (keydown.enter)="setUsername(username)"
+        [(ngModel)]="username">
+      <p-button
+        [disabled]="!username"
+        label="Submit"
+        (click)="setUsername(username)">
+      </p-button>
+    </div>
+  }
+  @else {
+    <div class="welcomeContainer">
+      <h1>Welcome, {{ username }}!</h1>
+      <p>Submit your model here!</p>
+      <p-button label="Change Username" (click)="clearUsername()"></p-button>
     </div>
 
-    <!-- Category Selector -->
-    <!-- TODO: Fix style -->
-    <div class="inputContainer">
-      <label for="category">Category</label>
-      <input
-        pInputText
-        type="text"
-        id="category"
-        placeholder="Enter category"
-        formControlName="category">
-      @if (SubmitForm.get('category')?.invalid && SubmitForm.get('category')?.touched) {
-        <small>This field is required</small>
-      }
-    </div>
-    <!-- disable temporarily -->
-    <!-- <div class="categoryContainer">
-      <p-treeSelect
-        formControlName="selectedNodes"
-        [options]="nodes"
-        placeholder="Select Item"
-        [filter]="true"
-        [filterInputAutoFocus]="true"
-      />
-    </div> -->
+    <form [formGroup]="SubmitForm" (ngSubmit)="onSubmit()">
+      <!-- Title Input -->
+      <div class="inputContainer">
+        <label for="title">Title</label>
+        <input pInputText type="text" id="title" placeholder="Enter title" formControlName="title">
+        @if (SubmitForm.get('title')?.invalid && SubmitForm.get('title')?.touched) {
+          <small>This field is required</small>
+        }
+      </div>
 
-    <!-- Description Input -->
-    <div class="inputContainer">
-      <label for="description">Description</label>
-      <textarea
-        pInputTextarea
-        id="description"
-        rows="7"
-        cols="80"
-        placeholder="Enter description"
-        [autoResize]="true"
-        formControlName="description">
-      </textarea>
-      @if (SubmitForm.get('description')?.invalid && SubmitForm.get('description')?.touched) {
-        <small>This field is required</small>
-      }
-    </div>
+      <!-- Category Selector -->
+      <!-- TODO: Fix style -->
+      <div class="inputContainer">
+        <label for="category">Category</label>
+        <input pInputText type="text" id="category" placeholder="Enter category" formControlName="category">
+        @if (SubmitForm.get('category')?.invalid && SubmitForm.get('category')?.touched) {
+          <small>This field is required</small>
+        }
+      </div>
+      <!-- disable temporarily -->
+      <!-- <div class="categoryContainer">
+          <p-treeSelect
+            formControlName="selectedNodes"
+            [options]="nodes"
+            placeholder="Select Item"
+            [filter]="true"
+            [filterInputAutoFocus]="true"
+          />
+        </div> -->
 
-    <!-- Image Upload -->
-    <div class="upload-container">
-      <label for="image">Upload Image(s)</label>
-      <p-fileUpload
-        name="image[]"
-        (onUpload)="onUploadImage($event)"
-        [multiple]="true"
-        accept="image/*"
-        fileLimit="5"
-        maxFileSize="1000000">
-        <ng-template pTemplate="content">
-          Drag and drop image(s) to here to upload.
-          @if (uploadedImages.length) {
-            <ul>
-              @for (imgFile of uploadedImages; track imgFile.name) {
-                <li>{{ imgFile.name }} - {{ imgFile.size }} bytes</li>
-              }
-            </ul>
-          }
-        </ng-template>
-      </p-fileUpload>
-    </div>
+      <!-- Description Input -->
+      <div class="inputContainer">
+        <label for="description">Description</label>
+        <textarea pInputTextarea id="description" rows="7" cols="88" placeholder="Enter description" [autoResize]="true"
+          formControlName="description">
+        </textarea>
+        @if (SubmitForm.get('description')?.invalid && SubmitForm.get('description')?.touched) {
+          <small>This field is required</small>
+        }
+      </div>
 
-    <!-- Instruction PDF File Upload -->
-    <div class="upload-container">
-      <label for="pdf">Upload PDF Instructions</label>
-      <p-fileUpload
-        name="pdf[]"
-        (onUpload)="onUploadPDF($event)"
-        [multiple]="false"
-        accept=".pdf"
-        maxFileSize="1000000">
-        <ng-template pTemplate="content">
-          Drag and drop .pdf instruction to here to upload.
-          @if (uploadedPDFs.length) {
-            <ul>
-              @for (pdfFile of uploadedPDFs; track pdfFile.name) {
-                <li>{{ pdfFile.name }} - {{ pdfFile.size }} bytes</li>
-              }
-            </ul>
-          }
-        </ng-template>
-    </p-fileUpload>
-    </div>
+      <!-- Image Upload -->
+      <div class="upload-container">
+        <label for="image">Upload Image(s)</label>
+        <p-fileUpload name="image[]" (onUpload)="onUploadImage($event)" [multiple]="true" accept="image/*" fileLimit="5"
+          maxFileSize="1000000">
+          <ng-template pTemplate="content">
+            Drag and drop image(s) to here to upload.
+            @if (uploadedImages.length) {
+              <ul>
+                @for (imgFile of uploadedImages; track imgFile.name) {
+                  <li>{{ imgFile.name }} - {{ imgFile.size }} bytes</li>
+                }
+              </ul>
+            }
+          </ng-template>
+        </p-fileUpload>
+      </div>
 
-    <!-- Parts List csv File Upload -->
-    <div class="upload-container">
-      <label for="pdf">Upload CSV Parts Lists</label>
-      <p-fileUpload
-        name="csv[]"
-        (onUpload)="onUploadCSV($event)"
-        [multiple]="false"
-        accept=".csv"
-        maxFileSize="1000000">
-        <ng-template pTemplate="content">
-          Drag and drop .csv parts list to here to upload.
-          @if (uploadedPDFs.length) {
-            <ul>
-              @for (csvFile of uploadedCSVs; track csvFile.name) {
-                <li>{{ csvFile.name }} - {{ csvFile.size }} bytes</li>
-              }
-            </ul>
-          }
-        </ng-template>
-    </p-fileUpload>
-    </div>
+      <!-- Instruction PDF File Upload -->
+      <div class="upload-container">
+        <label for="pdf">Upload PDF Instructions</label>
+        <p-fileUpload name="pdf[]" (onUpload)="onUploadPDF($event)" [multiple]="false" accept=".pdf" maxFileSize="1000000">
+          <ng-template pTemplate="content">
+            Drag and drop .pdf instruction to here to upload.
+            @if (uploadedPDFs.length) {
+              <ul>
+                @for (pdfFile of uploadedPDFs; track pdfFile.name) {
+                  <li>{{ pdfFile.name }} - {{ pdfFile.size }} bytes</li>
+                }
+              </ul>
+            }
+          </ng-template>
+        </p-fileUpload>
+      </div>
 
-    <!-- 3D dae Model Upload -->
-    <div class="upload-container">
-      <label for="pdf">Upload 3D Model (.dae)</label>
-      <p-fileUpload
-        name="dae[]"
-        (onUpload)="onUploadDAE($event)"
-        [multiple]="false"
-        accept=".dae"
-        maxFileSize="1000000">
-        <ng-template pTemplate="content">
-          Drag and drop .dae 3D Model to here to upload.
-          @if (uploadedPDFs.length) {
-            <ul>
-              @for (daeFile of uploadedDAEs; track daeFile.name) {
-                <li>{{ daeFile.name }} - {{ daeFile.size }} bytes</li>
-              }
-            </ul>
-          }
-        </ng-template>
-    </p-fileUpload>
-    </div>
+      <!-- Parts List csv File Upload -->
+      <div class="upload-container">
+        <label for="pdf">Upload CSV Parts Lists</label>
+        <p-fileUpload name="csv[]" (onUpload)="onUploadCSV($event)" [multiple]="false" accept=".csv" maxFileSize="1000000">
+          <ng-template pTemplate="content">
+            Drag and drop .csv parts list to here to upload.
+            @if (uploadedPDFs.length) {
+              <ul>
+                @for (csvFile of uploadedCSVs; track csvFile.name) {
+                  <li>{{ csvFile.name }} - {{ csvFile.size }} bytes</li>
+                }
+              </ul>
+            }
+          </ng-template>
+        </p-fileUpload>
+      </div>
 
-    <!-- Submit Button -->
-    <div class="buttoncontainer">
-      <p-button [disabled]="!isFormValid()" label="Submit" />
-      <!-- <button type="submit" [disabled]="!isFormValid()">Submit</button> -->
-      <p-button (click)="SubmitForm.reset()" label="Reset Form"/>
-      <!-- <button (click)="SubmitForm.reset()">Clear Form</button> -->
-    </div>
-  </form>
+      <!-- 3D dae Model Upload -->
+      <div class="upload-container">
+        <label for="pdf">Upload 3D Model (.dae)</label>
+        <p-fileUpload name="dae[]" (onUpload)="onUploadDAE($event)" [multiple]="false" accept=".dae" maxFileSize="1000000">
+          <ng-template pTemplate="content">
+            Drag and drop .dae 3D Model to here to upload.
+            @if (uploadedPDFs.length) {
+              <ul>
+                @for (daeFile of uploadedDAEs; track daeFile.name) {
+                  <li>{{ daeFile.name }} - {{ daeFile.size }} bytes</li>
+                }
+              </ul>
+            }
+          </ng-template>
+        </p-fileUpload>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="buttoncontainer">
+        <p-button [disabled]="!isFormValid()" label="Submit" />
+        <!-- <button type="submit" [disabled]="!isFormValid()">Submit</button> -->
+        <p-button (click)="SubmitForm.reset()" label="Reset Form" />
+        <!-- <button (click)="SubmitForm.reset()">Clear Form</button> -->
+      </div>
+    </form>
+  }
+
 </div>
 

@@ -1,11 +1,12 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { FileUploadModule } from 'primeng/fileupload';
 
+import { ModelsService } from '../../services/models.service';
 import { CategoryService } from '../../services/category.service';
 import { HomeComponent } from '../homenavbar/home.component';
 
@@ -17,6 +18,7 @@ const DEFAULT_COLOR = "#E0E0E0";
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     HomeComponent,
     InputTextModule,
     InputTextareaModule,
@@ -29,8 +31,13 @@ const DEFAULT_COLOR = "#E0E0E0";
   styleUrl: './submit.component.css'
 })
 export class SubmitComponent {
+  modelsService = inject(ModelsService);
+
   SubmitForm: FormGroup;
   submissionValue: any; // Can be any type
+
+  username: string = '';
+  usernameSet: boolean = false;
 
   borderStyle: string = `${ DEFAULT_COLOR } 2px solid`;
 
@@ -63,6 +70,18 @@ export class SubmitComponent {
     this.watchChanges();
   }
 
+  // Set the username
+  setUsername(username: string): void {
+    this.username = username;
+    this.usernameSet = true;
+  }
+
+  // Clear the username
+  clearUsername(): void {
+    this.username = '';
+    this.usernameSet = false;
+  }
+
   // Watch values that need validation (email, phonenumber)
   // https://www.tektutorialshub.com/angular/valuechanges-in-angular-forms/?__cf_chl_rt_tk=ZbKGfBk3fRzboWGJnzU73Iq29Vd7Qp_HbIek14wp5Os-1730573211-1.0.1.1-VTJ0NWSL5g5_xIePdM62KXNpbCq00bPFXD4ogKAze58
   watchChanges(): void {
@@ -72,10 +91,14 @@ export class SubmitComponent {
   }
 
   // Handle the file upload: Image
+  // https://github.com/firebase/codelab-friendlychat-web/blob/main/angularfire-start/src/app/pages/chat-page/chat-page.component.ts
   onUploadImage(event: any): void {
-    // for (let file of event.files) {
-    //   this.uploadedImages.push(file);
-    // }
+    const imgFile: File = event.target.files[0];
+    if (!imgFile) {
+      return;
+    }
+
+    // this.modelsService.uploadImage(imgFile);
     console.log(event);
   }
 
