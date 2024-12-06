@@ -1,14 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 import { HomeComponent } from '../homenavbar/home.component';
+import { ModelsService } from '../../services/models.service';
 
 
 @Component({
   selector: 'app-models',
   standalone: true,
-  imports: [HomeComponent],
+  imports: [
+    HomeComponent,
+    CommonModule,
+    AsyncPipe,
+    CardModule,
+    ButtonModule,
+    TagModule
+  ],
   templateUrl: './models.component.html',
   styleUrl: './models.component.css'
 })
 export class ModelsComponent {
-
+  modelsService = inject(ModelsService);
 }
