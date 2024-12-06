@@ -1,0 +1,35 @@
+/* TODO: make canvas mobile-friendly */
+
+canvas {
+  display: inline;
+  margin-inline: auto;
+  height: 84vh;
+}
+
+.pdf-container {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: space-evenly;
+  width: 99vw;
+  padding-inline: 50px;
+}
+
+button {
+  border-radius: 100px;
+  background-color: transparent;
+  border: none;
+  font-size: 5rem;
+}
+
+button:hover {
+  color: lightgray;
+}
+
+div:has(mat-slider) {
+  margin-left: 10px;
+  margin-right: 30px;
+  mat-slider {
+    width: 100%;
+  }
+  margin-bottom: -10px;
+}

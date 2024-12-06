@@ -1,3 +1,17 @@
 <app-modelnavbar />
 
-<p>instruction works!</p>
+<div class="pdf-container">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">
+    <
+  </button>
+  <canvas #canvas></canvas>
+  <button (click)="nextPage()" [disabled]="currentPage === pageCount">
+    >
+  </button>
+</div>
+
+<div>
+  <mat-slider min="1" max="{{pageCount}}" step="1" discrete>
+    <input matSliderThumb [(ngModel)]="currentPage" (input)="goToPage($event)">
+  </mat-slider>
+</div>
