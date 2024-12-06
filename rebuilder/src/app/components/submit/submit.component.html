@@ -107,6 +107,7 @@
       </div>
 
       <!-- Image Upload -->
+      <!-- TODO: we might want to limit the file size -->
       <div class="upload-container">
         <input type="file" class="fileinput" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple #imgUpload>
         <p>Upload Image(s)*</p>
