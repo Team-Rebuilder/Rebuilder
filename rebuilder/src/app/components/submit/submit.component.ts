@@ -4,6 +4,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 import { FileUpload, FileUploadModule, UploadEvent } from 'primeng/fileupload';
 
 import { ModelsService } from '../../services/models.service';
@@ -22,8 +24,10 @@ import { HomeComponent } from '../homenavbar/home.component';
     InputTextareaModule,
     ButtonModule,
     TreeSelectModule,
-    FileUploadModule
+    FileUploadModule,
+    ToastModule
   ],
+  providers: [MessageService],
   // encapsulation: ViewEncapsulation.None,
   templateUrl: './submit.component.html',
   styleUrl: './submit.component.css'
@@ -49,7 +53,7 @@ export class SubmitComponent {
   uploadedCSVs: File[] = [];
   uploadedDAEs: File[] = [];
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private messageService: MessageService) {
     this.categoryService.getFiles().then((files) => (this.nodes = files));
 
     this.SubmitForm = new FormGroup({
@@ -64,6 +68,11 @@ export class SubmitComponent {
     });
 
     this.watchChanges();
+  }
+
+  // Toast messages
+  showSuccess() {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Model submitted successfully!' });
   }
 
   // When the user changes the username
@@ -99,7 +108,6 @@ export class SubmitComponent {
   // Handle temporary file uploads
   onFilesSelected(event: any, fileType: string) {
     const files = event.target.files;
-    console.log(event);
     console.log(!!files);
     if (files) {
       switch (fileType) {
@@ -178,6 +186,7 @@ export class SubmitComponent {
     this.uploadedDAEs = [];
 
     this.isLoading = false;
+    this.showSuccess();
     this.formSubmitted = true;
   }
 
