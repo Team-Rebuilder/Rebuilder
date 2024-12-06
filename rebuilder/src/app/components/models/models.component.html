@@ -2,10 +2,7 @@
 
 <div class="card-container">
   @for (model of modelsService.models$ | async; track model.id) {
-    <!-- TODO: link to model details page -->
     <p-card
-      [header]="model.title"
-      [subheader]="model.userName"
       [style]="{
         width: '20rem',
         borderRadius: '1rem',
@@ -14,10 +11,15 @@
       <ng-template pTemplate="header">
         <img [alt]="model.title" [src]="model.imageUrls[0]" />
       </ng-template>
-      <div class="tagContainer">
-        <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />
-        @if (model.threemodelUrls.length) { <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" /> }
-      </div>
+      <ng-template pTemplate="content">
+        <!-- TODO: link to model details page -->
+        <a [routerLink]="'/model/' + model.id" title="Click to see the rebuild!">{{ model.title }}</a>
+        <p>{{ model.userName }}</p>
+        <div class="tagContainer">
+          <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />
+          @if (model.threemodelUrls.length) { <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" /> }
+        </div>
+      </ng-template>
     </p-card>
   }
 </div>

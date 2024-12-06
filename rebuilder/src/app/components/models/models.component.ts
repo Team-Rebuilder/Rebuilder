@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -13,6 +14,7 @@ import { ModelsService } from '../../services/models.service';
   imports: [
     HomeComponent,
     CommonModule,
+    RouterLink,
     AsyncPipe,
     CardModule,
     ButtonModule,

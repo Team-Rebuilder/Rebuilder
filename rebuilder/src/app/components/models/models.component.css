@@ -45,6 +45,26 @@ p-card {
   transition: all 0.3s;
 }
 
+p-card a {
+  text-decoration: none;
+  text-emphasis: none;
+  color: #7c7c7c;
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+p-card a:hover {
+  color: #bec772;
+}
+
+p-card p {
+  font-size: 0.9rem;
+  color: #a3a3a3;
+  margin-top: 0.3rem;
+}
+
 p-card:hover {
   transform: translateY(-0.3125rem);
   box-shadow: 0 1.25rem 2.5rem 0 rgba(0, 0, 0, 0.1);
@@ -60,6 +80,7 @@ img {
 }
 
 .tagContainer {
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
