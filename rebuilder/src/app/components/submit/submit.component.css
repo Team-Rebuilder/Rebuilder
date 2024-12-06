@@ -1,3 +1,15 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --light-blue: #b7e0ff;
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,7 +17,6 @@
 }
 
 .loadingContainer {
-  /* display: none; */
   position: sticky;
   top: 35%;
   align-self: center;
@@ -103,7 +114,7 @@ input[type=checkbox]:focus {
 .usernameContainer h1,
 .welcomeContainer h1 {
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: 800;
   text-align: center;
   background: radial-gradient(circle at 100%, #14C38E, #9694FF 50%, #14C38E 75%, #14C38E 100%);
   background-size: 200% auto;
@@ -162,11 +173,12 @@ input[type=text] {
 }
 
 input.ng-valid.ng-touched {
-  border-color: #b7e0ff;
+  border-color: var(--yellow);
 }
 
 input.ng-invalid.ng-touched {
-  border-color: #FF8A8A;
+  /* border-color: #FF8A8A; */
+  border-color: var(--red);
 }
 
 textarea {
@@ -177,16 +189,18 @@ textarea {
 }
 
 textarea.ng-valid.ng-touched {
-  border-color: #b7e0ff;
+  /* border-color: #b7e0ff; */
+  border-color: var(--yellow);
 }
 
 textarea.ng-invalid.ng-touched {
-  border-color: #FF8A8A;
+  /* border-color: #FF8A8A; */
+  border-color: var(--red);
 }
 
 small {
   margin-top: 0.2rem;
-  color: #FF8A8A;
+  color: var(--red);
   font-size: 0.8rem;
   font-weight: 300;
 }

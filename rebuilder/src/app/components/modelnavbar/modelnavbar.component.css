@@ -1,0 +1,49 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.options {
+  background-color: var(--yellow);
+  display: inline-flex;
+  width: 100%;
+}
+
+.logolink {
+  text-decoration: none;
+  color: var(--black);
+  align-items: center;
+  align-content: center;
+  display: flex;
+  margin: 0.5rem;
+}
+
+.options .title {
+  margin: 0;
+  padding: 0;
+  font-family: "Bungee";
+  font-size: 1.6rem;
+}
+
+.logolink img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  transition: all 0.2s;
+}
+
+.logolink img:hover {
+  transform: scale(1.1);
+}

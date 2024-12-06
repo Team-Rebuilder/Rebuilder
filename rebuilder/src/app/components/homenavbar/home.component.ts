@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 
@@ -9,6 +10,7 @@ import { MenuItem } from 'primeng/api';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     TabMenuModule
   ],
   templateUrl: './home.component.html',

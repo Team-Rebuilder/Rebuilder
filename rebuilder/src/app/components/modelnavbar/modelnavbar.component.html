@@ -1,4 +1,7 @@
 <div class="options">
-  <span class="title">Rebuilder</span>
+  <a [routerLink]="'/models/'" class="logolink">
+    <img src="../../../assets/rebuilder-logo.png" alt="logo" class="logo" />
+    <span class="title">Rebuilder</span>
+  </a>
   <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)" />
 </div>
