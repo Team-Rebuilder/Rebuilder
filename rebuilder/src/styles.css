@@ -4,6 +4,7 @@
   --orange: #FF8000;
   --red: #FF8080;
   --blue: #279EFF;
+  --dark-blue: rgb(52, 111, 173);
   --light-gray: #f8f8f8;
   --dark-gray: #6b7280;
   --black: #383838;
@@ -89,3 +90,19 @@ body {
 }
 /* ==================================================== */
 
+/* ======================= MISC ======================= */
+.p-scrolltop.p-link {
+  background-color: var(--blue);
+  transition: all 0.3s;
+}
+
+.p-scrolltop.p-link:hover {
+  background-color: var(--dark-blue);
+  transform: translateY(-0.3rem);
+}
+
+.p-scrolltop {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+/* ==================================================== */

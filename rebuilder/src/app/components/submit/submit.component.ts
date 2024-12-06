@@ -5,6 +5,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { ToastModule } from 'primeng/toast';
+import { ScrollTopModule } from 'primeng/scrolltop';
 import { MessageService } from 'primeng/api';
 import { FileUpload, FileUploadModule, UploadEvent } from 'primeng/fileupload';
 
@@ -25,7 +26,8 @@ import { HomeComponent } from '../homenavbar/home.component';
     ButtonModule,
     TreeSelectModule,
     FileUploadModule,
-    ToastModule
+    ToastModule,
+    ScrollTopModule
   ],
   providers: [MessageService],
   // encapsulation: ViewEncapsulation.None,
