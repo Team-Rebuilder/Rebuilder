@@ -99,6 +99,8 @@ export class SubmitComponent {
   // Handle temporary file uploads
   onFilesSelected(event: any, fileType: string) {
     const files = event.target.files;
+    console.log(event);
+    console.log(!!files);
     if (files) {
       switch (fileType) {
         case 'image':
@@ -114,6 +116,24 @@ export class SubmitComponent {
           this.uploadedDAEs.push(...files);
           break;
       }
+    }
+  }
+
+  // Handle file removal
+  onFileRemove(file: any, fileType: string) {
+    switch (fileType) {
+      case 'image':
+        this.uploadedImages = this.uploadedImages.filter((f) => f !== file);
+        break;
+      case 'pdf':
+        this.uploadedPDFs = this.uploadedPDFs.filter((f) => f !== file);
+        break;
+      case 'csv':
+        this.uploadedCSVs = this.uploadedCSVs.filter((f) => f !== file);
+        break;
+      case 'dae':
+        this.uploadedDAEs = this.uploadedDAEs.filter((f) => f !== file);
+        break;
     }
   }
 
