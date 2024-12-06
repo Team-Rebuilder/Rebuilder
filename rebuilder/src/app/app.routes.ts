@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: '', component: ModelsComponent },
   { path: 'models', component: ModelsComponent },
   { path: 'submit', component: SubmitComponent },
-  { path: 'model/:id', component: ModelComponent },
+  { path: 'model/:id/details', component: ModelComponent },
   { path: 'model/:id/three', component: RenderViewerComponent },
   { path: 'model/:id/instructions', component: InstructionComponent },
   { path: '**', redirectTo: '' }

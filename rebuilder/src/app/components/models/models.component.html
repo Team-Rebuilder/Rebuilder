@@ -13,7 +13,7 @@
       </ng-template>
       <ng-template pTemplate="content">
         <!-- TODO: link to model details page -->
-        <a [routerLink]="'/model/' + model.id" title="Click to see the rebuild!">{{ model.title }}</a>
+        <a [routerLink]="'/model/' + model.id + '/details/'" title="Click to see the rebuild!">{{ model.title }}</a>
         <p>{{ model.userName }}</p>
         <div class="tagContainer">
           <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />
