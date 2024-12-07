@@ -78,7 +78,6 @@
         }
       </div>
       <!-- disable temporarily -->
-      <!-- TODO: Fix style -->
       <!-- <div class="categoryContainer">
           <p-treeSelect
             formControlName="selectedNodes"
@@ -90,6 +89,7 @@
         </div> -->
 
       <!-- Description Input -->
+      <!-- TODO: Allow responsize resizing -->
       <div class="inputContainer">
         <label for="description">Description*</label>
         <textarea
@@ -97,7 +97,7 @@
           id="description"
           maxlength="1000"
           rows="7"
-          cols="88"
+          cols="80"
           placeholder="Enter description"
           [autoResize]="true"
           formControlName="description">
@@ -113,7 +113,8 @@
         <input type="file" class="fileinput" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple #imgUpload>
         <p>Upload Image(s)*</p>
         <div class="uploadlist">
-          <button color="primary" class="upload-btn" (click)="imgUpload.click()">
+          <!-- https://stackoverflow.com/questions/40968069/ngsubmit-is-called-when-press-click-button -->
+          <button type="button" class="upload-btn" (click)="imgUpload.click()">
             <i class="pi pi-cloud-upload" style="font-size: 5rem"></i>
           </button>
           @if (uploadedImages.length) {
@@ -121,7 +122,7 @@
               @for (imgFile of uploadedImages; track imgFile.name) {
                 <li>
                   {{ imgFile.name }} - {{ (imgFile.size / 1024).toFixed(2) }} KB
-                  <button (click)="onFileRemove(imgFile, 'image')">
+                  <button (click)="onFileRemove(imgFile, 'image')" type="button">
                     <i class="pi pi-times" style="font-size: 1rem"></i>
                   </button>
                 </li>
@@ -136,7 +137,7 @@
         <input type="file" class="fileinput" accept="application/pdf" (change)="onFilesSelected($event, 'pdf')" #pdfUpload>
         <p>Upload Instruction PDF*</p>
         <div class="uploadlist">
-          <button color="primary" class="upload-btn" (click)="pdfUpload.click()">
+          <button type="button" class="upload-btn" (click)="pdfUpload.click()">
             <i class="pi pi-cloud-upload" style="font-size: 5rem"></i>
           </button>
           @if (uploadedPDFs.length) {
@@ -144,7 +145,7 @@
               @for (pdfFile of uploadedPDFs; track pdfFile.name) {
                 <li>
                   {{ pdfFile.name }} - {{ (pdfFile.size / 1024).toFixed(2) }} KB
-                  <button (click)="onFileRemove(pdfFile, 'pdf')">
+                  <button (click)="onFileRemove(pdfFile, 'pdf')" type="button">
                     <i class="pi pi-times" style="font-size: 1rem"></i>
                   </button>
                 </li>
@@ -159,7 +160,7 @@
         <input type="file" class="fileinput" accept=".csv" (change)="onFilesSelected($event, 'csv')" #csvUpload>
         <p>Upload Parts List CSV*</p>
         <div class="uploadlist">
-          <button color="primary" class="upload-btn" (click)="csvUpload.click()">
+          <button type="button" class="upload-btn" (click)="csvUpload.click()">
             <i class="pi pi-cloud-upload" style="font-size: 5rem"></i>
           </button>
           @if (uploadedCSVs.length) {
@@ -167,7 +168,7 @@
               @for (csvFile of uploadedCSVs; track csvFile.name) {
                 <li>
                   {{ csvFile.name }} - {{ (csvFile.size / 1024).toFixed(2) }} KB
-                  <button (click)="onFileRemove(csvFile, 'csv')">
+                  <button (click)="onFileRemove(csvFile, 'csv')" type="button">
                     <i class="pi pi-times" style="font-size: 1rem"></i>
                   </button>
                 </li>
@@ -182,7 +183,7 @@
         <input type="file" class="fileinput" accept=".dae" (change)="onFilesSelected($event, 'dae')" #daeModelUpload>
         <p>Upload 3D Model (.dae)</p>
         <div class="uploadlist">
-          <button color="primary" class="upload-btn" (click)="daeModelUpload.click()">
+          <button type="button" class="upload-btn" (click)="daeModelUpload.click()">
             <i class="pi pi-cloud-upload" style="font-size: 5rem"></i>
           </button>
           @if (uploadedDAEs.length) {
@@ -190,7 +191,7 @@
               @for (daeFile of uploadedDAEs; track daeFile.name) {
                 <li>
                   {{ daeFile.name }} - {{ (daeFile.size / 1024).toFixed(2) }} KB
-                  <button (click)="onFileRemove(daeFile, 'dae')">
+                  <button (click)="onFileRemove(daeFile, 'dae')" type="button">
                     <i class="pi pi-times" style="font-size: 1rem"></i>
                   </button>
                 </li>
@@ -203,11 +204,10 @@
       <!-- Submit Button -->
       <div class="buttoncontainer">
         <p-button type="submit" [disabled]="!isFormValid()" label="Submit" />
-        <p-button (click)="SubmitForm.reset()" label="Reset Form" />
+        <p-button (click)="resetForm()" label="Reset Form" />
       </div>
     </form>
   }
-  <p-scrollTop target="window" styleClass="custom-scrolltop" [threshold]="100" icon="pi pi-arrow-up" />
-
+  <p-scrollTop target="window" [threshold]="1000" icon="pi pi-arrow-up" />
 </div>
 

@@ -44,6 +44,9 @@ export class SubmitComponent {
   formSubmitted: boolean = false;
   isLoading: boolean = false;
 
+  // Maximum file size (10 MB)
+  MAX_FILE_SIZE = 10 * 1024 * 1024;
+
   // Temporary example
   // Taken from: https://primeng.org/treeselect#filter
   nodes!: any[];
@@ -70,11 +73,6 @@ export class SubmitComponent {
     });
 
     this.watchChanges();
-  }
-
-  // Toast messages
-  showSuccess() {
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Model submitted successfully!' });
   }
 
   // When the user changes the username
@@ -110,7 +108,19 @@ export class SubmitComponent {
   // Handle temporary file uploads
   onFilesSelected(event: any, fileType: string) {
     const files = event.target.files;
-    console.log(!!files);
+
+    // Check if the file exceeds the maximum file size
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].size > this.MAX_FILE_SIZE) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `File size exceeds the maximum file size of ${this.MAX_FILE_SIZE / 1024 / 1024} MB.`
+        });
+        return;
+      }
+    }
+
     if (files) {
       switch (fileType) {
         case 'image':
@@ -153,6 +163,8 @@ export class SubmitComponent {
       return;
     }
 
+    console.log("triggered");
+
     // Set the loading state
     this.isLoading = true;
 
@@ -188,7 +200,9 @@ export class SubmitComponent {
     this.uploadedDAEs = [];
 
     this.isLoading = false;
-    this.showSuccess();
+
+    // Show a success message
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Model submitted successfully!' });
     this.formSubmitted = true;
   }
 
@@ -205,9 +219,15 @@ export class SubmitComponent {
     );
   }
 
-  // Clear the form
-  clearFormValue(content: string): void {
-    this.SubmitForm.get(content)?.setValue(null);
-    this.SubmitForm.get(content)?.reset();
+  // Reset the form
+  resetForm(): void {
+    this.SubmitForm.reset();
+    this.uploadedImages = [];
+    this.uploadedPDFs = [];
+    this.uploadedCSVs = [];
+    this.uploadedDAEs = [];
+
+    // Show a success message
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
   }
 }
