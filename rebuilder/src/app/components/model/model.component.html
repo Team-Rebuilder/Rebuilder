@@ -1,3 +1,44 @@
 <app-modelnavbar />
 
-<p>model works!</p>
+<div class="container">
+  <div class="metatext-container">
+    <h1 class="mtitle" title="Model Title">{{ currModel$?.title.toUpperCase() }}</h1>
+    <div class="user-and-date">
+      <p class="muser" title="Model User"><i class="pi pi-user" style="font-size: 1rem"></i>{{ currModel$?.userName }}</p>
+      <p class="muser">{{ currModel$.timestamp.toDate() | date: "longDate" }}<i class="pi pi-calendar" style="font-size: 1rem"></i></p>
+    </div>
+    <div class="tagContainer">
+      <p-tag [value]="currModel$?.category" icon="pi pi-bars" severity="info" [rounded]="true" />
+      @if (currModel$?.threemodelUrls.length) {
+        <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" />
+      }
+    </div>
+  </div>
+  <div class="card">
+    <p-galleria
+      [value]="currModel$?.imageUrls"
+      [numVisible]="5"
+      [circular]="true"
+      [showItemNavigators]="true"
+      [showThumbnails]="false"
+      [showIndicators]="true"
+      [showIndicatorsOnItem]="true"
+      [autoPlay]="true"
+      [responsiveOptions]="responsiveOptions"
+      [containerStyle]="{ 'width': '768px' }">
+      <ng-template pTemplate="item" let-item>
+        <img [src]="currModel$?.imageUrls" style="width: 100%; height: 26rem; object-fit: contain; display: block;" />
+      </ng-template>
+    </p-galleria>
+  </div>
+  <div class="descContainer">
+    <p class="mdesc-text" title="Model Descriptions">{{ currModel$?.description }}</p>
+  </div>
+
+  <!-- Place for other information: Parts list and images, parts calculation -->
+  <p>Parts List, image, calculations, etc.</p>
+  <!-- End of the page -->
+
+  <p-scrollTop target="window" [threshold]="400" icon="pi pi-arrow-up" />
+</div>
+

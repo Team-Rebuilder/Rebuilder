@@ -26,19 +26,6 @@
   padding: 2rem 4rem;
 }
 
-/* .container {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-self: center;
-  align-items: center;
-  padding: 2rem 4rem;
-  width: 100%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-} */
-
 .loadingContainer {
   position: fixed;
   top: 35%;

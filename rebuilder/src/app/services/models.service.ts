@@ -21,7 +21,8 @@ import {
   doc,
   DocumentReference,
   Timestamp,
-  DocumentData
+  DocumentData,
+  getDoc
 } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { map, switchMap, firstValueFrom, filter, Observable, Subscription, timestamp } from 'rxjs';
@@ -139,4 +140,15 @@ export class ModelsService {
     return uploadedFilesUrls;
   }
 
+  // Get a model by id
+  // https://www.youtube.com/watch?v=sw3b8bVY2UQ&ab_channel=SoftAuthor
+  getModelById = async (id: string) => {
+    const modelRef = doc(this.firestore, 'models', id);
+    const modelSnap = await getDoc(modelRef);
+
+    if (!modelSnap.exists()) {
+      console.error('No such document!');
+    }
+    return modelSnap.data() as Model;
+  }
 }

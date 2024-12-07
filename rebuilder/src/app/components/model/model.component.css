@@ -1,0 +1,91 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --dark-blue: rgb(52, 111, 173);
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* TODO: make the layout responsive */
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  justify-self: center;
+  align-items: center;
+  padding: 2rem 4rem;
+}
+
+.metatext-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.mtitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dark-gray);
+  text-align: center;
+}
+
+.user-and-date {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+}
+
+.muser {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.muser i {
+  background-color: var(--light-gray);
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.tagContainer {
+  background-color: var(--light-gray);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 0.8rem;
+}
+
+.descContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 1rem 0;
+  padding: 1rem 0.6rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: var(--light-gray);
+}
+
+.mdesc-text {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--black);
+}

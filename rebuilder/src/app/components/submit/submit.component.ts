@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -7,7 +7,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { ToastModule } from 'primeng/toast';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { MessageService } from 'primeng/api';
-import { FileUpload, FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import { ModelsService } from '../../services/models.service';
 import { CategoryService } from '../../services/category.service';
