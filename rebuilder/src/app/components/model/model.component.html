@@ -27,7 +27,7 @@
       [responsiveOptions]="responsiveOptions"
       [containerStyle]="containerStyle">
       <ng-template pTemplate="item" let-item>
-        <img [src]="currModel$?.imageUrls[0]" style="width: 100%; height: 26rem; object-fit: contain; display: block;" />
+        <img [src]="item" style="width: 100%; height: 26rem; object-fit: contain; display: block;" />
       </ng-template>
     </p-galleria>
   </div>
