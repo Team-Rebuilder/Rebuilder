@@ -31,7 +31,7 @@ export class InstructionComponent {
 
   ngOnInit(): void {
     this.modelsService.models$.subscribe(models => {
-      this.pdfUrl = models[1].instructionUrls[0];
+      this.pdfUrl = models[0].instructionUrls[0];
       this.loadPdf();
     });
 
