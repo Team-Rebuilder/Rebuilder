@@ -12,7 +12,7 @@ import { LDrawConditionalLineMaterial } from 'three/examples/jsm/materials/LDraw
   templateUrl: './three-d.component.html',
   styleUrl: './three-d.component.css'
 })
-export class ThreeDComponent implements AfterViewInit {
+export class ThreeDComponent  {
   // URL of a LEGO LDraw file
   src = input.required<string>();
   // Track load progress of the LDraw file
