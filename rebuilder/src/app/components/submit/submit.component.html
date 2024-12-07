@@ -178,20 +178,20 @@
         </div>
       </div>
 
-      <!-- 3D dae Model Upload -->
+      <!-- 3D mpd Model Upload -->
       <div class="upload-container">
-        <input type="file" class="fileinput" accept=".dae" (change)="onFilesSelected($event, 'dae')" #daeModelUpload>
-        <p>Upload 3D Model (.dae)</p>
+        <input type="file" class="fileinput" accept=".mpd" (change)="onFilesSelected($event, 'mpd')" #mpdModelUpload>
+        <p>Upload 3D Model (.mpd)</p>
         <div class="uploadlist">
-          <button type="button" class="upload-btn" (click)="daeModelUpload.click()">
+          <button type="button" class="upload-btn" (click)="mpdModelUpload.click()">
             <i class="pi pi-cloud-upload" style="font-size: 5rem"></i>
           </button>
-          @if (uploadedDAEs.length) {
+          @if (uploadedMPDs.length) {
             <ul>
-              @for (daeFile of uploadedDAEs; track daeFile.name) {
+              @for (mpdFile of uploadedMPDs; track mpdFile.name) {
                 <li>
-                  {{ daeFile.name }} - {{ (daeFile.size / 1024).toFixed(2) }} KB
-                  <button (click)="onFileRemove(daeFile, 'dae')" type="button">
+                  {{ mpdFile.name }} - {{ (mpdFile.size / 1024).toFixed(2) }} KB
+                  <button (click)="onFileRemove(mpdFile, 'mpd')" type="button">
                     <i class="pi pi-times" style="font-size: 1rem"></i>
                   </button>
                 </li>

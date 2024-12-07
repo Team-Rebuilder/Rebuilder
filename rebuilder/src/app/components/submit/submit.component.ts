@@ -56,7 +56,7 @@ export class SubmitComponent {
   uploadedImages: File[] = [];
   uploadedPDFs: File[] = [];
   uploadedCSVs: File[] = [];
-  uploadedDAEs: File[] = [];
+  uploadedMPDs: File[] = [];
 
   constructor(private categoryService: CategoryService, private messageService: MessageService) {
     this.categoryService.getFiles().then((files) => (this.nodes = files));
@@ -132,8 +132,8 @@ export class SubmitComponent {
         case 'csv':
           this.uploadedCSVs.push(...files);
           break;
-        case 'dae':
-          this.uploadedDAEs.push(...files);
+        case 'mpd':
+          this.uploadedMPDs.push(...files);
           break;
       }
     }
@@ -151,8 +151,8 @@ export class SubmitComponent {
       case 'csv':
         this.uploadedCSVs = this.uploadedCSVs.filter((f) => f !== file);
         break;
-      case 'dae':
-        this.uploadedDAEs = this.uploadedDAEs.filter((f) => f !== file);
+      case 'mpd':
+        this.uploadedMPDs = this.uploadedMPDs.filter((f) => f !== file);
         break;
     }
   }
@@ -173,7 +173,7 @@ export class SubmitComponent {
       const imageUrls = this.uploadedImages.length ? await this.modelsService.uploadFiles(this.username, this.uploadedImages, 'image') : [];
       const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedPDFs, 'pdf') : [];
       const csvUrls = this.uploadedCSVs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedCSVs, 'csv') : [];
-      const daeUrls = this.uploadedDAEs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedDAEs, 'dae') : [];
+      const mpdUrls = this.uploadedMPDs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedMPDs, 'mpd') : [];
 
       // Then, submit the model
       const modeldata = {
@@ -184,7 +184,7 @@ export class SubmitComponent {
         imageUrls: imageUrls,
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,
-        threemodelUrls: daeUrls
+        threemodelUrls: mpdUrls
       };
       await this.modelsService.submitModel(modeldata);
 
@@ -197,7 +197,7 @@ export class SubmitComponent {
     this.uploadedImages = [];
     this.uploadedPDFs = [];
     this.uploadedCSVs = [];
-    this.uploadedDAEs = [];
+    this.uploadedMPDs = [];
 
     this.isLoading = false;
 
@@ -225,7 +225,7 @@ export class SubmitComponent {
     this.uploadedImages = [];
     this.uploadedPDFs = [];
     this.uploadedCSVs = [];
-    this.uploadedDAEs = [];
+    this.uploadedMPDs = [];
 
     // Show a success message
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
