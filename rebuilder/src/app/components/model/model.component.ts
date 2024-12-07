@@ -44,6 +44,12 @@ export class ModelComponent {
     }
   ];
 
+  // Responsive Container Style
+  containerStyle: any = {
+    'width': '90vmin',
+    'text-align': 'center'
+  };
+
   constructor(private route: ActivatedRoute) {}
 
   // Get the id from the URL (Written with the help of AI)

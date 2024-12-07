@@ -16,7 +16,6 @@
   padding: 0;
 }
 
-/* TODO: make the layout responsive */
 .container {
   display: flex;
   flex-direction: column;
