@@ -19,6 +19,11 @@
   background-color: var(--yellow);
   display: inline-flex;
   width: 100%;
+  justify-content: space-between;
+}
+
+.options span {
+  display: inline-flex;
 }
 
 .logolink {
@@ -47,4 +52,32 @@
 
 .logolink img:hover {
   transform: scale(1.1);
+}
+
+.iconContainer {
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+  padding: 0;
+}
+
+.about {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  text-emphasis: none;
+}
+
+.about i {
+  background-color: var(--yellow);
+  transition: all 0.2s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: var(--black);
+}
+
+.about i:hover {
+  background-color: var(--dark-yellow);
 }

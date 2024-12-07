@@ -1,0 +1,245 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --dark-blue: rgb(52, 111, 173);
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  justify-self: center;
+  align-items: center;
+  width: 50rem;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 90%;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-gray);
+  padding: 2rem;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.header-text h1 {
+  font-size: 2rem;
+  font-family: Bungee;
+  font-weight: 800;
+  color: var(--dark-gray);
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.header p {
+  font-size: 1.3rem;
+  font-weight: 400;
+  background: radial-gradient(circle at 100%, #14C38E, #9694FF 50%, #14C38E 75%, #14C38E 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: alternateTextColor 8s linear infinite;
+  margin: 1.4rem 0 0 0;
+  padding: 0;
+}
+
+@keyframes alternateTextColor {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.header-text img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  transition: all 0.2s;
+}
+
+.header-text img:hover {
+  animation: funAnimation 4s infinite;
+}
+
+@keyframes funAnimation {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.2);
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(135deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.main-article {
+  max-width: 64rem;
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+  margin-top: 4rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 0 2rem;
+}
+
+.main-article h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #656565;
+}
+
+.main-article p {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  color: #454545;
+}
+
+.article-section {
+  margin-bottom: 4rem;
+}
+
+.members-container {
+  display: grid;
+  flex-direction: column;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  grid-auto-rows: minmax(8rem, auto);
+  justify-self: center;
+  position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .members-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.member {
+  border: 1px solid #e0e0e0;
+  border-radius: 1rem;
+  padding: 1rem;
+  transition: all 0.3s;
+}
+
+.member:hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 1.25rem 2.5rem 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+}
+
+/* Name and Img container */
+.name-img {
+  justify-content: start;
+  align-items: center;
+  display: flex;
+}
+
+.member a {
+  text-decoration: none;
+}
+
+.name-img h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--black);
+  transition: all 0.2s;
+}
+
+.name-img h3:hover {
+  color: var(--blue);
+}
+
+.member-img {
+  object-fit: cover;
+  width: 12%;
+  height: 12%;
+  border-radius: 0.4rem;
+  margin-right: 0.5rem;
+}
+.profile-desc {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+footer {
+  padding: 1rem 0;
+  margin: 0 auto;
+  /* To center the element */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #e3e3e3;
+  width: 80%;
+  color: #afafaf;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconContainer {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.iconContainer a {
+  text-emphasis: none;
+  text-decoration: none;
+  color: #afafaf;
+  transition: all 0.1s;
+}
+
+.iconContainer a:hover {
+  color: #bec772;
+}
+
