@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, inject, input, viewChild } from '@angular/core';
 import { ModelnavbarComponent } from '../modelnavbar/modelnavbar.component';
-/* @vite-ignore */
 import * as pdfjsLib from 'pdfjs-dist';
 import { PDFDocumentProxy } from 'pdfjs-dist';
 import { ModelsService } from '../../services/models.service';
