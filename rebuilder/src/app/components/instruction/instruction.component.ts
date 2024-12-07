@@ -76,6 +76,11 @@ export class InstructionComponent {
     }
   }
 
+  // Prevent non-standard arrow key navigation using slider
+  doNothing(event: KeyboardEvent) {
+    event.preventDefault();
+  }
+
   nextPage() {
     if (this.currentPage < this.pageCount) {
       this.currentPage++;
