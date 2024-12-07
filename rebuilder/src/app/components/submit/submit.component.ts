@@ -124,15 +124,55 @@ export class SubmitComponent {
     if (files) {
       switch (fileType) {
         case 'image':
+          // If the user upload more than 5 images, show an error message
+          if (this.uploadedImages.length + files.length > 5) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'You can only upload up to 5 images.'
+            });
+            return;
+          }
+
           this.uploadedImages.push(...files);
           break;
         case 'pdf':
+          // If the user upload more than 1 file, show an error message
+          if (this.uploadedPDFs.length + files.length > 1) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'You can only upload up to 1 PDF file.'
+            });
+            return;
+          }
+
           this.uploadedPDFs.push(...files);
           break;
         case 'csv':
+          // If the user upload more than 1 file, show an error message
+          if (this.uploadedCSVs.length + files.length > 1) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'You can only upload up to 1 CSV file.'
+            });
+            return;
+          }
+
           this.uploadedCSVs.push(...files);
           break;
         case 'mpd':
+          // If the user upload more than 1 file, show an error message
+          if (this.uploadedMPDs.length + files.length > 1) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'You can only upload up to 1 MPD file.'
+            });
+            return;
+          }
+
           this.uploadedMPDs.push(...files);
           break;
       }
