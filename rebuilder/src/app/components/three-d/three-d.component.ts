@@ -17,6 +17,7 @@ export class ThreeDComponent implements AfterViewInit {
   src = input.required<string>();
   // Track load progress of the LDraw file
   loadProgress: number = 0;
+  loadComplete: boolean = false;
 
   // The general outline of the code below was adapted from: 
   // https://medium.com/geekculture/hello-cube-your-first-three-js-scene-in-angular-176c44b9c6c0
@@ -108,13 +109,20 @@ export class ThreeDComponent implements AfterViewInit {
         this.camera.position.set(0, 0, cameraZ * 1.5);
         this.camera.lookAt(0, 0, 0);
         this.camera.updateProjectionMatrix();
+
+        this.loadComplete = true;
       },
+
       // Log load progress
       (xhr) => {
         // Update load progress on % scale
         this.loadProgress = xhr.loaded / xhr.total * 100;
       },
-      )
+
+      function ( error ) {
+        console.log(error);
+      }
+    )
     });
   }
 
