@@ -85,3 +85,47 @@ img {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+p-scrollTop {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+footer {
+  padding: 1rem 0;
+  margin: 0 auto;    /* To center the element */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #e3e3e3;
+  width: 80%;
+  color: #afafaf;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconContainer {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.iconContainer a {
+  text-emphasis: none;
+  text-decoration: none;
+  color: #afafaf;
+  transition: all 0.1s;
+}
+
+.iconContainer a:hover {
+  color: #bec772;
+}

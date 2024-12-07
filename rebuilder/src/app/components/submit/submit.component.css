@@ -16,6 +16,10 @@
   padding: 0;
 }
 
+.container {
+  position: relative;
+}
+
 .loadingContainer {
   position: sticky;
   top: 35%;
@@ -327,4 +331,11 @@ li > button:hover {
 
 .fileinput {
   display: none;
+}
+
+p-scrollTop {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
 }
