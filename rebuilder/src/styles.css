@@ -19,8 +19,9 @@
 
 body {
   box-sizing: border-box;
+  padding-top: 60px;
   margin: 0;
-  padding: 0;
+  padding-inline: 0;
 }
 
 /* ====================== Navbar ====================== */
