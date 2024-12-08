@@ -102,6 +102,33 @@ body {
 /* ==================================================== */
 
 /* ================== Image Galleria ================== */
+.p-galleria-item-prev-icon,
+.p-galleria-item-next-icon {
+  color: var(--light-gray);
+  transition: all 0.2s;
+}
+
+.p-galleria-item-prev-icon:hover {
+  transform: translateX(-0.3rem);
+  color: var(--blue);
+}
+
+.p-galleria-item-next-icon:hover {
+  transform: translateX(0.3rem);
+  color: var(--blue);
+}
+
+p-galleriaitemslot {
+  border-radius: 0.5rem;
+  background-color: var(--black);
+}
+
+.p-galleria .p-galleria-item-nav {
+  display: flex;
+  align-items: flex-start;
+  background: transparent;
+}
+
 
 /* ==================================================== */
 

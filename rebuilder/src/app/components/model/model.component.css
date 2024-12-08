@@ -95,3 +95,8 @@
   font-weight: 400;
   color: var(--black);
 }
+
+.card {
+  padding: 0;
+  margin: 0;
+}
