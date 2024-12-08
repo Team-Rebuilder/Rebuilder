@@ -5,6 +5,7 @@ import { PDFDocumentProxy } from 'pdfjs-dist';
 import { ModelsService } from '../../services/models.service';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@4.9.155/build/pdf.worker.min.mjs`;
 ;
@@ -28,8 +29,10 @@ export class InstructionComponent {
   pdfUrl: string = "";
   currentPage: number = 1;
   pageCount: number = 0;
+  id: string | undefined;
+  currModel$: any;
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.modelsService.models$.subscribe(models => {
       this.pdfUrl = models[0].instructionUrls[0];
       this.loadPdf();
@@ -37,7 +40,18 @@ export class InstructionComponent {
 
     // Event listener for arrow key navigation
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
+
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id')!;
+    });
+
+    // Get the model by id
+    // Since getModelById returns a promise, we need to await it
+    this.currModel$ = await this.modelsService.getModelById(this.id!);
   }
+
+    constructor(private route: ActivatedRoute) {}
+
 
   ngOnDestroy() {
     // Event listener for arrow key navigation
@@ -54,14 +68,14 @@ export class InstructionComponent {
   async renderPage(pageNumber: number) {
     if (this.pdf) {
       const page = await this.pdf.getPage(pageNumber);
-  
+
       const canvas = this.modelCanvas()?.nativeElement;
       const context = canvas.getContext('2d')!;
       const viewport = page.getViewport({ scale: 1.5 });
-  
+
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-  
+
       page.render({ canvasContext: context, viewport: viewport });
     }
   }
