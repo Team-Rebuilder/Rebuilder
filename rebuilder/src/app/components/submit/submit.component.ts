@@ -10,7 +10,6 @@ import { MessageService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
 
 import { ModelsService } from '../../services/models.service';
-import { CategoryService } from '../../services/category.service';
 import { HomeComponent } from '../homenavbar/home.component';
 
 
@@ -58,9 +57,7 @@ export class SubmitComponent {
   uploadedCSVs: File[] = [];
   uploadedMPDs: File[] = [];
 
-  constructor(private categoryService: CategoryService, private messageService: MessageService) {
-    this.categoryService.getFiles().then((files) => (this.nodes = files));
-
+  constructor(private messageService: MessageService) {
     this.SubmitForm = new FormGroup({
       title: new FormControl('', Validators.required),
       category: new FormControl('', Validators.required),
