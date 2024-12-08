@@ -43,6 +43,11 @@ body {
 
 .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
   color: var(--dark-gray);
+  border-color: var(--yellow);
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link:hover {
+  border-color: var(--dark-gray);
 }
 
 /* Tab Menu Text */
