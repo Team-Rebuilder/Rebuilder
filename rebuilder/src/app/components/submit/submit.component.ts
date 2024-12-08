@@ -261,6 +261,16 @@ export class SubmitComponent {
 
   // Reset the form
   resetForm(): void {
+    // Check if the form is empty
+    if (!this.SubmitForm.dirty) {
+      return;
+    }
+
+    // Before resetting the form, confirm with the user
+    if (!confirm('Are you sure you want to reset the form?')) {
+      return;
+    }
+
     this.SubmitForm.reset();
     this.uploadedImages = [];
     this.uploadedPDFs = [];
