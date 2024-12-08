@@ -19,10 +19,10 @@
       [value]="currModel$?.imageUrls"
       [numVisible]="5"
       [circular]="true"
-      [showItemNavigators]="true"
+      [showItemNavigators]="currModel$?.imageUrls.length > 1"
       [showThumbnails]="false"
-      [showIndicators]="true"
-      [showIndicatorsOnItem]="true"
+      [showIndicators]="currModel$?.imageUrls.length > 1"
+      [showIndicatorsOnItem]="currModel$?.imageUrls.length > 1"
       [autoPlay]="true"
       [responsiveOptions]="responsiveOptions"
       [containerStyle]="containerStyle">
