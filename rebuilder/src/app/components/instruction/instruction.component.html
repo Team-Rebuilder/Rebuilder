@@ -2,11 +2,11 @@
 
 <div class="pdf-container">
   <button (click)="previousPage()" [disabled]="currentPage === 1">
-    <
+    <i class="pi pi-arrow-circle-left" style="font-size: 3rem"></i>
   </button>
   <canvas #canvas></canvas>
   <button (click)="nextPage()" [disabled]="currentPage === pageCount">
-    >
+    <i class="pi pi-arrow-circle-right" style="font-size: 3rem"></i>
   </button>
 </div>
 
