@@ -19,14 +19,17 @@
 
 body {
   box-sizing: border-box;
-  padding-top: 60px;
+  /* padding-top: 60px; */
   margin: 0;
   padding-inline: 0;
+  display: flex;
+  flex-direction: column;;
 }
 
 /* ====================== Navbar ====================== */
 .p-tabmenu .p-tabmenu-nav {
   display: inline-flex;
+  z-index: 9999;
 }
 
 .p-tabmenu-nav {

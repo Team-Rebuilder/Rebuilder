@@ -21,9 +21,9 @@
   flex-direction: column;
   position: relative;
   justify-content: center;
-  justify-self: center;
   align-items: center;
   width: 50rem;
+  margin: 0 auto;
 }
 
 @media (max-width: 900px) {
@@ -111,7 +111,6 @@
 .main-article {
   max-width: 64rem;
   display: flex;
-  justify-self: center;
   justify-content: center;
   align-self: center;
   flex-direction: column;

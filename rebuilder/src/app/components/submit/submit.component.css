@@ -21,10 +21,10 @@
   flex-direction: column;
   position: relative;
   justify-content: center;
-  justify-self: center;
   align-items: center;
   padding: 2rem 0;
   width: 50rem;
+  margin: 0 auto;
 }
 
 @media (max-width: 900px) {

@@ -19,6 +19,7 @@
   background-color: var(--yellow);
   display: inline-flex;
   width: 100%;
+  z-index: 1000;
   justify-content: space-between;
 }
 
