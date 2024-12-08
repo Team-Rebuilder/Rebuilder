@@ -4,7 +4,7 @@
       <p>Rendering...</p>
     }
     @else {
-      <p>Loading... {{ loadProgress }}%</p>
+      <p>Loading... {{ loadProgress.toFixed(1) }}%</p>
     }
     <div class="loader"></div>
   </div>
