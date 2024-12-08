@@ -34,9 +34,9 @@ export class ThreeDComponent  {
     this.scene = new THREE.Scene();
     
     this.renderer = new THREE.WebGLRenderer(
-      { canvas: this.modelCanvas()?.nativeElement }
+      { canvas: this.modelCanvas()?.nativeElement, antialias: true }
     );
-    this.renderer.setPixelRatio(5); // Set resolution
+    this.renderer.setPixelRatio(1.5); // Set resolution
 
     
     this.camera = new THREE.PerspectiveCamera(
