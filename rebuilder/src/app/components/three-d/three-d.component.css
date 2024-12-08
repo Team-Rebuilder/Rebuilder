@@ -1,3 +1,16 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --dark-blue: rgb(52, 111, 173);
+  --purple: #ED3EF7;
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
 canvas {
   width: 100%;
   height: 100%;
@@ -17,8 +30,35 @@ canvas {
   height: 100vh;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   padding: 0;
   margin: 0;
   position: fixed;
   top: 0;
+}
+
+#load-indicator p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--purple);
+  text-align: center;
+}
+
+.loader {
+  border: 0.25rem solid #c77b7b;
+  border-top: 0.25rem solid #FAFAFA;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
