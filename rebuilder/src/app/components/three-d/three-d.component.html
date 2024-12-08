@@ -1,4 +1,5 @@
 @if (!loadComplete) {
-  <h1>Progress: {{loadProgress}}%</h1>
+  <div id="load-indicator">Progress: {{loadProgress}}%</div>
 }
-<canvas #canvas></canvas>
+<canvas #canvas [ngClass]="{loaded: loadComplete}"></canvas>
+
