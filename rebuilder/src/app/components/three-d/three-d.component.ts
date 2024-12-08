@@ -40,7 +40,7 @@ export class ThreeDComponent  {
     
     this.camera = new THREE.PerspectiveCamera(
       75, // FOV
-      window.innerWidth/window.innerHeight * 1.1, // Aspect ratio
+      16/9 * 1.1, // Aspect ratio
       0.1, // Near plane render cutoff
       100000, // Far plane render cutoff
     )
