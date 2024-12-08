@@ -89,7 +89,6 @@
         </div> -->
 
       <!-- Description Input -->
-      <!-- TODO: Allow responsize resizing -->
       <div class="inputContainer">
         <label for="description">Description*</label>
         <textarea
@@ -97,7 +96,6 @@
           id="description"
           maxlength="1000"
           rows="7"
-          cols="80"
           placeholder="Enter description"
           [autoResize]="true"
           formControlName="description">
@@ -108,7 +106,6 @@
       </div>
 
       <!-- Image Upload -->
-      <!-- TODO: we might want to limit the file size -->
       <div class="upload-container">
         <input type="file" class="fileinput" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple #imgUpload>
         <p>Upload Image(s)*</p>

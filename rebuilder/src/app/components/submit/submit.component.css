@@ -23,7 +23,14 @@
   justify-content: center;
   justify-self: center;
   align-items: center;
-  padding: 2rem 4rem;
+  padding: 2rem 0;
+  width: 50rem;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 90%;
+  }
 }
 
 .loadingContainer {
@@ -61,7 +68,6 @@
   width: 3rem;
   height: 3rem;
   animation: spin 1s ease-in-out infinite;
-  /* margin-left: 0.5rem; */
 }
 
 @keyframes spin {
@@ -183,6 +189,13 @@ textarea {
   border-radius: 0.5rem;
   padding: 0.5rem;
   transition: all 0.2s;
+  width: 42rem;
+}
+
+@media (max-width: 800px) {
+  textarea {
+    width: 100%;
+  }
 }
 
 textarea.ng-valid.ng-touched {
