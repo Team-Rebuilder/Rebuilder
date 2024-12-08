@@ -33,11 +33,6 @@ export class InstructionComponent {
   currModel$: any;
 
   async ngOnInit(): Promise<void> {
-    this.modelsService.models$.subscribe(models => {
-      this.pdfUrl = models[0].instructionUrls[0];
-      this.loadPdf();
-    });
-
     // Event listener for arrow key navigation
     window.addEventListener('keydown', this.handleKeyDown.bind(this));
 
@@ -48,10 +43,14 @@ export class InstructionComponent {
     // Get the model by id
     // Since getModelById returns a promise, we need to await it
     this.currModel$ = await this.modelsService.getModelById(this.id!);
+
+    this.modelsService.models$.subscribe(models => {
+      this.pdfUrl = this.currModel$.instructionUrls[0];
+      this.loadPdf();
+    });
   }
 
-    constructor(private route: ActivatedRoute) {}
-
+  constructor(private route: ActivatedRoute) {}
 
   ngOnDestroy() {
     // Event listener for arrow key navigation

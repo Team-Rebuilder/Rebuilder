@@ -53,7 +53,7 @@ export class ModelComponent {
   constructor(private route: ActivatedRoute) {}
 
   // Get the id from the URL (Written with the help of AI)
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id')!;
     });
