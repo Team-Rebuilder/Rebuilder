@@ -12,3 +12,9 @@
 - `cd rebuilder`
 - `npm install`
 - `ng serve -o`
+
+## To Deploy
+
+- `cd rebuilder`
+- `ng build`
+- `firebase deploy`
