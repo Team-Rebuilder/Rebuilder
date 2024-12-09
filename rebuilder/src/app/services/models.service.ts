@@ -35,6 +35,7 @@ export interface Model {
   category: string;
   timestamp: Timestamp;
   description: string;
+  source: string;
   imageUrls: string[];
   partsListUrls: string[];
   instructionUrls: string[];
@@ -107,6 +108,7 @@ export class ModelsService {
       category: modeldata.category,
       timestamp: Timestamp.now(),
       description: modeldata.description,
+      source: modeldata.source,
       imageUrls: modeldata.imageUrls,
       instructionUrls: modeldata.instructionUrls,
       partsListUrls: modeldata.partsListUrls,

@@ -37,7 +37,7 @@ export class SubmitComponent {
   modelsService = inject(ModelsService);
 
   SubmitForm: FormGroup;
-  submissionValue: any; // Can be any type
+  submissionValue: any; // Form submission value
   username: string = localStorage.getItem('username') || '';
   usernameSet: boolean = false;
   formSubmitted: boolean = false;
@@ -62,11 +62,11 @@ export class SubmitComponent {
       title: new FormControl('', Validators.required),
       category: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+      source: new FormControl('', Validators.required),
       imageFile: new FormControl('', Validators.required),
       instructionFile: new FormControl('', Validators.required),
       partsListFile: new FormControl(''),
       threemodelFile: new FormControl(''),
-      // selectedNodes: new FormControl(),
     });
 
     this.watchChanges();
@@ -200,8 +200,6 @@ export class SubmitComponent {
       return;
     }
 
-    console.log("triggered");
-
     // Set the loading state
     this.isLoading = true;
 
@@ -218,6 +216,7 @@ export class SubmitComponent {
         title: this.submissionValue.title,
         category: this.submissionValue.category,
         description: this.submissionValue.description,
+        source: this.submissionValue.source,
         imageUrls: imageUrls,
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,
@@ -250,9 +249,9 @@ export class SubmitComponent {
       (this.SubmitForm.get('title')?.valid ?? false) &&
       (this.SubmitForm.get('category')?.valid ?? false) &&
       (this.SubmitForm.get('description')?.valid ?? false) &&
+      (this.SubmitForm.get('source')?.valid ?? false) &&
       (this.uploadedImages.length > 0) &&  // At least one image is required
-      (this.uploadedPDFs.length > 0) &&    // At least one PDF is required
-      (this.uploadedCSVs.length > 0)       // At least one CSV is required
+      (this.uploadedPDFs.length > 0)       // At least one PDF is required
     );
   }
 

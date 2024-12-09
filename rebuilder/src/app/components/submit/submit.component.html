@@ -95,6 +95,23 @@
         }
       </div>
 
+      <!-- Category Selector -->
+      <div class="inputContainer">
+        <label for="source">Source LEGO*</label>
+        <textarea
+          pInputTextarea
+          id="source"
+          maxlength="1000"
+          rows="1"
+          placeholder="Enter source LEGO sets, separated by commas"
+          [autoResize]="true"
+          formControlName="source">
+        </textarea>
+        @if (SubmitForm.get('source')?.invalid && SubmitForm.get('source')?.touched) {
+          <small>This field is required</small>
+        }
+      </div>
+
       <!-- Image Upload -->
       <div class="upload-container">
         <input type="file" class="fileinput" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple #imgUpload>
@@ -145,7 +162,7 @@
       <!-- Parts List csv File Upload -->
       <div class="upload-container">
         <input type="file" class="fileinput" accept=".csv" (change)="onFilesSelected($event, 'csv')" #csvUpload>
-        <p>Upload Parts List CSV*</p>
+        <p>Upload Parts List CSV</p>
         <div class="uploadlist">
           <button type="button" class="upload-btn" (click)="csvUpload.click()">
             <i class="pi pi-cloud-upload" style="font-size: 5rem"></i>
