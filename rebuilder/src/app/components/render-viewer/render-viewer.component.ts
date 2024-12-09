@@ -28,8 +28,6 @@ export class RenderViewerComponent {
     // Since getModelById returns a promise, we need to await it
     this.currModel$ = await this.modelsService.getModelById(this.id!);
 
-    this.modelsService.models$.subscribe(models => {
-      this.lDrawURL = this.currModel$.threemodelUrls[0];
-    })
+    this.lDrawURL = this.currModel$.threemodelUrls[0];
   }
 }

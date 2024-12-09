@@ -56,11 +56,9 @@ export class InstructionComponent {
     // Since getModelById returns a promise, we need to await it
     this.currModel$ = await this.modelsService.getModelById(this.id!);
 
-    this.modelsService.models$.subscribe(models => {
-      this.pdfUrl = this.currModel$.instructionUrls[0];
-      this.loadPdf().then(() => {
-        requestAnimationFrame(() => this.renderPdf());
-      });
+    this.pdfUrl = this.currModel$.instructionUrls[0];
+    this.loadPdf().then(() => {
+      requestAnimationFrame(() => this.renderPdf());
     });
   }
 
