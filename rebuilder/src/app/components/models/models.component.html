@@ -14,7 +14,14 @@
   </div>
 </header>
 
-@if (filteredModels.length === 0) {
+@if (filteredModels.length === 0 && searchTerm.length === 0) {
+  <div id="load-indicator">
+    <p>Loading... </p>
+    <div class="loader"></div>
+  </div>
+}
+@else if (searchTerm.length > 0 && filteredModels.length === 0) {
+  <!-- Show only if the filtersModels length is 0 and the input field is dirty -->
   <div class="notfoundContainer">
     <h1>¯\_(ツ)_/¯ No results found</h1>
     <button (click)="emptySearch()">
