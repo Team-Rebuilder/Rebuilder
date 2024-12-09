@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -16,7 +17,7 @@ import { ModelsService } from '../../services/models.service';
     HomeComponent,
     CommonModule,
     RouterLink,
-    AsyncPipe,
+    FormsModule,
     CardModule,
     ButtonModule,
     TagModule,
@@ -27,4 +28,32 @@ import { ModelsService } from '../../services/models.service';
 })
 export class ModelsComponent {
   modelsService = inject(ModelsService);
+  searchTerm: string = '';
+  filteredModels: any[] = [];
+
+  constructor() {
+    // If searchTerm is empty, display all models
+    if (this.searchTerm === '') {
+      this.modelsService.models$.subscribe(models => {
+        this.filteredModels = models;
+      });
+    }
+  }
+
+  // Filter models based on search term
+  // Written with the help of AI
+  handleSearchChange() {
+    if (this.searchTerm.trim() !== '') {
+      this.modelsService.models$.subscribe(models => {
+        this.filteredModels = models.filter(
+          (model: any) => model.category.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
+      });
+      console.log("model is being filtered");
+    } else {
+      this.modelsService.models$.subscribe(models => {
+        this.filteredModels = models;
+      });
+    }
+  }
 }

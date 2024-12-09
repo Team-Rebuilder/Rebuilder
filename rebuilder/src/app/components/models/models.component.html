@@ -1,7 +1,21 @@
 <app-home/>
 
+<header>
+  <div class="searchbar">
+    <div class="searchIconContainer">
+      <i class="pi pi-search"></i>
+    </div>
+    <input
+      [(ngModel)]="searchTerm"
+      type="text"
+      placeholder="Search for rebuild categories"
+      (input)="handleSearchChange()"
+    />
+  </div>
+</header>
+
 <div class="card-container">
-  @for (model of modelsService.models$ | async; track model.id) {
+  @for (model of filteredModels; track model.id) {
     <p-card
       [style]="{
         width: '20rem',

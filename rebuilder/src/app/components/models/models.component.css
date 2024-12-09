@@ -1,7 +1,70 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --dark-blue: rgb(52, 111, 173);
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+header {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  background-color: var(--light-gray);
+}
+
+.searchbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  width: 20rem;
+}
+
+@media (max-width: 430px) {
+  .searchbar {
+    width: 80%;
+  }
+}
+
+.searchIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  margin-right: 0.5rem;
+}
+
+.searchIconContainer i {
+  color: #afafaf;
+}
+
+input:focus {
+  outline: none;
+}
+
+.searchbar input {
+  border: none;
+  background-color: #ffffff;
+  width: 100%;
 }
 
 .card-container {
