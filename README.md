@@ -2,6 +2,7 @@
 
 - FA24 CS336 Final Project
 - Daniel Kim, Jason Chew
+- Deployed [here](https://rebuilder-app.web.app/)
 
 ---
 
