@@ -1,17 +1,19 @@
 <app-modelnavbar />
 
-<div class="pdf-container">
-  <button (click)="previousPage()" [disabled]="currentPage === 1">
-    <i class="pi pi-arrow-circle-left" style="font-size: 3rem"></i>
-  </button>
-  <canvas #canvas></canvas>
-  <button (click)="nextPage()" [disabled]="currentPage === pageCount">
-    <i class="pi pi-arrow-circle-right" style="font-size: 3rem"></i>
-  </button>
-</div>
-
-<div>
-  <mat-slider min="1" max="{{pageCount}}" step="1" discrete>
-    <input matSliderThumb [(ngModel)]="currentPage" (input)="goToPage($event)" (keydown)="doNothing($event)">
-  </mat-slider>
+<div id="viewer">
+  <div class="pdf-container">
+    <button id="prev" class="nav-button" (click)="previousPage()" [disabled]="currentPage === 1">
+      <i class="pi pi-arrow-circle-left"></i>
+    </button>
+    <canvas #canvas></canvas>
+    <button id="next" class="nav-button" (click)="nextPage()" [disabled]="currentPage === pageCount">
+      <i class="pi pi-arrow-circle-right"></i>
+    </button>
+  </div>
+  
+  <div id="slider">
+    <mat-slider min="1" max="{{pageCount}}" step="1" discrete>
+      <input matSliderThumb [(ngModel)]="currentPage" (keydown)="doNothing($event)">
+    </mat-slider>
+  </div>
 </div>
