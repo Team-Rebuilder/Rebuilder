@@ -95,18 +95,16 @@
         }
       </div>
 
-      <!-- Category Selector -->
+      <!-- Source Selector -->
       <div class="inputContainer">
         <label for="source">Source LEGO*</label>
-        <textarea
-          pInputTextarea
+        <input
+          pInputText
+          type="text"
+          maxlength="50"
           id="source"
-          maxlength="1000"
-          rows="1"
-          placeholder="Enter source LEGO sets, separated by commas"
-          [autoResize]="true"
+          placeholder="Enter source LEGO set number"
           formControlName="source">
-        </textarea>
         @if (SubmitForm.get('source')?.invalid && SubmitForm.get('source')?.touched) {
           <small>This field is required</small>
         }
