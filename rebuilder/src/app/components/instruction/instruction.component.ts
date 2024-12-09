@@ -88,6 +88,7 @@ export class InstructionComponent {
   
   // Copy any newly rendered page to the visible canvas
   renderPdf() {
+    console.log("Time of redraw:", Date.now());
     if (this.currentPage !== this.formerPage) {
       this.formerPage = this.currentPage;
   
