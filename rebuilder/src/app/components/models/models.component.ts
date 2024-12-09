@@ -56,4 +56,11 @@ export class ModelsComponent {
       });
     }
   }
+
+  emptySearch() {
+    this.searchTerm = '';
+    this.modelsService.models$.subscribe(models => {
+      this.filteredModels = models;
+    });
+  }
 }

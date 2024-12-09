@@ -14,6 +14,15 @@
   </div>
 </header>
 
+@if (filteredModels.length === 0) {
+  <div class="notfoundContainer">
+    <h1>¯\_(ツ)_/¯ No results found</h1>
+    <button (click)="emptySearch()">
+      <p>Try searching for another category</p>
+    </button>
+  </div>
+}
+
 <div class="card-container">
   @for (model of filteredModels; track model.id) {
     <p-card

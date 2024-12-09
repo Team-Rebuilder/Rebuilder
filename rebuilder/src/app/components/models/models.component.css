@@ -67,6 +67,44 @@ input:focus {
   width: 100%;
 }
 
+.notfoundContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  height: 100%;
+}
+
+.notfoundContainer h1 {
+  color: var(--dark-gray);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1rem 0 2rem 0;
+  padding: 0;
+}
+
+.notfoundContainer button {
+  background-color: var(--light-gray);
+  color: var(--black);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.notfoundContainer button:hover {
+  background-color: var(--blue);
+}
+
+.notfoundContainer p {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
 .card-container {
   padding: 2rem;
   max-width: 80%;
