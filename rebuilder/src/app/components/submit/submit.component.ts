@@ -11,7 +11,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 
 import { ModelsService } from '../../services/models.service';
 import { HomeComponent } from '../homenavbar/home.component';
-
+import { rebrickableKey } from '../../credentials';
 
 @Component({
   selector: 'app-submit',
@@ -275,5 +275,24 @@ export class SubmitComponent {
 
     // Show a success message
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
+  }
+
+  async isSetNumber(number: number): Promise<boolean> {
+    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${number}-1/`, {
+      headers: {
+        'Authorization': `key ${rebrickableKey}`
+      }
+    });
+
+    if (response.status === 404) {
+      return false;
+    }
+
+    if (!response.ok) {
+      console.error("Error", response);
+      return false;
+    }
+
+    return true;
   }
 }
