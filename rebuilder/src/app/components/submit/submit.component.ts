@@ -46,11 +46,6 @@ export class SubmitComponent {
   // Maximum file size (10 MB)
   MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-  // Temporary example
-  // Taken from: https://primeng.org/treeselect#filter
-  nodes!: any[];
-  selectedNodes: any;
-
   // Uploaded Image
   uploadedImages: File[] = [];
   uploadedPDFs: File[] = [];
@@ -200,6 +195,15 @@ export class SubmitComponent {
       return;
     }
 
+    // Check if the set number is valid
+    if (this.submissionValue.source) {
+      const setNumber = parseInt(this.submissionValue.source);
+      if (!await this.isSetNumber(setNumber)) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
+        return;
+      }
+    }
+
     // Set the loading state
     this.isLoading = true;
 
@@ -277,6 +281,7 @@ export class SubmitComponent {
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
   }
 
+  // Check if the set number is valid
   async isSetNumber(number: number): Promise<boolean> {
     const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${number}-1/`, {
       headers: {
