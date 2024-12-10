@@ -243,3 +243,10 @@ footer {
   color: #bec772;
 }
 
+.features {
+  background-color: var(--light-gray);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
