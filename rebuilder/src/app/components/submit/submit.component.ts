@@ -69,6 +69,17 @@ export class SubmitComponent {
     });
 
     this.watchChanges();
+
+    // On auth status change, update the username
+    // Also, when the user logs out, username should be cleared and the form should be reset
+    this.modelsService.user$.subscribe((user) => {
+      if (user?.displayName) {
+        this.username = user.displayName;
+        this.setUsername(user.displayName);
+      } else {
+        this.clearUsername();
+      }
+    });
   }
 
   // When the user changes the username
@@ -82,6 +93,8 @@ export class SubmitComponent {
     if (!username) {
       return;
     }
+
+    this.username = username;
     this.usernameSet = true;
   }
 
@@ -390,7 +403,7 @@ export class SubmitComponent {
       console.error(error);
     }
   }
-  
+
   async getPartCount(setNumber: number): Promise<number> {
     const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
       headers: {

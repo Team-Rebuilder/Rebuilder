@@ -20,6 +20,11 @@
   display: inline-flex;
   width: 100%;
   z-index: 9999;
+  justify-content: space-between;
+}
+
+.options span {
+  display: inline-flex;
 }
 
 .logolink {
@@ -47,4 +52,60 @@
 
 .logolink img:hover {
   transform: scale(1.1);
+}
+
+.iconContainer {
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+  padding: 0;
+}
+
+.about {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  text-emphasis: none;
+}
+
+.about i {
+  background-color: var(--yellow);
+  transition: all 0.2s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: var(--black);
+}
+
+.about i:hover {
+  background-color: var(--dark-yellow);
+}
+
+.iconContainer img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.iconContainer i {
+  background-color: var(--dark-yellow);
+  transition: all 0.2s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: var(--black);
+}
+
+.iconContainer button {
+  background-color: var(--light-gray);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  transition: all 0.2s;
+}
+
+.iconContainer button:hover {
+  background-color: var(--blue);
 }

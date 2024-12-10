@@ -11,7 +11,7 @@
     </div>
   }
 
-  @if (!usernameSet) {
+  @if (!modelsService.currentUser && !usernameSet) {
     <!-- Username Input -->
     <div class="usernameContainer">
       <h1>How can we call you?</h1>
@@ -23,7 +23,6 @@
         id="username"
         placeholder="Enter username"
         (keydown.enter)="setUsername(username)"
-        (change)="onUserNameChange(username)"
         [(ngModel)]="username">
       <p-button
         [disabled]="!username"
@@ -44,7 +43,7 @@
       <h1>Welcome, {{ username }}!</h1>
       <p>Submit your model here!</p>
       <p class="smalltext"><strong>*</strong>Required</p>
-      <p-button label="Change Username" (click)="clearUsername()"></p-button>
+      <!-- <p-button label="Change Username" (click)="clearUsername()"></p-button> -->
     </div>
 
     <form [formGroup]="SubmitForm" (ngSubmit)="onSubmit()">

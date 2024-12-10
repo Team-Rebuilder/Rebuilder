@@ -1,8 +1,8 @@
 import { Component, input, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 import { ModelsService } from '../../services/models.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-modelnavbar',
@@ -17,7 +17,7 @@ export class ModelnavbarComponent {
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
   has3DModel = input<boolean>();
-  modelService = inject(ModelsService);
+  modelsService = inject(ModelsService);
   id: string | undefined;
   currModel$: any;
 
@@ -36,7 +36,7 @@ export class ModelnavbarComponent {
 
     // Get the model by id
     // Since getModelById returns a promise, we need to await it
-    this.currModel$ = await this.modelService.getModelById(this.id!);
+    this.currModel$ = await this.modelsService.getModelById(this.id!);
 
     // Conditionally display the 3D model tab
     this.items = this.currModel$.threemodelUrls.length > 0 ?

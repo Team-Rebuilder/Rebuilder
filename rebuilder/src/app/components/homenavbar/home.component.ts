@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
+import { ModelsService } from '../../services/models.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { MenuItem } from 'primeng/api';
 export class HomeComponent {
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
+  modelsService = inject(ModelsService);
 
   constructor() {
     this.items = [

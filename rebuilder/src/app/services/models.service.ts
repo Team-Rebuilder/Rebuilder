@@ -56,9 +56,9 @@ export class ModelsService {
   private provider = new GoogleAuthProvider();
 
   // observable that is updated when the auth state changes
-  // user$ = user(this.auth);
-  // currentUser: User | null = this.auth.currentUser;
-  // userSubscription: Subscription;
+  user$ = user(this.auth);
+  currentUser: User | null = this.auth.currentUser;
+  userSubscription: Subscription;
 
   public models$: Observable<Model[]>;
 
@@ -76,29 +76,28 @@ export class ModelsService {
     this.models$ = collectionData(q) as Observable<Model[]>;
 
     // Subscribe to the user observable
-    // this.userSubscription = this.user$.subscribe((aUser: User | null) => {
-    //   this.currentUser = aUser;
-    // });
+    this.userSubscription = this.user$.subscribe((aUser: User | null) => {
+      this.currentUser = aUser;
+    });
   }
 
   // TODO: Replace username with authentication
   // HANDLE AUTHENTICATION
-  // login() {
-  //   signInWithPopup(this.auth, this.provider).then((result) => {
-  //       const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       this.router.navigate(['/', 'models']);
-  //       return credential;
-  //   })
-  // }
+  login() {
+    signInWithPopup(this.auth, this.provider).then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      return credential;
+    })
+  }
 
-  // logout() {
-  //   signOut(this.auth).then(() => {
-  //       this.router.navigate(['/', 'login'])
-  //       console.log('signed out');
-  //   }).catch((error) => {
-  //       console.log('sign out error: ' + error);
-  //   })
-  // }
+  logout() {
+    signOut(this.auth).then(() => {
+      console.log('signed out');
+      console.log('current user: ' + this.currentUser);
+    }).catch((error) => {
+      console.log('sign out error: ' + error);
+    })
+  }
 
 
   // Submit a model to the database
