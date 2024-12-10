@@ -93,7 +93,6 @@ export class ModelsService {
   logout() {
     signOut(this.auth).then(() => {
       console.log('signed out');
-      console.log('current user: ' + this.currentUser);
     }).catch((error) => {
       console.log('sign out error: ' + error);
     })
