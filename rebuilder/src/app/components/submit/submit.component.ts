@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl as FromGroup, FormArray } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ModelsService } from '../../services/models.service';
 import { HomeComponent } from '../homenavbar/home.component';
 import { rebrickableKey } from '../../credentials';
+import { NgClass } from '@angular/common';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-submit',
@@ -26,7 +28,8 @@ import { rebrickableKey } from '../../credentials';
     TreeSelectModule,
     FileUploadModule,
     ToastModule,
-    ScrollTopModule
+    ScrollTopModule,
+    NgClass
   ],
   providers: [MessageService],
   // encapsulation: ViewEncapsulation.None,
@@ -55,14 +58,14 @@ export class SubmitComponent {
 
   constructor(private messageService: MessageService) {
     this.SubmitForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      category: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      source: new FormControl('', Validators.required),
-      imageFile: new FormControl('', Validators.required),
-      instructionFile: new FormControl('', Validators.required),
-      partsListFile: new FormControl(''),
-      threemodelFile: new FormControl(''),
+      title: new FromGroup('', Validators.required),
+      category: new FromGroup('', Validators.required),
+      description: new FromGroup('', Validators.required),
+      sourceSets: new FormArray([new FromGroup('', Validators.required)]),
+      imageFile: new FromGroup('', Validators.required),
+      instructionFile: new FromGroup('', Validators.required),
+      partsListFile: new FromGroup(''),
+      threemodelFile: new FromGroup(''),
     });
 
     this.watchChanges();
@@ -96,6 +99,25 @@ export class SubmitComponent {
     this.SubmitForm.valueChanges.subscribe((value) => {
       this.submissionValue = value;
     });
+  }
+
+  createSourceGroup(): FromGroup {
+    return new FromGroup('', Validators.required);
+  }
+
+  get sourceSets(): FormArray {
+    return this.SubmitForm.get('sourceSets') as FormArray;
+  }
+  
+  addSource(): void {
+    for (const control of this.sourceSets.controls) {
+      control.markAsTouched();
+    }
+    this.sourceSets.push(this.createSourceGroup());
+  }
+
+  removeSource(index: number): void {
+    this.sourceSets.removeAt(index);
   }
 
   // Handle temporary file uploads
@@ -196,9 +218,17 @@ export class SubmitComponent {
       return;
     }
 
+    for (const sourceControl of this.sourceSets.value) {
+      const setNumber = parseInt(sourceControl.value.sourceSet);
+      if (!await this.isSetNumber(setNumber)) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
+        return;
+      }
+    }
+
     // Check if the set number is valid
-    if (this.submissionValue.source) {
-      const setNumber = parseInt(this.submissionValue.source);
+    if (this.submissionValue.sourceSet) {
+      const setNumber = parseInt(this.submissionValue.sourceSet);
       if (!await this.isSetNumber(setNumber)) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
         return;
@@ -221,7 +251,7 @@ export class SubmitComponent {
         title: this.submissionValue.title,
         category: this.submissionValue.category,
         description: this.submissionValue.description,
-        source: this.submissionValue.source,
+        sourceSets: this.sourceSets.value.map((sourceControl: any) => sourceControl.sourceSet),
         imageUrls: imageUrls,
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,
@@ -254,7 +284,7 @@ export class SubmitComponent {
       (this.SubmitForm.get('title')?.valid ?? false) &&
       (this.SubmitForm.get('category')?.valid ?? false) &&
       (this.SubmitForm.get('description')?.valid ?? false) &&
-      (this.SubmitForm.get('source')?.valid ?? false) &&
+      this.sourceSets.controls.every((sourceControl) => sourceControl.valid) &&
       (this.uploadedImages.length > 0) &&  // At least one image is required
       (this.uploadedPDFs.length > 0)       // At least one PDF is required
     );

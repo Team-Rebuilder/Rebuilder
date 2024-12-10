@@ -97,19 +97,24 @@
 
       <!-- Source Input -->
       <div class="inputContainer">
-        <label for="source">Source LEGO (separate by comma if multiple)*</label>
-        <div class="setNumContainer">
-          <input
-            pInputText
-            type="text"
-            maxlength="50"
-            id="source"
-            placeholder="Enter source LEGO set number"
-            [(ngModel)]="setNumInput"
-            formControlName="source">
-          <button id="setCheckButton" (click)="checkSetNumber()">Check Set Number</button>
+        <label for="sourceSets">Source LEGO*</label>
+        <div formArrayName="sourceSets">
+          @for (sourceSet of sourceSets.controls; track sourceSet.value) {
+            <div class="sourceInputContainer">
+              <input
+                pInputText
+                class="sourceInput"
+                type="text"
+                maxlength="50"
+                placeholder="Enter source LEGO set number"
+                [formControlName]="$index"
+                [ngClass]="{ 'invalid-touched': (SubmitForm.get('sourceSets')?.invalid && SubmitForm.get('sourceSets')?.touched), 'sourceInput': true }">
+              <button type="button" class="removeSourceButton" (click)="removeSource($index)" [disabled]="sourceSets.controls.length <= 1">Remove</button>
+            </div>
+          }
         </div>
-        @if (SubmitForm.get('source')?.invalid && SubmitForm.get('source')?.touched) {
+        <button type="button" id="setCheckButton" (click)="addSource()">Add Source Set</button>
+        @if (SubmitForm.get('sourceSets')?.invalid && SubmitForm.get('sourceSets')?.touched) {
           <small>This field is required</small>
         }
       </div>

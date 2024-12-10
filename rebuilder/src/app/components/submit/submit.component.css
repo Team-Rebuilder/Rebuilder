@@ -179,7 +179,7 @@ input.ng-valid.ng-touched {
   border-color: var(--yellow);
 }
 
-input.ng-invalid.ng-touched {
+input.ng-invalid.ng-touched, .invalid-touched {
   /* border-color: #FF8A8A; */
   border-color: var(--red);
 }
@@ -345,12 +345,25 @@ li > button:hover {
   align-items: center;
 }
 
-#setCheckButton {
+.sourceInputContainer {
+  margin: 0.5rem 0;
+  /* justify-content: center; */
+  flex-direction: row;
   display: flex;
+  height: 2.4rem;
+}
+
+.sourceInput {
+  margin-bottom: 0.5rem;
+}
+
+.removeSourceButton {
+  display: inline;
+  margin-left: 0.5rem;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  margin-left: 0.5rem;
+  width: 5rem;
   border: none;
   border-radius: 0.5rem;
   transition: all 0.2s;
@@ -358,7 +371,25 @@ li > button:hover {
   color: var(--dark-gray);
 }
 
-#setCheckButton:hover {
+#setCheckButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  width: 24rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+}
+
+#setCheckButton:disabled, .removeSourceButton:disabled, .removeSourceButton:disabled:hover {
+  background-color: #f8f8f8;
+  color: #c7c7c7;
+}
+
+#setCheckButton:hover, .removeSourceButton:hover {
   background-color: #b7e0ff;
   color: var(--black);
 }
