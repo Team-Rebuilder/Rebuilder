@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { GalleriaModule } from 'primeng/galleria';
@@ -6,6 +6,7 @@ import { ToastModule } from 'primeng/toast';
 import { TagModule } from 'primeng/tag';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { ModelnavbarComponent } from '../modelnavbar/modelnavbar.component';
+// import { PartListComponent } from '../part-list/part-list.component';
 import { ModelsService } from '../../services/models.service';
 
 @Component({
@@ -14,6 +15,7 @@ import { ModelsService } from '../../services/models.service';
   imports: [
     DatePipe,
     ModelnavbarComponent,
+    // PartListComponent,
     CommonModule,
     GalleriaModule,
     ToastModule,
@@ -25,8 +27,12 @@ import { ModelsService } from '../../services/models.service';
 })
 export class ModelComponent {
   modelService = inject(ModelsService);
-  id: string | undefined;
+  id = input.required<string>();
   currModel$: any;
+
+  async ngOnInit(): Promise<void> {
+    this.currModel$ = await this.modelService.getModelById(this.id());
+  }
 
   // Responsive options for the galleria
   responsiveOptions: any[] = [
@@ -49,17 +55,4 @@ export class ModelComponent {
     'width': '90vmin',
     'text-align': 'center'
   };
-
-  constructor(private route: ActivatedRoute) {}
-
-  // Get the id from the URL (Written with the help of AI)
-  async ngOnInit(): Promise<void> {
-    this.route.paramMap.subscribe(params => {
-      this.id = params.get('id')!;
-    });
-
-    // Get the model by id
-    // Since getModelById returns a promise, we need to await it
-    this.currModel$ = await this.modelService.getModelById(this.id!);
-  }
 }

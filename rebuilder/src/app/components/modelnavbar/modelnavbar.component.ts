@@ -28,6 +28,7 @@ export class ModelnavbarComponent {
   }
 
   // Get the id from the URL (Written with the help of AI)
+  // Use the old route param method since navbar isn't directly linked to route
   async ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id')!;
