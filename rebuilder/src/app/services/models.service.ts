@@ -36,7 +36,7 @@ export interface Model {
   timestamp: Timestamp;
   description: string;
   sourceSets: number[];
-  // sourcePartCount: number;
+  sourcePartCount: number;
   imageUrls: string[];
   partsListUrls: string[];
   instructionUrls: string[];
@@ -110,7 +110,7 @@ export class ModelsService {
       timestamp: Timestamp.now(),
       description: modeldata.description,
       sourceSets: modeldata.sourceSets,
-      // sourcePartCount: modeldata.sourcePartCount,
+      sourcePartCount: modeldata.sourcePartCount,
       imageUrls: modeldata.imageUrls,
       instructionUrls: modeldata.instructionUrls,
       partsListUrls: modeldata.partsListUrls,

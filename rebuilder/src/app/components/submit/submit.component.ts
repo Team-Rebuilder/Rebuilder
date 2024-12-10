@@ -226,6 +226,16 @@ export class SubmitComponent {
       return;
     }
 
+    // Calculate source set(s') part count
+    let sourcePartCount = 0;
+    for (let i = 0; i < this.sourceSets.length; i++) {
+      try {
+        sourcePartCount += await this.getPartCount(this.sourceSets.at(i)?.value);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     // Set the loading state
     this.isLoading = true;
 
@@ -243,6 +253,7 @@ export class SubmitComponent {
         category: this.submissionValue.category,
         description: this.submissionValue.description,
         sourceSets: this.sourceSets.value,
+        sourcePartCount: sourcePartCount,
         imageUrls: imageUrls,
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,
@@ -378,5 +389,20 @@ export class SubmitComponent {
     } catch (error) {
       console.error(error);
     }
+  }
+  
+  async getPartCount(setNumber: number): Promise<number> {
+    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
+      headers: {
+        'Authorization': `key ${rebrickableKey}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.num_parts;
   }
 }
