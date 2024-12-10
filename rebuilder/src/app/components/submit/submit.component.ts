@@ -310,11 +310,40 @@ export class SubmitComponent {
         return;
       }
 
-      const isValid = await this.isSetNumber(+this.setNumInput);
-      if (isValid) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Valid set number!' });
+      // If the set number is not a number, show an error message
+      if (isNaN(parseInt(this.setNumInput))) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is not a number!' });
+        return;
+      }
+
+      // For now, we will be using comma-separated values
+      const setNums = this.setNumInput.split(',').map((num) => parseInt(num));
+      let wrongSetNums = '';
+
+      for (const num of setNums) {
+        if (!await this.isSetNumber(num)) {
+          if (wrongSetNums === '') {
+            wrongSetNums += `${num}`;
+          } else {
+            wrongSetNums += `, ${num}`;
+          }
+        }
+      }
+
+      // If there are invalid set numbers, show an error message
+      if (wrongSetNums) {
+        if (wrongSetNums.includes(',')) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set numbers: ${wrongSetNums}` });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set number: ${wrongSetNums}` });
+        }
+        return;
       } else {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
+        if (setNums.length > 1) {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Valid set numbers!' });
+        } else {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Valid set number!' });
+        }
       }
     } catch (error) {
       console.error(error);
