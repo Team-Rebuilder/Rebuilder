@@ -95,16 +95,20 @@
         }
       </div>
 
-      <!-- Source Selector -->
+      <!-- Source Input -->
       <div class="inputContainer">
         <label for="source">Source LEGO*</label>
-        <input
-          pInputText
-          type="text"
-          maxlength="50"
-          id="source"
-          placeholder="Enter source LEGO set number"
-          formControlName="source">
+        <div class="setNumContainer">
+          <input
+            pInputText
+            type="text"
+            maxlength="50"
+            id="source"
+            placeholder="Enter source LEGO set number"
+            [(ngModel)]="setNumInput"
+            formControlName="source">
+          <button id="setCheckButton" (click)="checkSetNumber()">Check Set Number</button>
+        </div>
         @if (SubmitForm.get('source')?.invalid && SubmitForm.get('source')?.touched) {
           <small>This field is required</small>
         }

@@ -42,6 +42,7 @@ export class SubmitComponent {
   usernameSet: boolean = false;
   formSubmitted: boolean = false;
   isLoading: boolean = false;
+  setNumInput: string = '';
 
   // Maximum file size (10 MB)
   MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -298,5 +299,25 @@ export class SubmitComponent {
     }
 
     return true;
+  }
+
+  // Check if the set number is valid
+  async checkSetNumber(): Promise<void> {
+    try {
+      // If the set number is empty, show an error message
+      if (!this.setNumInput) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is empty!' });
+        return;
+      }
+
+      const isValid = await this.isSetNumber(+this.setNumInput);
+      if (isValid) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Valid set number!' });
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
