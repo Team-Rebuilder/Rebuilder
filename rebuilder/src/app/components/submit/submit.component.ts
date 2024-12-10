@@ -44,8 +44,8 @@ export class SubmitComponent {
   username: string = localStorage.getItem('username') || '';
   usernameSet: boolean = false;
   formSubmitted: boolean = false;
+  isSetNumberValidCount: number = 0;
   isLoading: boolean = false;
-  setNumInput: string = '';
 
   // Maximum file size (10 MB)
   MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -108,7 +108,7 @@ export class SubmitComponent {
   get sourceSets(): FormArray {
     return this.SubmitForm.get('sourceSets') as FormArray;
   }
-  
+
   addSource(): void {
     for (const control of this.sourceSets.controls) {
       control.markAsTouched();
@@ -218,21 +218,12 @@ export class SubmitComponent {
       return;
     }
 
-    for (const sourceControl of this.sourceSets.value) {
-      const setNumber = parseInt(sourceControl.value.sourceSet);
-      if (!await this.isSetNumber(setNumber)) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
-        return;
-      }
-    }
-
-    // Check if the set number is valid
-    if (this.submissionValue.sourceSet) {
-      const setNumber = parseInt(this.submissionValue.sourceSet);
-      if (!await this.isSetNumber(setNumber)) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number!' });
-        return;
-      }
+    // Check the set number
+    await this.checkSetNumber();
+    if (this.isSetNumberValidCount > 0) {
+      // Show an error message
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number(s)! Number needs to be valid before submission.' });
+      return;
     }
 
     // Set the loading state
@@ -251,7 +242,7 @@ export class SubmitComponent {
         title: this.submissionValue.title,
         category: this.submissionValue.category,
         description: this.submissionValue.description,
-        sourceSets: this.sourceSets.value.map((sourceControl: any) => sourceControl.sourceSet),
+        sourceSets: this.sourceSets.value,
         imageUrls: imageUrls,
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,
@@ -333,46 +324,55 @@ export class SubmitComponent {
 
   // Check if the set number is valid
   async checkSetNumber(): Promise<void> {
+    // First, reset the count
+    this.isSetNumberValidCount = 0;
+
     try {
-      // If the set number is empty, show an error message
-      if (!this.setNumInput) {
+      // List of set numbers
+      const setNumFrom = this.SubmitForm.get('sourceSets') as FormArray | null;
+
+      // If the set numbers are empty, show an error message
+      let isEmpty = true;
+      for (let i = 0; i < setNumFrom!.length; i++) {
+        if (setNumFrom!.at(i)?.value) {
+          isEmpty = false;
+          break;
+        }
+      }
+      if (isEmpty) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is empty!' });
+        this.isSetNumberValidCount++;
         return;
       }
 
-      // If the set number is not a number, show an error message
-      if (isNaN(parseInt(this.setNumInput))) {
+      // // If each of the set number is not a number, show an error message
+      let isNotNumber = true;
+      for (let i = 0; i < setNumFrom!.length; i++) {
+        if (!isNaN(setNumFrom!.at(i)?.value)) {
+          isNotNumber = false;
+          break;
+        }
+      }
+      if (isNotNumber) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is not a number!' });
+        this.isSetNumberValidCount++;
         return;
       }
 
-      // For now, we will be using comma-separated values
-      const setNums = this.setNumInput.split(',').map((num) => parseInt(num));
-      let wrongSetNums = '';
-
-      for (const num of setNums) {
-        if (!await this.isSetNumber(num)) {
-          if (wrongSetNums === '') {
-            wrongSetNums += `${num}`;
+      // If the set number is not valid, show an error message
+      for (let i = 0; i < setNumFrom!.length; i++) {
+        try {
+          if (!await this.isSetNumber(+setNumFrom!.at(i)?.value)) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set number: ${setNumFrom!.at(i)?.value}` });
+            this.isSetNumberValidCount++;
           } else {
-            wrongSetNums += `, ${num}`;
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: `Valid set number: ${setNumFrom!.at(i)?.value}` });
           }
-        }
-      }
-
-      // If there are invalid set numbers, show an error message
-      if (wrongSetNums) {
-        if (wrongSetNums.includes(',')) {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set numbers: ${wrongSetNums}` });
-        } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set number: ${wrongSetNums}` });
-        }
-        return;
-      } else {
-        if (setNums.length > 1) {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Valid set numbers!' });
-        } else {
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Valid set number!' });
+        } catch (error) {
+          // If there is an error, show an error message
+          console.error(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Error checking set number: ${setNumFrom!.at(i)?.value}` });
+          this.isSetNumberValidCount++;
         }
       }
     } catch (error) {

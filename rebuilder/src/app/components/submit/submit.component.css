@@ -3,6 +3,7 @@
   --dark-yellow: #dbc800;
   --orange: #FF8000;
   --red: #FF8080;
+  --green: #14C38E;
   --blue: #279EFF;
   --light-blue: #b7e0ff;
   --light-gray: #f8f8f8;
@@ -369,6 +370,24 @@ li > button:hover {
   transition: all 0.2s;
   background-color: var(--light-gray);
   color: var(--dark-gray);
+}
+
+#checkButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+}
+
+#checkButton:hover {
+  background-color: #14C38E;
+  color: var(--black);
 }
 
 #setCheckButton {
