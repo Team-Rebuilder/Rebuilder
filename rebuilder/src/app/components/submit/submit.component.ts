@@ -289,8 +289,7 @@ export class SubmitComponent {
     }
 
     if (!response.ok) {
-      console.error("Error", response);
-      return false;
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     return true;
