@@ -10,7 +10,11 @@
       type="text"
       placeholder="Search for rebuild categories"
       (input)="handleSearchChange()"
+      maxlength="30"
     />
+    <div class="categoryIconContainer">
+      <i class="pi pi-bars"></i>
+    </div>
   </div>
 </header>
 
@@ -25,6 +29,9 @@
   <div class="notfoundContainer">
     <h1>¯\_(ツ)_/¯ No results found</h1>
     <button (click)="emptySearch()">
+      <div class="categoryIconWithButton">
+        <i class="pi pi-bars"></i>
+      </div>
       <p>Try searching for another category</p>
     </button>
   </div>

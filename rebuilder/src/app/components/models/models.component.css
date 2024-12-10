@@ -93,6 +93,27 @@ header {
   color: #afafaf;
 }
 
+.categoryIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  margin-left: 0.5rem;
+}
+
+.categoryIconContainer i {
+  color: var(--orange);
+}
+
+.categoryIconWithButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  margin-right: 0.5rem;
+}
+
 input:focus {
   outline: none;
 }
@@ -124,19 +145,25 @@ input:focus {
   background-color: var(--light-gray);
   color: var(--black);
   border: none;
+  border-radius: 2rem;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.1s;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .notfoundContainer button:hover {
-  background-color: var(--blue);
+  background-color: var(--orange);
+  color: var(--light-gray);
 }
 
 .notfoundContainer p {
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 600;
   margin: 0;
   padding: 0;
 }
