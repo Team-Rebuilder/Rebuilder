@@ -1,16 +1,34 @@
 <app-modelnavbar />
 
 <div class="container">
+  <p-toast />
   <div class="metatext-container">
     <h1 class="mtitle" title="Model Title">{{ currModel$?.title.toUpperCase() }}</h1>
     <div class="user-and-date">
-      <p class="muser" title="Model User"><i class="pi pi-user" style="font-size: 1rem"></i>{{ currModel$?.userName }}</p>
+      <p class="muser" title="Model User">
+        <!-- Conditionally render the user profile picture if the user exists -->
+        @if (currModel$?.userPhoto) {
+          <img [src]="currModel$?.userPhoto" alt="User Profile Picture" class="muser-img" />
+        }
+        @else {
+          <i class="pi pi-user" style="font-size: 1rem"></i>
+        }
+        {{ currModel$?.userName }}
+      </p>
       <p class="muser">{{ currModel$?.timestamp.toDate() | date: "longDate" }}<i class="pi pi-calendar" style="font-size: 1rem"></i></p>
     </div>
     <div class="tagContainer">
-      <p-tag [value]="currModel$?.category" icon="pi pi-bars" severity="info" [rounded]="true" />
-      @if (currModel$?.threemodelUrls.length) {
-        <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" />
+      <div class="chipContainer">
+        <p-tag [value]="currModel$?.category" icon="pi pi-bars" severity="info" [rounded]="true" />
+        @if (currModel$?.threemodelUrls.length) {
+          <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" />
+        }
+      </div>
+      <!-- Conditionally render delete button if the model is current user's -->
+      @if (currModel$?.uid === modelService.currentUser?.uid) {
+        <button type="button" label="Delete" (click)="handleDelete()" >
+          <i class="pi pi-trash"></i>
+        </button>
       }
     </div>
   </div>

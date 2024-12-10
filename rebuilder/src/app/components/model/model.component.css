@@ -66,6 +66,12 @@
   font-weight: 400;
 }
 
+.muser img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+
 .muser i {
   background-color: var(--light-gray);
   padding: 0.5rem;
@@ -75,9 +81,37 @@
 .tagContainer {
   background-color: var(--light-gray);
   display: flex;
-  gap: 0.5rem;
   padding: 0.6rem;
   border-radius: 0.8rem;
+  justify-content: space-between;
+}
+
+.tagContainer button {
+  background-color: #ffffff;
+  color: var(--red);
+  width: 1.625rem;
+  height: 1.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.tagContainer button:hover {
+  background-color: var(--red);
+  color: var(--light-gray);
+}
+
+.chipContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .descContainer {

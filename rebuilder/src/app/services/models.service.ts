@@ -81,7 +81,6 @@ export class ModelsService {
     });
   }
 
-  // TODO: Replace username with authentication
   // HANDLE AUTHENTICATION
   login() {
     signInWithPopup(this.auth, this.provider).then((result) => {
@@ -98,11 +97,12 @@ export class ModelsService {
     })
   }
 
-
   // Submit a model to the database
   submitModel = async (modeldata: any) => {
     await addDoc(this.modelsRef, {
       userName: modeldata.username,
+      uid: this.currentUser!.uid || '',
+      userPhoto: this.currentUser!.photoURL || '',
       title: modeldata.title,
       category: modeldata.category,
       timestamp: Timestamp.now(),
@@ -152,5 +152,11 @@ export class ModelsService {
       console.error('No such document!');
     }
     return modelSnap.data() as Model;
+  }
+
+  // Delete a model
+  deleteModel = async (id: string) => {
+    const modelRef = doc(this.firestore, 'models', id);
+    await deleteDoc(modelRef);
   }
 }
