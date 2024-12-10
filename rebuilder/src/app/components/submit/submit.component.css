@@ -99,6 +99,18 @@ input[type=checkbox]:focus {
   width: 100%;
 }
 
+.usernameContainer button {
+  background-color: var(--light-gray);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  transition: all 0.2s;
+}
+
+.usernameContainer button:hover {
+  background-color: var(--blue);
+}
+
 .usernameContainer p {
   font-size: 0.9rem;
   font-weight: 400;
