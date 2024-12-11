@@ -14,19 +14,19 @@
       @for (partDatum of partData; track $index) {
         <div class="part-img-container">
           <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />
-          <div class="partscontainer">
+          <div class="partscontainer" (click)="handleCopy(partDatum.part_num)">
             <i class="pi pi-th-large" title="Click to copy the parts number"
               [style.color]="getColorCode(partDatum.color)"
               [style.backgroundColor]="brightenHexColor(getColorCode(partDatum.color), 200)"
               [style.borderColor]="brightenHexColor(getColorCode(partDatum.color), 100)"
-              (click)="handleCopy(partDatum.part_num)"></i><p>{{partDatum.count}}x {{partDatum.part_num}}</p>
+              ></i><p>{{partDatum.count}}x {{partDatum.part_num}}</p>
           </div>
-          <div class="colorcontainer">
+          <div class="colorcontainer" (click)="handleCopy(partDatum.color)">
             <i class="pi pi-palette" title="Click to copy the color"
               [style.color]="getColorCode(partDatum.color)"
               [style.backgroundColor]="brightenHexColor(getColorCode(partDatum.color), 200)"
               [style.borderColor]="brightenHexColor(getColorCode(partDatum.color), 100)"
-              (click)="handleCopy(partDatum.color)"></i><p>{{partDatum.color}}</p>
+              ></i><p>{{partDatum.color}}</p>
           </div>
         </div>
     }
