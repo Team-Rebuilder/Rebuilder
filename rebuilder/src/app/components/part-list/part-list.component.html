@@ -15,7 +15,11 @@
         <div class="part-img-container">
           <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />
           <div class="partscontainer">
-            <i class="pi pi-th-large" title="Click to copy the parts number" (click)="handleCopy(partDatum.part_num)"></i><p>{{partDatum.count}}x {{partDatum.part_num}}</p>
+            <i class="pi pi-th-large" title="Click to copy the parts number"
+              [style.color]="getColorCode(partDatum.color)"
+              [style.backgroundColor]="brightenHexColor(getColorCode(partDatum.color), 200)"
+              [style.borderColor]="brightenHexColor(getColorCode(partDatum.color), 100)"
+              (click)="handleCopy(partDatum.part_num)"></i><p>{{partDatum.count}}x {{partDatum.part_num}}</p>
           </div>
           <div class="colorcontainer">
             <i class="pi pi-palette" title="Click to copy the color"
