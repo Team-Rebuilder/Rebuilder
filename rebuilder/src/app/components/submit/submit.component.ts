@@ -13,7 +13,6 @@ import { ModelsService } from '../../services/models.service';
 import { HomeComponent } from '../homenavbar/home.component';
 import { rebrickableKey } from '../../credentials';
 import { NgClass } from '@angular/common';
-import { of } from 'rxjs';
 import * as Papa from 'papaparse';
 
 type CSVRow = string[];
@@ -44,7 +43,7 @@ export class SubmitComponent {
 
   SubmitForm: FormGroup;
   submissionValue: any; // Form submission value
-  username: string = localStorage.getItem('username') || '';
+  username: string = '';
   usernameSet: boolean = false;
   formSubmitted: boolean = false;
   isSetNumberValidCount: number = 0;
@@ -75,6 +74,7 @@ export class SubmitComponent {
 
     // On auth status change, update the username
     // Also, when the user logs out, username should be cleared and the form should be reset
+    // Maybe change to use authGuard?
     this.modelsService.user$.subscribe((user) => {
       if (user?.displayName) {
         this.username = user.displayName;
@@ -88,7 +88,6 @@ export class SubmitComponent {
   // When the user changes the username
   onUserNameChange(userNameValue: string) {
     this.username = userNameValue;
-    localStorage.setItem('username', this.username);
   }
 
   // Set the username
@@ -104,12 +103,11 @@ export class SubmitComponent {
   // Clear the username
   clearUsername(): void {
     this.username = '';
-    localStorage.removeItem('username');
     this.usernameSet = false;
-    this.formSubmitted = false;   // This would be false anyway before submitting the form
+    this.formSubmitted = false;
   }
 
-  // Watch values that need validation (email, phonenumber)
+  // Watch values that need validation
   // https://www.tektutorialshub.com/angular/valuechanges-in-angular-forms/?__cf_chl_rt_tk=ZbKGfBk3fRzboWGJnzU73Iq29Vd7Qp_HbIek14wp5Os-1730573211-1.0.1.1-VTJ0NWSL5g5_xIePdM62KXNpbCq00bPFXD4ogKAze58
   watchChanges(): void {
     this.SubmitForm.valueChanges.subscribe((value) => {
@@ -263,7 +261,7 @@ export class SubmitComponent {
       const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedPDFs, 'pdf') : [];
       const csvUrls = this.uploadedCSVs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedCSVs, 'csv') : [];
       const mpdUrls = this.uploadedMPDs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedMPDs, 'mpd') : [];
-      
+
       // Then, submit the model
       const modeldata = {
         username: this.username,

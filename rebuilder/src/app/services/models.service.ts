@@ -1,12 +1,10 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   Auth,
-  authState,
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
   user,
-  getAuth,
   User,
 } from '@angular/fire/auth';
 import {
@@ -21,11 +19,10 @@ import {
   doc,
   DocumentReference,
   Timestamp,
-  DocumentData,
   getDoc
 } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
-import { map, switchMap, firstValueFrom, filter, Observable, Subscription, timestamp } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 export interface Model {
@@ -52,21 +49,16 @@ export class ModelsService {
   auth: Auth = inject(Auth);
   private firestore: Firestore = inject(Firestore);
   private storage: Storage = inject(Storage);
-  router: Router = inject(Router);
   private provider = new GoogleAuthProvider();
+  router: Router = inject(Router);
 
   // observable that is updated when the auth state changes
   user$ = user(this.auth);
   currentUser: User | null = this.auth.currentUser;
   userSubscription: Subscription;
 
+  // Observable for the models
   public models$: Observable<Model[]>;
-
-  // Create a reference to the storage service
-  storageRef = ref(this.storage);
-
-  // Variables for the document
-  docId: string = '';
 
   // Create a reference to the models collection
   modelsRef = collection(this.firestore, 'models');
@@ -82,6 +74,7 @@ export class ModelsService {
   }
 
   // HANDLE AUTHENTICATION
+  // https://firebase.google.com/codelabs/firebase-web?hl=en#7
   login() {
     signInWithPopup(this.auth, this.provider).then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -116,9 +109,6 @@ export class ModelsService {
     }).then((docRef: DocumentReference) => {
       // Update the document with the id
       updateDoc(docRef, { id: docRef.id });
-
-      // Also store the document id
-      this.docId = docRef.id;
     }).catch((error: any) => {
       console.error('Error adding document: ', error);
     });

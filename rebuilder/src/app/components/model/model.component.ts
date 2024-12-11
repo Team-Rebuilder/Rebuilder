@@ -1,6 +1,5 @@
 import { Component, inject, input } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { GalleriaModule } from 'primeng/galleria';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';

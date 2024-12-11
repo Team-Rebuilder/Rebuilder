@@ -118,6 +118,12 @@ input[type=checkbox]:focus {
   text-align: center;
 }
 
+.usernameContainer .smalltext {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--red);
+}
+
 .welcomeContainer {
   display: flex;
   flex-direction: column;

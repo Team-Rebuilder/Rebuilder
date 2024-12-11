@@ -1,6 +1,6 @@
 import { Component, input, inject } from '@angular/core';
 import { rebrickableKey } from '../../credentials';
-import { Model, ModelsService } from '../../services/models.service';
+import { ModelsService } from '../../services/models.service';
 import * as Papa from 'papaparse';
 
 interface Part {
@@ -31,10 +31,10 @@ export class PartListComponent {
 
   sourcePartCount: number = 0;
   modelPartCount: number = 0;
-  
+
   modelId = input.required<string>();
   sourceSets: number[] = [];
-  
+
   async ngOnInit(): Promise<void> {
     this.currModel$ = await this.modelsService.getModelById(this.modelId());
     this.sourcePartCount = this.currModel$.sourcePartCount;
