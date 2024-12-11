@@ -9,6 +9,12 @@ import { ModelnavbarComponent } from '../modelnavbar/modelnavbar.component';
 import { PartListComponent } from '../part-list/part-list.component';
 import { ModelsService } from '../../services/models.service';
 import { Router } from '@angular/router';
+import { rebrickableKey } from '../../credentials';
+
+interface Set {
+  set_num: string;
+  set_url: string;
+}
 
 @Component({
   selector: 'app-model',
@@ -32,11 +38,13 @@ export class ModelComponent {
   messageService = inject(MessageService);
   id = input.required<string>();
   currModel$: any;
+  sourceSets: Set[] = [];
   router = inject(Router);
   tempModelname: string = '';
 
   async ngOnInit(): Promise<void> {
     this.currModel$ = await this.modelService.getModelById(this.id());
+    await this.populateSourceSets();
   }
 
   // Responsive options for the galleria
@@ -60,6 +68,39 @@ export class ModelComponent {
     'width': '90vmin',
     'text-align': 'center'
   };
+
+  async getSetUrl(setNumber: number): Promise<string> {
+    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
+      headers: {
+        'Authorization': `key ${rebrickableKey}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.set_url;
+  }
+
+  // Duplicate check implemented by Copilot
+  async populateSourceSets(): Promise<void> {
+    const setNumbers = this.currModel$.sourceSets;
+
+    for (const setNumber of setNumbers) {
+      // Check if the set already exists in sourceSets
+      const existingSet = this.sourceSets.find(set => set.set_num === setNumber);
+      if (existingSet) {
+        // Duplicate the existing entry
+        this.sourceSets.push(existingSet);
+      } else {
+        // Fetch the set URL and add a new entry
+        const setUrl = await this.getSetUrl(setNumber);
+        this.sourceSets.push({set_num: setNumber, set_url: setUrl});
+      }
+    }
+  }
 
   // Handle model deletion
   handleDelete = async () => {

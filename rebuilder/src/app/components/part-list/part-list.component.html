@@ -10,7 +10,6 @@
       </div>
     }
     @else {
-      <!-- {{sourcePartCount}} -->
       @for (partDatum of partData; track $index) {
         <div class="part-img-container">
           <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />

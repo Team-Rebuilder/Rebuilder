@@ -50,6 +50,14 @@
   <div class="descContainer">
     <p class="mdesc-text" title="Model Descriptions">{{ currModel$?.description }}</p>
   </div>
+  <h1>
+    Source Sets
+  </h1>
+  <ul>
+    @for (sourceSet of sourceSets; track $index ) {
+      <li><a [href]="sourceSet.set_url">{{sourceSet.set_num}}</a></li>
+    }
+  </ul>
 
   <app-part-list [modelId]="id()"></app-part-list>
 
