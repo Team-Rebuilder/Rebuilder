@@ -14,6 +14,9 @@ import { HomeComponent } from '../homenavbar/home.component';
 import { rebrickableKey } from '../../credentials';
 import { NgClass } from '@angular/common';
 import { of } from 'rxjs';
+import * as Papa from 'papaparse';
+
+type CSVRow = string[];
 
 @Component({
   selector: 'app-submit',
@@ -252,13 +255,15 @@ export class SubmitComponent {
     // Set the loading state
     this.isLoading = true;
 
+    this.processCSV(this.uploadedCSVs[0]);
+
     try {
       // First, upload the files
       const imageUrls = this.uploadedImages.length ? await this.modelsService.uploadFiles(this.username, this.uploadedImages, 'image') : [];
       const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedPDFs, 'pdf') : [];
       const csvUrls = this.uploadedCSVs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedCSVs, 'csv') : [];
       const mpdUrls = this.uploadedMPDs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedMPDs, 'mpd') : [];
-
+      
       // Then, submit the model
       const modeldata = {
         username: this.username,
@@ -417,5 +422,82 @@ export class SubmitComponent {
 
     const data = await response.json();
     return data.num_parts;
+  }
+
+  // Substitute non-standard part IDs in CSV file with Rebrickable IDs
+  // Written with assistance from Copilot
+  async processCSV(file: File) {
+    Papa.parse(file, {
+      complete: async (result) => {
+        const data = result.data as CSVRow[];
+        const columnIndex = 2; // Ldraw column
+
+        const standardizedCSV = await Promise.all(
+          data.map(async (row: CSVRow) => {
+            row[columnIndex] = await this.standardizePartId(row[columnIndex] || '');
+            return row;
+          })
+        );
+
+        const csvString = Papa.unparse(standardizedCSV);
+        const standardizedCSVFile = new File([csvString], file.name, { type: file.type });
+
+        this.uploadedCSVs = [standardizedCSVFile];
+      }
+    });
+  }
+
+  /* Standardize given Bricklink part ID to Rebrickable ID
+   */
+  async standardizePartId(partId: string): Promise<string> {
+    // If part ID is already numeric, it will match the API ID
+    if (this.isNumeric(partId)) {
+      return partId;
+    }
+
+    const url = `https://rebrickable.com/api/v3/lego/parts/?bricklink_id=`;
+
+    // Standardize any print headers in the ID
+    const stdId1 = partId.replace(/bpb/g, 'pb');
+
+    // Remove leading zero from print headers in the ID
+    const stdId2 = stdId1.replace(/(\d+)(?!.*\d)/, '0$1');
+
+    // Make an initial fetch request to url + stdId1
+    try {
+      let response = await fetch(url + stdId1, {
+        headers: {
+            'Authorization': `key ${rebrickableKey}`
+          }
+      });
+      let data = await response.json();
+      // Try finding Rebrickable ID entry using stdId1 (with standardized header)
+      try {
+        const stdPartId = data.results[0].part_num;
+        return stdPartId;
+      } catch (error) {
+        // Make a second fetch request to url + stdId2 if the first one fails
+        response = await fetch(url + stdId2, {
+          headers: {
+            'Authorization': `key ${rebrickableKey}`
+          }
+        });
+        data = await response.json();
+        // Try finding Rebrickable ID entry using stId2 (removing leading zero)
+        try {
+          const stdPartId = data.results[0].part_num;
+          return stdPartId;
+        } catch (error) {
+          const numericPortions = partId.match(/\d+/);
+          return numericPortions ? numericPortions[0] : partId;
+        }
+      }
+    } catch (error) {
+      throw new Error(`Error fetching part data: ${error}`);
+    }
+  }
+
+  isNumeric(str: string): boolean {
+    return /^\d+$/.test(str);
   }
 }

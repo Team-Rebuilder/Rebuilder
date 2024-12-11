@@ -1,1 +1,20 @@
-<p>part-list works!</p>
+
+<div>
+  <!-- {{sourcePartCount}} -->
+  @for (partDatum of partData; track $index) {
+    <div class="part-img-container">
+      <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />
+      {{partDatum.count}}x
+      {{partDatum.part_num}}
+      Color: {{partDatum.color}}
+    </div>
+  }
+  @if (sourcePartCount) {
+    <div class="progress-bar-container">
+      <div class="progress-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
+    </div>
+    <div>
+     {{ (100 * modelPartCount/sourcePartCount).toFixed(2) }}% of {{sourcePartCount}} source parts used.
+    </div>
+  }
+</div>

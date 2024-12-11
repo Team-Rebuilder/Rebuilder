@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { ModelnavbarComponent } from '../modelnavbar/modelnavbar.component';
-// import { PartListComponent } from '../part-list/part-list.component';
+import { PartListComponent } from '../part-list/part-list.component';
 import { ModelsService } from '../../services/models.service';
 import { Router } from '@angular/router';
 
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   imports: [
     DatePipe,
     ModelnavbarComponent,
-    // PartListComponent,
+    PartListComponent,
     CommonModule,
     GalleriaModule,
     ToastModule,
