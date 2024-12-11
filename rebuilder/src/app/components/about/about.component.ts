@@ -13,5 +13,20 @@ import { HomeComponent } from '../homenavbar/home.component';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
+  constructor() {
+    // Scroll to the top of the page on load
+    this.scrollToTop(100, 'smooth');
+  }
 
+  // Function to  scroll to the top of the page
+  scrollToTop(interval: number, behavior: ScrollBehavior = 'smooth') {
+    setTimeout(() => {
+      // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      // https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
+      window.scrollTo({
+        top: 0,
+        behavior: behavior,
+      });
+    }, interval);
+  }
 }
