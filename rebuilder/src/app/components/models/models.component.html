@@ -44,12 +44,13 @@
         width: '20rem',
         borderRadius: '1rem',
         boxShadow: 'none',
-      }">
+      }"
+      (click)="navigateToDetails(model.id)">
       <ng-template pTemplate="header">
         <img [alt]="model.title" [src]="model.imageUrls[0]" />
       </ng-template>
       <ng-template pTemplate="content">
-        <a [routerLink]="'/model/' + model.id + '/details/'" title="Click to see the rebuild!">{{ model.title }}</a>
+        <h3 class="model-title">{{ model.title }}</h3>
         <p>{{ model.userName }}</p>
         <div class="tagContainer">
           <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />

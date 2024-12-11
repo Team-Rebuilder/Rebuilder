@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -28,6 +28,7 @@ import { ModelsService } from '../../services/models.service';
 })
 export class ModelsComponent {
   modelsService = inject(ModelsService);
+  router = inject(Router);
   searchTerm: string = '';
   filteredModels: any[] = [];
 
@@ -57,10 +58,16 @@ export class ModelsComponent {
     }
   }
 
+  // Clear search term and display all
   emptySearch() {
     this.searchTerm = '';
     this.modelsService.models$.subscribe(models => {
       this.filteredModels = models;
     });
+  }
+
+  // Navigate to model details page
+  navigateToDetails(modelId: string) {
+    this.router.navigate(['/model', modelId, 'details']);
   }
 }
