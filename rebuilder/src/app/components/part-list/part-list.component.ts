@@ -4,6 +4,9 @@ import { MessageService } from 'primeng/api';
 import * as Papa from 'papaparse';
 import { rebrickableKey } from '../../credentials';
 import { ModelsService } from '../../services/models.service';
+
+// Parts color map extracted with the help of AI (ChatGPT)
+// Original Source: https://www.bricklink.com/catalogColors.asp
 import { colorMap } from '../../data/colorCode';
 
 interface Part {
