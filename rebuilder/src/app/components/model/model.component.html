@@ -5,13 +5,13 @@
   <div class="metatext-container">
     <h1 class="mtitle" title="Model Title">{{ currModel$?.title.toUpperCase() }}</h1>
     <div class="user-and-date">
-      <p class="muser" title="Model User">
+      <p class="muser">
         <!-- Conditionally render the user profile picture if the user exists -->
         @if (currModel$?.userPhoto) {
           <img [src]="currModel$?.userPhoto" alt="User Profile Picture" class="muser-img" />
         }
         @else {
-          <i class="pi pi-user" style="font-size: 1rem"></i>
+          <i title="Anonymous User" class="pi pi-user" style="font-size: 1rem"></i>
         }
         {{ currModel$?.userName }}
       </p>
@@ -52,7 +52,6 @@
   </div>
 
   <app-part-list [modelId]="id()"></app-part-list>
-  <!-- End of the page -->
 
   <p-scrollTop target="window" [threshold]="400" icon="pi pi-arrow-up" />
 </div>
