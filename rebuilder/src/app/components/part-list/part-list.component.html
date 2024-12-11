@@ -1,19 +1,39 @@
 
-<div>
-  <!-- {{sourcePartCount}} -->
-  @for (partDatum of partData; track $index) {
-    <div class="part-img-container">
-      <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />
-      {{partDatum.count}}x
-      {{partDatum.part_num}}
-      Color: {{partDatum.color}}
-    </div>
-  }
+<div clas="container">
+  <p-toast />
+  <h1 class="partsTitle">Parts Used</h1>
+  <div class="cardContainer">
+    @if (partData.length === 0) {
+      <div id="load-indicator">
+        <p>Loading...</p>
+        <div class="loader"></div>
+      </div>
+    }
+    @else {
+      <!-- {{sourcePartCount}} -->
+      @for (partDatum of partData; track $index) {
+        <div class="part-img-container">
+          <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />
+          <div class="partscontainer">
+            <i class="pi pi-th-large" title="Click to copy the parts number" (click)="handleCopy(partDatum.part_num)"></i><p>{{partDatum.count}}x {{partDatum.part_num}}</p>
+          </div>
+          <div class="colorcontainer">
+            <i class="pi pi-palette" title="Click to copy the color"
+              [style.color]="getColorCode(partDatum.color)"
+              [style.backgroundColor]="brightenHexColor(getColorCode(partDatum.color), 200)"
+              [style.borderColor]="brightenHexColor(getColorCode(partDatum.color), 100)"
+              (click)="handleCopy(partDatum.color)"></i><p>{{partDatum.color}}</p>
+          </div>
+        </div>
+    }
+    }
+  </div>
+
   @if (sourcePartCount) {
     <div class="progress-bar-container">
       <div class="progress-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
     </div>
-    <div>
+    <div class="progress-bar-desc">
      {{ (100 * modelPartCount/sourcePartCount).toFixed(2) }}% of {{sourcePartCount}} source parts used.
     </div>
   }

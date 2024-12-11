@@ -1,14 +1,132 @@
+:root {
+  --yellow: #F9E400;
+  --dark-yellow: #dbc800;
+  --orange: #FF8000;
+  --red: #FF8080;
+  --blue: #279EFF;
+  --dark-blue: rgb(52, 111, 173);
+  --light-gray: #f8f8f8;
+  --dark-gray: #6b7280;
+  --black: #383838;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#load-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+
+#load-indicator p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--purple);
+  text-align: center;
+}
+
+.loader {
+  border: 0.25rem solid #c77b7b;
+  border-top: 0.25rem solid #FAFAFA;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.partsTitle {
+  font-size: 1.8rem;
+  color: var(--dark-gray);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Container of the parts cards */
+.cardContainer {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  grid-auto-rows: minmax(8rem, auto);
+}
+
+.part-img-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--light-gray);
+  transition: all 0.3s;
+}
+
+.part-img-container:hover {
+  border: 1px solid var(--yellow);
+}
+
+.partscontainer,
+.colorcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.partscontainer i,
+.colorcontainer i {
+  margin-right: 0.3rem;
+  font-size: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  background-color: var(--light-gray);
+  color: var(--dark-gray);
+  border: 1px solid var(--dark-gray);
+  transition: all 0.2s;
+}
+
+.partscontainer i:hover,
+.colorcontainer i:hover {
+  transform: scale(1.1);
+}
+
+.partscontainer p,
+.colorcontainer p {
+  font-size: 0.7rem;
+  color: var(--dark-gray);
+}
+
 .progress-bar-container {
-  background-color: gray;
-  border: 1px solid lightgray;
-  border-radius: 5px;
+  background-color: var(--light-gray);
+  border: 0.0625rem solid var(--light-gray);
+  border-radius: 0.3125rem;
   overflow: hidden;
-  height: 20px;
-  margin-top: 10px;
+  height: 1.25rem;
+  margin-top: 0.625rem;
+  transition: all 0.3s;
 }
 
 .progress-bar {
   height: 100%;
-  background-color: #76c7c0;
+  background-color: var(--yellow);
   width: 0;
+  transition: all 0.3s;
+}
+
+.progress-bar-desc {
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  margin-top: 0.2rem;
 }
