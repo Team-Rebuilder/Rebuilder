@@ -143,15 +143,30 @@ export class PartListComponent {
     const data = await response.json();
 
     // Really ugly AI-written code, may need to be refactored
-    const imageDict = data.results.reduce(
-      (dict: {[key: string]: string }, part: Part) => {
-        dict[part.part_num] = part.part_img_url;
-        return dict;
-      }, {});
+    const imageDict: { [key: string]: string } = {};
+
+    await Promise.all(partIds.map(async partId => {
+      const part = data.results.find((part: Part) => part.part_num === partId);
+      imageDict[partId] = part ? part.part_img_url : await this.getBackupImg(partId);
+    }));
+
     return imageDict;
   }
 
   isNumeric(str: string): boolean {
     return /^\d+$/.test(str);
+  }
+
+  // If Rebrickable API can't find the part normally, get it using Bricklink ID
+  async getBackupImg(partId: string): Promise<string> {
+    const url = `https://rebrickable.com/api/v3/lego/parts/?bricklink_id=`;
+    const response = await fetch(url + partId, {
+      headers: {
+        'Authorization': `key ${rebrickableKey}`
+      }
+    });
+    const data = await response.json();
+
+    return data.results[0].part_img_url;
   }
 }
