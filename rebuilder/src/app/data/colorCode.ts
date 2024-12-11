@@ -95,7 +95,7 @@ export const colorMap: { [key: string]: string } = {
   "Pink": "#F5CDD6",
   "Light Pink": "#F2D3D1",
   "Trans-Clear": "#EEEEEE",
-  "Trans-Brown (Old Trans-Black)": "#939484",
+  "Trans-Brown": "#939484",
   "Trans-Black (2023)": "#777777",
   "Trans-Red": "#9C0010",
   "Trans-Neon Orange": "#FF4231",
