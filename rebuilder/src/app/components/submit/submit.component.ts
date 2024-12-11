@@ -66,7 +66,7 @@ export class SubmitComponent {
       sourceSets: new FormArray([new FromGroup('', Validators.required)]),
       imageFile: new FromGroup('', Validators.required),
       instructionFile: new FromGroup('', Validators.required),
-      partsListFile: new FromGroup(''),
+      partsListFile: new FromGroup('', Validators.required),
       threemodelFile: new FromGroup(''),
     });
 
@@ -304,7 +304,8 @@ export class SubmitComponent {
       (this.SubmitForm.get('description')?.valid ?? false) &&
       this.sourceSets.controls.every((sourceControl) => sourceControl.valid) &&
       (this.uploadedImages.length > 0) &&  // At least one image is required
-      (this.uploadedPDFs.length > 0)       // At least one PDF is required
+      (this.uploadedPDFs.length > 0) &&    // At least one PDF is required
+      (this.uploadedCSVs.length > 0) &&    // At least one CSV is required
     );
   }
 
