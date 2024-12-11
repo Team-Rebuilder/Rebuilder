@@ -29,10 +29,10 @@
   </div>
 
   @if (sourcePartCount) {
-    <div class="progress-bar-container">
-      <div class="progress-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
+    <div class="percent-bar-container">
+      <div class="percent-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
     </div>
-    <div class="progress-bar-desc">
+    <div class="percent-bar-desc">
      {{ (100 * modelPartCount/sourcePartCount).toFixed(2) }}% of {{sourcePartCount}} source parts used.
     </div>
   }

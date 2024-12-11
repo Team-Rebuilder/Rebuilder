@@ -132,7 +132,7 @@
   border-radius: 0.5rem;
 }
 
-.progress-bar-container {
+.percent-bar-container {
   background-color: var(--light-gray);
   border: 0.0625rem solid var(--light-gray);
   border-radius: 0.3125rem;
@@ -142,14 +142,14 @@
   transition: all 0.3s;
 }
 
-.progress-bar {
+.percent-bar {
   height: 100%;
   background-color: var(--yellow);
   width: 0;
   transition: all 0.3s;
 }
 
-.progress-bar-desc {
+.percent-bar-desc {
   font-size: 0.9rem;
   color: var(--dark-gray);
   margin-top: 0.2rem;
