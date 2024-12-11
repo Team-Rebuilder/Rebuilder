@@ -305,7 +305,7 @@ export class SubmitComponent {
       this.sourceSets.controls.every((sourceControl) => sourceControl.valid) &&
       (this.uploadedImages.length > 0) &&  // At least one image is required
       (this.uploadedPDFs.length > 0) &&    // At least one PDF is required
-      (this.uploadedCSVs.length > 0) &&    // At least one CSV is required
+      (this.uploadedCSVs.length > 0)       // At least one CSV is required
     );
   }
 
