@@ -34,11 +34,14 @@
   </div>
 
   @if (sourcePartCount) {
-    <div class="percent-bar-container">
-      <div class="percent-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
-    </div>
-    <div class="percent-bar-desc">
-     {{ (100 * modelPartCount/sourcePartCount).toFixed(2) }}% of {{sourcePartCount}} source parts used.
+    <div class="calcContainer">
+      <!-- <div class="percent-bar-container">
+        <div class="percent-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
+      </div> -->
+      <p-progressBar [value]="((modelPartCount / sourcePartCount) * 100).toFixed(2)" />
+      <div class="percent-bar-desc">
+       {{ (100 * modelPartCount/sourcePartCount).toFixed(2) }}% of {{sourcePartCount}} source parts used.
+      </div>
     </div>
   }
 </div>

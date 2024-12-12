@@ -2,6 +2,7 @@ import { Component, input, inject } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
+import { ProgressBarModule } from 'primeng/progressbar';
 import * as Papa from 'papaparse';
 import { rebrickableKey } from '../../credentials';
 import { ModelsService } from '../../services/models.service';
@@ -27,7 +28,8 @@ interface Image {
   standalone: true,
   imports: [
     ToastModule,
-    SkeletonModule
+    SkeletonModule,
+    ProgressBarModule
   ],
   templateUrl: './part-list.component.html',
   styleUrl: './part-list.component.css'

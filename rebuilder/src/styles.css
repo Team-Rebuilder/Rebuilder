@@ -150,4 +150,12 @@ p-galleriaitemslot {
   height: 2.5rem;
 }
 
+.p-progressbar .p-progressbar-value {
+  background-color: var(--yellow);
+}
+
+.p-progressbar .p-progressbar-label {
+  color: var(--black);
+}
+
 /* ==================================================== */
