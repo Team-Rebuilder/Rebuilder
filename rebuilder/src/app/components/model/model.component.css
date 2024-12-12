@@ -151,13 +151,6 @@
   color: var(--light-gray);
 }
 
-.chipContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  align-items: center;
-}
-
 .descContainer {
   display: flex;
   flex-direction: row;
@@ -193,12 +186,15 @@
 .sourceChipContainer {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: center;
   align-items: center;
   list-style-type: none;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding-block: 0.5rem;
+  padding-inline: 5rem;
+  max-width: 100%;
 }
 
 .sourceChip {
