@@ -52,12 +52,6 @@
   }
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
 .partsTitle {
   font-size: 1.8rem;
   color: var(--dark-gray);
@@ -153,4 +147,5 @@
   font-size: 0.9rem;
   color: var(--dark-gray);
   margin-top: 0.2rem;
+  text-align: center;
 }
