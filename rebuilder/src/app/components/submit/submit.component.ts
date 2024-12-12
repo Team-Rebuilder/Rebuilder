@@ -326,6 +326,7 @@ export class SubmitComponent {
     this.uploadedPDFs = [];
     this.uploadedCSVs = [];
     this.uploadedMPDs = [];
+    this.SubmitForm.setControl('sourceSets', new FormArray([new FromGroup('', Validators.required)]));
 
     // Show a success message
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
