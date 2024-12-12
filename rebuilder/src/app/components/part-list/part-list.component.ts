@@ -93,56 +93,6 @@ export class PartListComponent {
     return columnData;
   }
 
-  /* Standardize given Bricklink part ID to Rebrickable ID
-   */
-  async standardizePartId(partId: string): Promise<string> {
-    // If part ID is already numeric, it will match the API ID
-    if (this.isNumeric(partId)) {
-      return partId;
-    }
-
-    const url = `https://rebrickable.com/api/v3/lego/parts/?bricklink_id=`;
-
-    // Standardize any print headers in the ID
-    const stdId1 = partId.replace(/bpb/g, 'pb');
-
-    // Remove leading zero from print headers in the ID
-    const stdId2 = stdId1.replace(/(\d+)(?!.*\d)/, '0$1');
-
-    // Make an initial fetch request to url + stdId1
-    try {
-      let response = await fetch(url + stdId1, {
-        headers: {
-            'Authorization': `key ${rebrickableKey}`
-          }
-      });
-      let data = await response.json();
-      // Try finding Rebrickable ID entry using stdId1 (with standardized header)
-      try {
-        const stdPartId = data.results[0].part_num;
-        return stdPartId;
-      } catch (error) {
-        // Make a second fetch request to url + stdId2 if the first one fails
-        response = await fetch(url + stdId2, {
-          headers: {
-            'Authorization': `key ${rebrickableKey}`
-          }
-        });
-        data = await response.json();
-        // Try finding Rebrickable ID entry using stId2 (removing leading zero)
-        try {
-          const stdPartId = data.results[0].part_num;
-          return stdPartId;
-        } catch (error) {
-          const numericPortions = partId.match(/\d+/);
-          return numericPortions ? numericPortions[0] : partId;
-        }
-      }
-    } catch (error) {
-      throw new Error(`Error fetching part data: ${error}`);
-    }
-  }
-
   async getPartImages(partIds: string[]): Promise<{ [key: string]: string }> {
     const url = `https://rebrickable.com/api/v3/lego/parts/?part_nums=`;
     const response = await fetch(url + partIds.join(','), {
