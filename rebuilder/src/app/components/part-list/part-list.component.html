@@ -1,6 +1,5 @@
 <div>
   <p-toast />
-  <h1 class="partsTitle">Parts Used</h1>
   <div class="cardContainer">
     @if (partData.length === 0) {
       @for (i of [1,2,3,4,5]; track i) {
@@ -38,7 +37,9 @@
       <!-- <div class="percent-bar-container">
         <div class="percent-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
       </div> -->
-      <p-progressBar [value]="((modelPartCount / sourcePartCount) * 100).toFixed(2)" />
+      <p-progressBar [value]="((modelPartCount / sourcePartCount) * 100).toFixed(2)">
+        <ng-template pTemplate="content"/>
+      </p-progressBar>
       <div class="percent-bar-desc">
        {{ (100 * modelPartCount/sourcePartCount).toFixed(2) }}% of {{sourcePartCount}} source parts used.
       </div>

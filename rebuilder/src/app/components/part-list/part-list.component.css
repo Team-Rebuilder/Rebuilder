@@ -52,14 +52,6 @@
   }
 }
 
-.partsTitle {
-  font-size: 1.8rem;
-  color: var(--dark-gray);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
 /* Container of the parts cards */
 .cardContainer {
   display: grid;
@@ -124,23 +116,6 @@
   background-color: var(--light-gray);
   padding: 0.2rem 0.4rem;
   border-radius: 0.5rem;
-}
-
-.percent-bar-container {
-  background-color: var(--light-gray);
-  border: 0.0625rem solid var(--light-gray);
-  border-radius: 0.3125rem;
-  overflow: hidden;
-  height: 1.25rem;
-  margin-top: 0.625rem;
-  transition: all 0.3s;
-}
-
-.percent-bar {
-  height: 100%;
-  background-color: var(--yellow);
-  width: 0;
-  transition: all 0.3s;
 }
 
 .percent-bar-desc {
