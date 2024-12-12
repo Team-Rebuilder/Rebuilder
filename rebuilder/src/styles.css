@@ -168,6 +168,24 @@ p-skeleton {
 
 @media (max-width: 900px) {
   p-skeleton {
+    width: 30rem;
+  }
+}
+
+@media (max-width: 600px) {
+  p-skeleton {
+    width: 20rem;
+  }
+}
+
+@media (max-width: 460px) {
+  p-skeleton {
+    width: 15rem;
+  }
+}
+
+@media (max-width: 300px) {
+  p-skeleton {
     width: 100%;
   }
 }
