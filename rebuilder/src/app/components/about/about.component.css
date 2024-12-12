@@ -139,6 +139,45 @@
   margin-bottom: 4rem;
 }
 
+.techChipContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  border-radius: 0.5rem;
+  padding-block: 0.5rem;
+  padding-inline: 5rem;
+  max-width: 100%;
+}
+
+.techChip {
+  background-color: var(--light-gray);
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: 300;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.techChip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.1);
+}
+
+.imgContainer img {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin-top: 1rem;
+}
+
 .members-container {
   display: grid;
   flex-direction: column;
