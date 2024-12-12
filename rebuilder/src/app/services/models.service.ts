@@ -21,7 +21,7 @@ import {
   Timestamp,
   getDoc
 } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
+import { Storage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -144,9 +144,37 @@ export class ModelsService {
     return modelSnap.data() as Model;
   }
 
+  private async deleteFileFromStorage(fileUrl: string) {
+    try {
+      const fileRef = ref(this.storage, fileUrl);
+      await deleteObject(fileRef);
+    } catch (error) {
+      console.error(`Error deleting file: ${fileUrl}`, error);
+    }
+  }
+
   // Delete a model
   deleteModel = async (id: string) => {
-    const modelRef = doc(this.firestore, 'models', id);
-    await deleteDoc(modelRef);
+    try {
+      // First, delete the files from storage
+      const model = await this.getModelById(id);
+
+      // Collect all URLs
+      const allUrls = [
+        ...(model.imageUrls || []),
+        ...(model.partsListUrls || []),
+        ...(model.instructionUrls || []),
+        ...(model.threemodelUrls || [])
+      ];
+
+      // Delete all files
+      await Promise.all(allUrls.map(url => this.deleteFileFromStorage(url)));
+
+      // Delete the model document from the database
+      const modelRef = doc(this.firestore, 'models', id);
+      await deleteDoc(modelRef);
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
   }
 }
