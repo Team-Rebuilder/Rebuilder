@@ -49,7 +49,7 @@ export class ModelsComponent {
     if (this.searchTerm.trim() !== '') {
       this.modelsService.models$.subscribe(models => {
         this.filteredModels = models.filter(
-          (model: any) => model.category.toLowerCase().includes(this.searchTerm.toLowerCase())
+          (model: any) => model.category.toLowerCase().startsWith(this.searchTerm.toLowerCase())
         );
       });
       console.log("model is being filtered");
