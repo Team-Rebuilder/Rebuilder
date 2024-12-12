@@ -43,13 +43,20 @@ export class ModelsComponent {
     }
   }
 
+  // Helper function to normalize text by removing diacritics
+  // Written by Copilot Edits
+  private normalizeText(text: string): string {
+    return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
   // Filter models based on search term
   // Written with the help of AI
   handleSearchChange() {
     if (this.searchTerm.trim() !== '') {
       this.modelsService.models$.subscribe(models => {
+        const normalizedSearch = this.normalizeText(this.searchTerm.toLowerCase());
         this.filteredModels = models.filter(
-          (model: any) => model.category.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+          (model: any) => this.normalizeText(model.category.toLowerCase()).startsWith(normalizedSearch)
         );
       });
       console.log("model is being filtered");
