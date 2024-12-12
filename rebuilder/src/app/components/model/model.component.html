@@ -51,9 +51,9 @@
     <section class="descContainer">
       <p class="mdesc-text" title="Model Descriptions">{{ currModel$?.description }}</p>
     </section>
-    <section class="sourcesets">
+    <section>
       <h1 class="sourceTitle">
-        Source Sets
+        Source Set{{ sourceSets.length > 1 ? 's' : '' }}
       </h1>
       <ul class="sourceChipContainer">
         @for (sourceSet of sourceSets; track $index ) {

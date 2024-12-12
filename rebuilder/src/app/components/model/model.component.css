@@ -126,7 +126,7 @@
   display: flex;
   flex-direction: row;
   margin: 1rem 0;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   padding: 1rem 0.6rem;
   width: 100%;
   border-radius: 0.5rem;
@@ -147,29 +147,22 @@
 .sourceTitle {
   font-size: 1.8rem;
   color: var(--dark-gray);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
   text-align: center;
-}
-
-.sourcesets {
-  margin-bottom: 4rem;
 }
 
 .sourceChipContainer {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   list-style-type: none;
-  background-color: var(--light-gray);
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
 
 .sourceChip {
-  background-color: #ffffff;
+  background-color: var(--light-gray);
   padding: 0.3rem 0.6rem;
   border-radius: 1rem;
   font-size: 0.9rem;
