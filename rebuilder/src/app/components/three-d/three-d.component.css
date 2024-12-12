@@ -21,6 +21,10 @@ canvas {
   z-index: -9999;
 }
 
+.loaded {
+  display: block;
+}
+
 #load-indicator {
   display: flex;
   width: 100vw;

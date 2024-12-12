@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, input, viewChild } from '@angular/core';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -5,6 +6,7 @@ import { LDrawLoader } from 'three/examples/jsm/loaders/LDrawLoader.js';
 import { LDrawConditionalLineMaterial } from 'three/examples/jsm/materials/LDrawConditionalLineMaterial.js';
 
 @Component({
+  imports: [NgClass],
   selector: 'app-three-d',
   standalone: true,
   templateUrl: './three-d.component.html',
