@@ -3,10 +3,17 @@
   <h1 class="partsTitle">Parts Used</h1>
   <div class="cardContainer">
     @if (partData.length === 0) {
-      <div id="load-indicator">
-        <p>Loading...</p>
-        <div class="loader"></div>
-      </div>
+      @for (i of [1,2,3,4,5]; track i) {
+        <div class="part-img-container">
+          <p-skeleton width="3rem" height="3rem" />
+          <div class="partscontainer">
+            <p-skeleton width="4rem" height="0.9rem" borderRadius="1rem" />
+          </div>
+          <div class="colorcontainer">
+            <p-skeleton width="5rem" height="1rem" borderRadius="1rem" />
+          </div>
+        </div>
+      }
     }
     @else {
       @for (partDatum of partData; track $index) {

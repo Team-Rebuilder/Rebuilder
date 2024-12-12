@@ -1,5 +1,6 @@
 import { Component, input, inject } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
+import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
 import * as Papa from 'papaparse';
 import { rebrickableKey } from '../../credentials';
@@ -25,7 +26,8 @@ interface Image {
   selector: 'app-part-list',
   standalone: true,
   imports: [
-    ToastModule
+    ToastModule,
+    SkeletonModule
   ],
   templateUrl: './part-list.component.html',
   styleUrl: './part-list.component.css'

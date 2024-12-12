@@ -19,9 +19,28 @@
 </header>
 
 @if (filteredModels.length === 0 && searchTerm.length === 0) {
-  <div id="load-indicator">
-    <p>Loading... </p>
-    <div class="loader"></div>
+  <div class="card-container">
+    <!-- Create 3 skeleton card when loading -->
+    @for (i of [1,2,3]; track i) {
+      <p-card
+        [style]="{
+          width: '20rem',
+          borderRadius: '1rem',
+          boxShadow: 'none',
+        }">
+        <ng-template pTemplate="header">
+          <p-skeleton width="100%" height="15rem" />
+        </ng-template>
+        <ng-template pTemplate="content">
+          <p-skeleton width="7rem" height="2rem" borderRadius="1rem" [style]="{marginBottom: '0.5rem'}"/>
+          <p-skeleton width="3rem" height="1rem" borderRadius="1rem" />
+          <div class="skeleton-tag">
+            <p-skeleton width="3rem" height="1.6rem" borderRadius="1rem" />
+            <p-skeleton width="3rem" height="1.6rem" borderRadius="1rem" />
+          </div>
+        </ng-template>
+      </p-card>
+    }
   </div>
 }
 @else if (searchTerm.length > 0 && filteredModels.length === 0) {

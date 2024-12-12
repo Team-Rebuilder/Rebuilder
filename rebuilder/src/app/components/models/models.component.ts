@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { SkeletonModule } from 'primeng/skeleton';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { HomeComponent } from '../homenavbar/home.component';
 import { ModelsService } from '../../services/models.service';
@@ -21,6 +22,7 @@ import { ModelsService } from '../../services/models.service';
     CardModule,
     ButtonModule,
     TagModule,
+    SkeletonModule,
     ScrollTopModule
   ],
   templateUrl: './models.component.html',

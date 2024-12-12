@@ -241,6 +241,13 @@ img {
   background-color: #f3f3f3;
 }
 
+.skeleton-tag {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
 .tagContainer {
   margin-top: 1rem;
   display: flex;

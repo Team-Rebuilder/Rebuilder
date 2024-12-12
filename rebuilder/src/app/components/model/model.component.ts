@@ -4,6 +4,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { SkeletonModule } from 'primeng/skeleton';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { ModelnavbarComponent } from '../modelnavbar/modelnavbar.component';
 import { PartListComponent } from '../part-list/part-list.component';
@@ -27,6 +28,7 @@ interface Set {
     GalleriaModule,
     ToastModule,
     TagModule,
+    SkeletonModule,
     ScrollTopModule
   ],
   templateUrl: './model.component.html',
@@ -107,8 +109,15 @@ export class ModelComponent {
     try {
       // Confirm deletion
       if (!confirm('Are you sure you want to delete this model?')) {
-      return;
+        return;
       }
+
+      // Double check user's authorization
+      if (this.currModel$?.uid !== this.modelService.currentUser?.uid) {
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'You are not authorized to delete this model'});
+        return;
+      }
+
       // Temporarily store the model name
       this.tempModelname = this.currModel$.title;
 

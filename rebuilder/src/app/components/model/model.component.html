@@ -4,7 +4,15 @@
   <p-toast />
   <div class="documentContainer">
     <section class="metatext-container">
-      <h1 class="mtitle" title="Model Title">{{ currModel$?.title.toUpperCase() }}</h1>
+      <h1 class="mtitle" title="Model Title">
+        @if (!currModel$?.title) {
+          <p-skeleton width="4rem" height="1.6rem" borderRadius="1rem" />
+        }
+        @else {
+          {{ currModel$?.title.toUpperCase() }}
+        }
+      </h1>
+
       <div class="user-and-date">
         <p class="muser">
           <!-- Conditionally render the user profile picture if the user exists -->
@@ -14,13 +22,31 @@
           @else {
             <i title="Anonymous User" class="pi pi-user" style="font-size: 1rem"></i>
           }
-          {{ currModel$?.userName }}
+          @if (!currModel$?.userName) {
+            <p-skeleton width="3rem" height="1.2rem" borderRadius="1rem" />
+          }
+          @else {
+            {{ currModel$?.userName }}
+          }
         </p>
-        <p class="muser">{{ currModel$?.timestamp.toDate() | date: "longDate" }}<i class="pi pi-calendar" style="font-size: 1rem"></i></p>
+        <p class="muser">
+          @if (!currModel$?.timestamp) {
+            <p-skeleton width="3rem" height="1.2rem" borderRadius="1rem" />
+          }
+          @else {
+            {{ currModel$?.timestamp.toDate() | date: "longDate" }}
+          }
+          <i class="pi pi-calendar" style="font-size: 1rem"></i>
+        </p>
       </div>
       <div class="tagContainer">
         <div class="chipContainer">
-          <p-tag [value]="currModel$?.category" icon="pi pi-bars" severity="info" [rounded]="true" />
+          @if (!currModel$?.category) {
+            <p-skeleton width="3rem" height="1.6rem" borderRadius="1rem" />
+          }
+          @else {
+            <p-tag [value]="currModel$?.category" icon="pi pi-bars" severity="info" [rounded]="true" />
+          }
           @if (currModel$?.threemodelUrls.length) {
             <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" />
           }
@@ -34,30 +60,45 @@
       </div>
     </section>
     <section class="card">
-      <p-galleria
-        [value]="currModel$?.imageUrls"
-        [numVisible]="5"
-        [circular]="true"
-        [showItemNavigators]="currModel$?.imageUrls.length > 1"
-        [showThumbnails]="false"
-        [showIndicators]="currModel$?.imageUrls.length > 1"
-        [responsiveOptions]="responsiveOptions"
-        [containerStyle]="containerStyle">
-        <ng-template pTemplate="item" let-item>
-          <img [src]="item" style="width: 100%; height: 26rem; object-fit: contain; display: block;" />
-        </ng-template>
-      </p-galleria>
+      @if (!currModel$?.imageUrls) {
+        <p-skeleton width="100%" height="26rem" />
+      }
+      @else {
+        <p-galleria
+          [value]="currModel$?.imageUrls"
+          [numVisible]="5"
+          [circular]="true"
+          [showItemNavigators]="currModel$?.imageUrls.length > 1"
+          [showThumbnails]="false"
+          [showIndicators]="currModel$?.imageUrls.length > 1"
+          [responsiveOptions]="responsiveOptions"
+          [containerStyle]="containerStyle">
+          <ng-template pTemplate="item" let-item>
+            <img [src]="item" style="width: 100%; height: 26rem; object-fit: contain; display: block;" />
+          </ng-template>
+        </p-galleria>
+      }
     </section>
     <section class="descContainer">
-      <p class="mdesc-text" title="Model Descriptions">{{ currModel$?.description }}</p>
+      @if (!currModel$?.description) {
+        <p-skeleton width="100%" height="1.6rem" borderRadius="1rem" />
+      }
+      @else {
+        <p class="mdesc-text" title="Model Descriptions">{{ currModel$?.description }}</p>
+      }
     </section>
     <section>
       <h1 class="sourceTitle">
         Source Set{{ sourceSets.length > 1 ? 's' : '' }}
       </h1>
       <ul class="sourceChipContainer">
-        @for (sourceSet of sourceSets; track $index ) {
-          <li class="sourceChip"><i class="pi pi-database"></i><a [href]="sourceSet.set_url" target="_blank" rel="noopener noreferrer">{{sourceSet.set_num}}</a></li>
+        @if (!sourceSets.length) {
+          <p-skeleton width="4rem" height="1.6rem" borderRadius="1rem" />
+        }
+        @else {
+          @for (sourceSet of sourceSets; track $index ) {
+            <li class="sourceChip"><i class="pi pi-database"></i><a [href]="sourceSet.set_url" target="_blank" rel="noopener noreferrer">{{sourceSet.set_num}}</a></li>
+          }
         }
       </ul>
     </section>
