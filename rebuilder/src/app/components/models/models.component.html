@@ -20,8 +20,8 @@
 
 @if (filteredModels.length === 0 && searchTerm.length === 0) {
   <div class="card-container">
-    <!-- Create 3 skeleton card when loading -->
-    @for (i of [1,2,3]; track i) {
+    <!-- Create 6 skeleton card when loading -->
+    @for (i of [1,2,3,4,5,6]; track i) {
       <p-card
         [style]="{
           width: '20rem',
