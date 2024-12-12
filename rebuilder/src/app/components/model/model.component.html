@@ -6,10 +6,10 @@
     @if (!currModel$) {
       <section class="skeletonContainer">
         <p-skeleton height="2rem" width="10rem" borderRadius="1rem"/>
-        <p-skeleton height="26rem" borderRadius="1rem" />
-        <p-skeleton height="8rem" borderRadius="1rem"/>
-        <p-skeleton height="2rem" borderRadius="1rem"/>
-        <p-skeleton height="2rem" borderRadius="1rem"/>
+        <div id="load-indicator" >
+          <p>Loading...</p>
+          <div class="loader"></div>
+        </div>
       </section>
     }
     @else {

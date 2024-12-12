@@ -29,7 +29,7 @@
           boxShadow: 'none',
         }">
         <ng-template pTemplate="header">
-          <p-skeleton width="100%" height="15rem" />
+          <p-skeleton width="100%" height="15rem" [style]="{'borderRadius': '1rem 1rem 0 0'}" />
         </ng-template>
         <ng-template pTemplate="content">
           <p-skeleton width="7rem" height="2rem" borderRadius="1rem" [style]="{marginBottom: '0.5rem'}"/>
@@ -69,8 +69,8 @@
         <img [alt]="model.title" [src]="model.imageUrls[0]" />
       </ng-template>
       <ng-template pTemplate="content">
-        <h3 class="model-title">{{ model.title }}</h3>
-        <p>{{ model.userName }}</p>
+        <h3 class="model-title">{{ model.title.length > 20 ? model.title.slice(0, 20) + '...' : model.title }}</h3>
+        <p>{{ model.userName.length > 20 ? model.userName.slice(0, 20) + '...' : model.userName }}</p>
         <div class="tagContainer">
           <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />
           @if (model.threemodelUrls.length) { <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" /> }

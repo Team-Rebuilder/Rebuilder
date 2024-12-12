@@ -158,36 +158,4 @@ p-galleriaitemslot {
   color: var(--black);
 }
 
-p-skeleton {
-  display: flex;
-  width: 47.5rem;
-  border-radius: 1rem;
-  justify-content: center;
-  align-items: center;
-}
-
-@media (max-width: 900px) {
-  p-skeleton {
-    width: 30rem;
-  }
-}
-
-@media (max-width: 600px) {
-  p-skeleton {
-    width: 20rem;
-  }
-}
-
-@media (max-width: 460px) {
-  p-skeleton {
-    width: 15rem;
-  }
-}
-
-@media (max-width: 300px) {
-  p-skeleton {
-    width: 100%;
-  }
-}
-
 /* ==================================================== */
