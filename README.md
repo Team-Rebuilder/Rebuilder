@@ -9,6 +9,7 @@
 ## To Run Locally
 
 - `git clone` the repository
+- You will need `credentials.ts` to run the app locally. Ask the developers for the file.
 - `cd rebuilder`
 - `npm install`
 - `ng serve -o`
