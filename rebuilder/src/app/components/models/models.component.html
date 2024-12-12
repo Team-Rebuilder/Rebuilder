@@ -20,7 +20,7 @@
 
 @if (filteredModels.length === 0 && searchTerm.length === 0) {
   <div class="card-container">
-    <!-- Create 6 skeleton card when loading -->
+    <!-- Create 6 skeleton card placeholders when loading -->
     @for (i of [1,2,3,4,5,6]; track i) {
       <p-card
         [style]="{
@@ -48,16 +48,14 @@
   <div class="notfoundContainer">
     <h1>¯\_(ツ)_/¯ No results found</h1>
     <button (click)="emptySearch()">
-      <div class="categoryIconWithButton">
-        <i class="pi pi-bars"></i>
-      </div>
-      <p>Try searching for another category</p>
+      <p>Back</p>
     </button>
   </div>
 }
 
 <div class="card-container">
   @for (model of filteredModels; track model.id) {
+    <!-- Click card to navigate to model -->
     <p-card
       [style]="{
         width: '20rem',
@@ -65,14 +63,19 @@
         boxShadow: 'none',
       }"
       (click)="navigateToDetails(model.id)">
+
       <ng-template pTemplate="header">
         <img [alt]="model.title" [src]="model.imageUrls[0]" />
       </ng-template>
+
       <ng-template pTemplate="content">
+        <!-- Truncate title & username if they're too long -->
         <h3 class="model-title">{{ model.title.length > 20 ? model.title.slice(0, 20) + '...' : model.title }}</h3>
         <p>{{ model.userName.length > 20 ? model.userName.slice(0, 20) + '...' : model.userName }}</p>
+
         <div class="tagContainer">
           <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />
+          <!-- Add tag indicating 3D model available to view if provided -->
           @if (model.threemodelUrls.length) { <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" /> }
         </div>
       </ng-template>

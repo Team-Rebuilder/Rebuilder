@@ -11,6 +11,7 @@
     </div>
   }
 
+  <!-- Sign-in Screen -->
   @if (!modelsService.currentUser && !usernameSet) {
     <!-- Username Input -->
     <div class="usernameContainer">
@@ -34,6 +35,7 @@
     </div>
   }
   @else if(formSubmitted) {
+    <!-- Submission confirmation screen -->
     <div class="welcomeContainer">
       <h1>Thank you for your submission!</h1>
       <p>Submit another model here!</p>
@@ -43,11 +45,11 @@
     </div>
   }
   @else {
+    <!-- Main form -->
     <div class="welcomeContainer">
       <h1>Welcome, {{ username }}!</h1>
       <p>Submit your model here!</p>
       <p class="smalltext"><strong>*</strong>Required</p>
-      <!-- <p-button label="Change Username" (click)="clearUsername()"></p-button> -->
     </div>
 
     <form [formGroup]="SubmitForm" (ngSubmit)="onSubmit()">
@@ -100,7 +102,7 @@
 
       <!-- Source Input -->
       <div class="inputContainer">
-        <label for="sourceSets">Source LEGO*<button type="button" id="checkButton" (click)="checkSetNumber()">Check Source</button></label>
+        <label for="sourceSets">Source LEGO*<button type="button" id="checkButton" (click)="checkInputSetNumbers()">Check Source</button></label>
         <div formArrayName="sourceSets">
           @for (sourceSet of sourceSets.controls; track sourceSet.value) {
             <div class="sourceInputContainer">

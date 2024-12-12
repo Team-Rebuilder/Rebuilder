@@ -6,6 +6,7 @@
 }
 
 canvas {
+  /* First four lines for centering the canvas */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -58,6 +59,7 @@ mat-slider {
   margin-inline: auto;
   top: 90vh;
   bottom: 2%;
+  /* Center the slider */
   left: 50%;
   transform: translate(-50%, 0%);
 }

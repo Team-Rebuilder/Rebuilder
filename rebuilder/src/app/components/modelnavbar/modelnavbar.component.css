@@ -15,6 +15,7 @@
   padding: 0;
 }
 
+/* Styling for navigational options */
 .options {
   background-color: var(--yellow);
   display: inline-flex;
@@ -63,25 +64,6 @@
   padding: 0;
 }
 
-.about {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  text-emphasis: none;
-}
-
-.about i {
-  background-color: var(--yellow);
-  transition: all 0.2s;
-  padding: 0.5rem;
-  border-radius: 50%;
-  color: var(--black);
-}
-
-.about i:hover {
-  background-color: var(--dark-yellow);
-}
-
 .iconContainer img {
   width: 2rem;
   height: 2rem;
@@ -114,4 +96,3 @@
   background-color: var(--red) !important;
   color: #ffffff !important;
 }
-

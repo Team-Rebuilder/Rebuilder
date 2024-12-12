@@ -52,7 +52,7 @@ export class ModelsService {
   private provider = new GoogleAuthProvider();
   router: Router = inject(Router);
 
-  // observable that is updated when the auth state changes
+  // Observable that is updated when the auth state changes
   user$ = user(this.auth);
   currentUser: User | null = this.auth.currentUser;
   userSubscription: Subscription;
@@ -144,6 +144,8 @@ export class ModelsService {
     return modelSnap.data() as Model;
   }
 
+  // Delete a file from storage
+  // Written with the help of AI
   private async deleteFileFromStorage(fileUrl: string) {
     try {
       const fileRef = ref(this.storage, fileUrl);

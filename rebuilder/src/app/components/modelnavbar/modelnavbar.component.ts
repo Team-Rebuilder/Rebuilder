@@ -38,7 +38,7 @@ export class ModelnavbarComponent {
     // Since getModelById returns a promise, we need to await it
     this.currModel$ = await this.modelsService.getModelById(this.id!);
 
-    // Conditionally display the 3D model tab
+    // Conditionally display the 3D model tab if 3D model present
     this.items = this.currModel$.threemodelUrls.length > 0 ?
     [
       { label: 'Details', icon: 'pi pi-bars', routerLink: ['../details'] },

@@ -17,6 +17,7 @@
   padding: 0;
 }
 
+/* Top-level container */
 .container {
   display: flex;
   flex-direction: column;
@@ -28,12 +29,14 @@
   margin: 0 auto;
 }
 
+/* Responsively size top-level container */
 @media (max-width: 900px) {
   .container {
     width: 90%;
   }
 }
 
+/* Styling for submission "Loading" dialog box */
 .loadingContainer {
   position: fixed;
   top: 35%;
@@ -62,6 +65,7 @@
   gap: 1rem;
 }
 
+/* Load indicator within the submission "Loading" dialog box */
 .loader {
   border: 0.25rem solid #c77b7b;
   border-top: 0.25rem solid #FAFAFA;
@@ -71,6 +75,7 @@
   animation: spin 1s ease-in-out infinite;
 }
 
+/* Animation for load indicator */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -159,6 +164,7 @@ input[type=checkbox]:focus {
   color: #989898;
 }
 
+/* Continuous color gradient for welcome message */
 @keyframes alternateTextColor {
   to {
     background-position: 200% center;
@@ -199,10 +205,10 @@ input.ng-valid.ng-touched {
 }
 
 input.ng-invalid.ng-touched, .invalid-touched {
-  /* border-color: #FF8A8A; */
   border-color: var(--red);
 }
 
+/* Styling for Description box textarea */
 textarea {
   border: 2px solid #efefef;
   border-radius: 0.5rem;
@@ -211,6 +217,7 @@ textarea {
   width: 42rem;
 }
 
+/* Responsively resize Description box */
 @media (max-width: 800px) {
   textarea {
     width: 100%;
@@ -218,12 +225,10 @@ textarea {
 }
 
 textarea.ng-valid.ng-touched {
-  /* border-color: #b7e0ff; */
   border-color: var(--yellow);
 }
 
 textarea.ng-invalid.ng-touched {
-  /* border-color: #FF8A8A; */
   border-color: var(--red);
 }
 

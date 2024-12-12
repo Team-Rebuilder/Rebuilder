@@ -4,6 +4,7 @@
   <p-toast />
   <div class="documentContainer">
     @if (!currModel$) {
+      <!-- skeletonContainer substitutes placeholders while loading -->
       <section class="skeletonContainer">
         <p-skeleton height="2rem" width="10rem" borderRadius="1rem"/>
         <div id="load-indicator" >
@@ -34,6 +35,7 @@
             <i class="pi pi-calendar" style="font-size: 1rem"></i>
           </p>
         </div>
+
         <div class="tagContainer">
           <div class="chipContainer">
             <p-tag [value]="currModel$?.category" icon="pi pi-bars" severity="info" [rounded]="true" />
@@ -52,13 +54,12 @@
       <section class="card">
         <p-galleria
           [value]="currModel$?.imageUrls"
-          [numVisible]="5"
           [circular]="true"
           [showItemNavigators]="currModel$?.imageUrls.length > 1"
           [showThumbnails]="false"
           [showIndicators]="currModel$?.imageUrls.length > 1"
-          [responsiveOptions]="responsiveOptions"
           [containerStyle]="containerStyle">
+          <!-- Boilerplate from PrimeNG example -->
           <ng-template pTemplate="item" let-item>
             <img [src]="item" style="width: 100%; height: 26rem; object-fit: contain; display: block;" />
           </ng-template>

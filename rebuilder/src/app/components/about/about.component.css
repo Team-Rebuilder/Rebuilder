@@ -26,6 +26,7 @@
   margin: 0 auto;
 }
 
+/* Responsively set the width of the top-level container */
 @media (max-width: 900px) {
   .container {
     width: 90%;
@@ -73,6 +74,8 @@
   padding: 0;
 }
 
+/* Animation for the text to change the color over continuous gradient */
+/* https: //github.com/AIToolsLab/writing-tools/blob/main/add-in/src/static/styles.css#L146 */
 @keyframes alternateTextColor {
   to {
     background-position: 200% center;
@@ -90,6 +93,7 @@
   animation: funAnimation 4s infinite;
 }
 
+/* Incrementally spin and resize the logo */
 @keyframes funAnimation {
   0% {
     transform: rotate(0deg) scale(1);
@@ -133,6 +137,15 @@
   margin-bottom: 1rem;
   line-height: 1.6;
   color: #454545;
+}
+
+/* Styling for features p in main-article */
+.features {
+  background-color: var(--light-gray);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.9rem !important;
+  font-weight: 400;
 }
 
 .article-section {
@@ -188,7 +201,7 @@
   position: relative;
 }
 
-/* Responsive Design */
+/* Responsively stack cards when window is too narrow */
 @media (max-width: 768px) {
   .members-container {
     grid-template-columns: repeat(1, 1fr);
@@ -280,12 +293,4 @@ footer {
 
 .iconContainer a:hover {
   color: #bec772;
-}
-
-.features {
-  background-color: var(--light-gray);
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  font-size: 0.9rem !important;
-  font-weight: 400;
 }

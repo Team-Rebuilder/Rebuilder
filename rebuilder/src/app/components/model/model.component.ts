@@ -49,28 +49,13 @@ export class ModelComponent {
     await this.populateSourceSets();
   }
 
-  // Responsive options for the galleria
-  responsiveOptions: any[] = [
-    {
-      breakpoint: '1024px',
-      numVisible: 5
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 3
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1
-    }
-  ];
-
   // Responsive Container Style
   containerStyle: any = {
     'width': '90vmin',
     'text-align': 'center'
   };
 
+  // Get the Rebrickable set page URL for a given set number
   async getSetUrl(setNumber: number): Promise<string> {
     const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
       headers: {
@@ -91,7 +76,7 @@ export class ModelComponent {
     const setNumbers = this.currModel$.sourceSets;
 
     for (const setNumber of setNumbers) {
-      // Check if the set already exists in sourceSets
+      // For each set object, check if its set_num matches the current setNumber
       const existingSet = this.sourceSets.find(set => set.set_num === setNumber);
       if (existingSet) {
         // Duplicate the existing entry

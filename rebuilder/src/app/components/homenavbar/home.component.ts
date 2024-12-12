@@ -22,6 +22,7 @@ export class HomeComponent {
   activeItem: MenuItem | undefined;
   modelsService = inject(ModelsService);
 
+  // Adapted from PrimeNG template
   constructor() {
     this.items = [
       { label: 'MODELS', icon: 'pi pi-th-large', routerLink: ['/models'] },

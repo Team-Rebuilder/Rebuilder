@@ -18,7 +18,8 @@ export class AboutComponent {
     this.scrollToTop(100, 'smooth');
   }
 
-  // Function to  scroll to the top of the page
+  // Function to scroll to the top of the page since navigation starts at the bottom
+  // interval: time in milliseconds to wait before scrolling
   scrollToTop(interval: number, behavior: ScrollBehavior = 'smooth') {
     setTimeout(() => {
       // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo

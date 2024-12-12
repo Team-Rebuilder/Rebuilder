@@ -5,12 +5,12 @@
     <button id="prev" class="nav-button" (click)="previousPage()" [disabled]="currentPage === 1">
       <i class="pi pi-arrow-circle-left"></i>
     </button>
-    <canvas #canvas></canvas>
+    <canvas #pdfCanvas></canvas>
     <button id="next" class="nav-button" (click)="nextPage()" [disabled]="currentPage === pageCount">
       <i class="pi pi-arrow-circle-right"></i>
     </button>
   </div>
-  
+
   <div id="slider">
     <mat-slider min="1" max="{{pageCount}}" step="1" discrete>
       <input matSliderThumb [(ngModel)]="currentPage" (keydown)="doNothing($event)">

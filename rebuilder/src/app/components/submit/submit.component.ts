@@ -35,7 +35,6 @@ type CSVRow = string[];
     NgClass
   ],
   providers: [MessageService],
-  // encapsulation: ViewEncapsulation.None,
   templateUrl: './submit.component.html',
   styleUrl: './submit.component.css'
 })
@@ -65,6 +64,7 @@ export class SubmitComponent {
       title: new FromGroup('', Validators.required),
       category: new FromGroup('', Validators.required),
       description: new FromGroup('', Validators.required),
+      // Dynamic pushable/poppable list of source set inputs in the form
       sourceSets: new FormArray([new FromGroup('', Validators.required)]),
       imageFile: new FromGroup('', Validators.required),
       instructionFile: new FromGroup('', Validators.required),
@@ -117,6 +117,8 @@ export class SubmitComponent {
     });
   }
 
+  // Functions for dynamic source set inputs written with assistance from Copilot
+
   createSourceGroup(): FromGroup {
     return new FromGroup('', Validators.required);
   }
@@ -126,6 +128,7 @@ export class SubmitComponent {
   }
 
   addSource(): void {
+    // When user adds new source set, mark all prior source inputs as touched
     for (const control of this.sourceSets.controls) {
       control.markAsTouched();
     }
@@ -136,7 +139,7 @@ export class SubmitComponent {
     this.sourceSets.removeAt(index);
   }
 
-  // Handle temporary file uploads
+  // Handle temporary file uploads; written with assistance from Copilot
   onFilesSelected(event: any, fileType: string) {
     const files = event.target.files;
 
@@ -210,7 +213,7 @@ export class SubmitComponent {
     }
   }
 
-  // Handle file removal
+  // Handle file removal; written with assistance from Copilot
   onFileRemove(file: any, fileType: string) {
     switch (fileType) {
       case 'image':
@@ -235,14 +238,17 @@ export class SubmitComponent {
     }
 
     // Check the set number
-    await this.checkSetNumber();
+    await this.checkInputSetNumbers();
     if (this.isSetNumberValidCount > 0) {
       // Show an error message
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number(s)! Number needs to be valid before submission.' });
       return;
     }
 
-    // Calculate source set(s') part count
+    // Set the loading state
+    this.isLoading = true;
+
+    // Calculate source set(s') part count using Rebrickable API
     let sourcePartCount = 0;
     for (let i = 0; i < this.sourceSets.length; i++) {
       try {
@@ -252,9 +258,7 @@ export class SubmitComponent {
       }
     }
 
-    // Set the loading state
-    this.isLoading = true;
-
+    // Standardize non-numeric Bricklink part IDs in CSV file
     this.processCSV(this.uploadedCSVs[0]);
 
     try {
@@ -328,13 +332,17 @@ export class SubmitComponent {
     this.uploadedPDFs = [];
     this.uploadedCSVs = [];
     this.uploadedMPDs = [];
-    this.SubmitForm.setControl('sourceSets', new FormArray([new FromGroup('', Validators.required)]));
+    // Reset to a single new source set input
+    this.SubmitForm.setControl(
+      'sourceSets',
+      new FormArray([new FromGroup('', Validators.required)])
+    );
 
     // Show a success message
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
   }
 
-  // Check if the set number is valid
+  // Check if a set number is valid using Rebrickable API
   async isSetNumber(number: number): Promise<boolean> {
     const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${number}-1/`, {
       headers: {
@@ -353,8 +361,8 @@ export class SubmitComponent {
     return true;
   }
 
-  // Check if the set number is valid
-  async checkSetNumber(): Promise<void> {
+  // Check if the form set numbers are valid
+  async checkInputSetNumbers(): Promise<void> {
     // First, reset the count
     this.isSetNumberValidCount = 0;
 
@@ -376,7 +384,7 @@ export class SubmitComponent {
         return;
       }
 
-      // // If each of the set number is not a number, show an error message
+      // If any of the set number is not a number, show an error message
       let isNotNumber = true;
       for (let i = 0; i < setNumFrom!.length; i++) {
         if (!isNaN(setNumFrom!.at(i)?.value)) {
@@ -411,6 +419,7 @@ export class SubmitComponent {
     }
   }
 
+  // Get the part count of a set for a given set number using Rebrickable API
   async getPartCount(setNumber: number): Promise<number> {
     const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
       headers: {
@@ -426,17 +435,18 @@ export class SubmitComponent {
     return data.num_parts;
   }
 
-  // Substitute non-standard part IDs in CSV file with Rebrickable IDs
+  // Swap non-standard part IDs in CSV file (usually prints) with Rebrickable IDs
   // Written with assistance from Copilot
   async processCSV(file: File) {
     Papa.parse(file, {
       complete: async (result) => {
         const data = result.data as CSVRow[];
-        const columnIndex = 2; // Ldraw column
+        const lDrawColumn = 2; // LDraw column in Bricklink CSV export
 
+        // For each row in the CSV, standardize the LDraw part ID
         const standardizedCSV = await Promise.all(
           data.map(async (row: CSVRow) => {
-            row[columnIndex] = await this.standardizePartId(row[columnIndex] || '');
+            row[lDrawColumn] = await this.standardizePartId(row[lDrawColumn] || '');
             return row;
           })
         );
@@ -449,11 +459,10 @@ export class SubmitComponent {
     });
   }
 
-  /* Standardize given Bricklink part ID to Rebrickable ID
-   */
+  // Standardize a given non-numeric Bricklink part ID to Rebrickable ID
   async standardizePartId(partId: string): Promise<string> {
-    // If part ID is already numeric, it will match the API ID
-    if (this.isNumeric(partId)) {
+    // If part ID is already numeric, nothing to be done
+    if (!isNaN(+partId)) {
       return partId;
     }
 
@@ -465,7 +474,7 @@ export class SubmitComponent {
     // Remove leading zero from print headers in the ID
     const stdId2 = stdId1.replace(/(\d+)(?!.*\d)/, '0$1');
 
-    // Make an initial fetch request to url + stdId1
+    // Make an initial part fetch request using stdId1
     try {
       let response = await fetch(url + stdId1, {
         headers: {
@@ -478,7 +487,7 @@ export class SubmitComponent {
         const stdPartId = data.results[0].part_num;
         return stdPartId;
       } catch (error) {
-        // Make a second fetch request to url + stdId2 if the first one fails
+        // Make a second part fetch using stdId2 if the first one fails
         response = await fetch(url + stdId2, {
           headers: {
             'Authorization': `key ${rebrickableKey}`
@@ -497,9 +506,5 @@ export class SubmitComponent {
     } catch (error) {
       throw new Error(`Error fetching part data: ${error}`);
     }
-  }
-
-  isNumeric(str: string): boolean {
-    return /^\d+$/.test(str);
   }
 }

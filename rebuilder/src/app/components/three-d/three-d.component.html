@@ -9,5 +9,7 @@
     <div class="loader"></div>
   </div>
 }
-<canvas #canvas [ngClass]="{loaded: loadComplete}"></canvas>
+@else {
+  <canvas id="canvas"></canvas>
+}
 

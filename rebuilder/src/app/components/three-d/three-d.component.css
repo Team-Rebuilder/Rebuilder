@@ -11,6 +11,7 @@
   --black: #383838;
 }
 
+/* To contain the 3D render of the model */
 canvas {
   width: 100%;
   height: 100%;
@@ -18,10 +19,6 @@ canvas {
   position: fixed;
   top: 0;
   z-index: -9999;
-}
-
-.loaded {
-  display: block;
 }
 
 #load-indicator {

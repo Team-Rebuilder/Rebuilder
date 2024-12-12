@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, ElementRef, input, viewChild } from '@angular/core';
 import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -8,7 +7,6 @@ import { LDrawConditionalLineMaterial } from 'three/examples/jsm/materials/LDraw
 @Component({
   selector: 'app-three-d',
   standalone: true,
-  imports: [NgClass],
   templateUrl: './three-d.component.html',
   styleUrl: './three-d.component.css'
 })
@@ -19,7 +17,7 @@ export class ThreeDComponent  {
   loadProgress: number = 0;
   loadComplete: boolean = false;
 
-  // The general outline of the code below was adapted from: 
+  // The general outline of the code below was adapted from:
   // https://medium.com/geekculture/hello-cube-your-first-three-js-scene-in-angular-176c44b9c6c0
   modelCanvas = viewChild<ElementRef>("canvas");
 
@@ -31,13 +29,13 @@ export class ThreeDComponent  {
 
   private createScene() {
     this.scene = new THREE.Scene();
-    
+
     this.renderer = new THREE.WebGLRenderer(
       { canvas: this.modelCanvas()?.nativeElement, antialias: true }
     );
     this.renderer.setPixelRatio(1.5); // Set resolution
 
-    
+
     this.camera = new THREE.PerspectiveCamera(
       75, // FOV
       16/9 * 1.1, // Aspect ratio
@@ -45,7 +43,7 @@ export class ThreeDComponent  {
       100000, // Far plane render cutoff
     )
     this.camera.lookAt(0, 0, 0); // Look to the center where the model is
-    
+
     // Camera controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enablePan = false;
@@ -88,10 +86,10 @@ export class ThreeDComponent  {
 
         // Compute the bounding box of the model
         const box = new THREE.Box3().setFromObject(group);
-        
+
         // Calculate the center of the bounding box
         const center = box.getCenter(new THREE.Vector3());
-        
+
         // Reposition the model to center it
         group.position.x = -center.x;
         group.position.y = center.y;

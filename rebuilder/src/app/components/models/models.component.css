@@ -106,14 +106,6 @@ header {
   color: var(--orange);
 }
 
-.categoryIconWithButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1rem;
-  margin-right: 0.5rem;
-}
-
 input:focus {
   outline: none;
 }

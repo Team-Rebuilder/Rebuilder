@@ -2,6 +2,7 @@
   <p-toast />
   <div class="cardContainer">
     @if (partData.length === 0) {
+      <!-- 5 placeholder part skeleton cards while loading -->
       @for (i of [1,2,3,4,5]; track i) {
         <div class="part-img-container">
           <p-skeleton width="3rem" height="3rem" />
@@ -17,7 +18,9 @@
     @else {
       @for (partDatum of partData; track $index) {
         <div class="part-img-container">
+          <!-- For some reason only inline styles work here -->
           <img [src]="partDatum.part_img_url" style="width: 3rem; height: 3rem; object-fit: contain; display: block;" />
+          <!-- Clickable part details to copy -->
           <div class="partscontainer" (click)="handleCopy(partDatum.part_num)">
             <p class="partsinfo">{{partDatum.count}}x {{partDatum.part_num}}</p>
           </div>
@@ -34,10 +37,8 @@
 
   @if (sourcePartCount) {
     <div class="calcContainer">
-      <!-- <div class="percent-bar-container">
-        <div class="percent-bar" [style.width.%]="(modelPartCount / sourcePartCount) * 100"></div>
-      </div> -->
       <p-progressBar [value]="((modelPartCount / sourcePartCount) * 100).toFixed(2)">
+        <!-- Prevent default value from showing -->
         <ng-template pTemplate="content"/>
       </p-progressBar>
       <div class="percent-bar-desc">

@@ -1,4 +1,5 @@
 <div class="options">
+  <!-- Navbar navigation links -->
   <span>
     <a [routerLink]="'/models/'" class="logolink">
       <img src="../../../assets/rebuilder-logo.png" alt="logo" class="logo" />
@@ -6,11 +7,16 @@
     </a>
     <p-tabMenu [model]="items" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)"/>
   </span>
+  <!-- Navbar user login/logout button + profile image -->
   <span class="iconContainer">
-    <!-- <a class="about" title="Ask AI"><i class="pi pi-sparkles" style="font-size: 1rem"></i></a> -->
-    @if (!modelsService.currentUser) { <button (click)="this.modelsService.login()">Login</button> }
-    @else { <button class="logoutBtn" (click)="this.modelsService.logout()">Logout</button> }
-    @if (!modelsService.currentUser) { <i class="pi pi-user" title="You are not logged in yet!" style="font-size: 1rem"></i> }
-    @else { <img [src]="modelsService.currentUser.photoURL" alt="user" class="user" /> }
+    <!-- Conditionally display Login/Logout UI depending on login state -->
+    @if (!modelsService.currentUser) {
+      <button (click)="this.modelsService.login()">Login</button>
+      <i class="pi pi-user" title="You are not logged in yet!" style="font-size: 1rem"></i>
+    }
+    @else {
+      <button class="logoutBtn" (click)="this.modelsService.logout()">Logout</button>
+      <img [src]="modelsService.currentUser.photoURL" alt="user" class="user" />
+    }
   </span>
 </div>
