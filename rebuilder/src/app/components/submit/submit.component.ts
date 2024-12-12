@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl as FromGroup, FormArray } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
@@ -8,12 +10,11 @@ import { ToastModule } from 'primeng/toast';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { MessageService } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
+import * as Papa from 'papaparse';
 
 import { ModelsService } from '../../services/models.service';
 import { HomeComponent } from '../homenavbar/home.component';
 import { rebrickableKey } from '../../credentials';
-import { NgClass } from '@angular/common';
-import * as Papa from 'papaparse';
 
 type CSVRow = string[];
 
@@ -40,6 +41,7 @@ type CSVRow = string[];
 })
 export class SubmitComponent {
   modelsService = inject(ModelsService);
+  router = inject(Router);
 
   SubmitForm: FormGroup;
   submissionValue: any; // Form submission value

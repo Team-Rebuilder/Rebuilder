@@ -38,6 +38,8 @@
       <h1>Thank you for your submission!</h1>
       <p>Submit another model here!</p>
       <p-button label="Submit Another" (click)="clearUsername()"></p-button>
+      <p>or</p>
+      <p-button label="Return Home" (click)="this.router.navigate(['/models'])"></p-button>
     </div>
   }
   @else {

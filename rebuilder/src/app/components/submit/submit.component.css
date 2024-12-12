@@ -278,11 +278,13 @@ li > button {
   background-color: #ffffff;
   transition: all 0.2s;
   margin-left: 0.5rem;
+  color: var(--dark-gray)
 }
 
 li > button:hover {
   transform: rotate(90deg);
-  background-color: #bec772;
+  background-color: var(--red);
+  color: #ffffff;
 }
 
 .upload-container {
