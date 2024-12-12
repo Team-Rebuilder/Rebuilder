@@ -9,7 +9,7 @@
   <span class="iconContainer">
     <!-- <a class="about" title="Ask AI"><i class="pi pi-sparkles" style="font-size: 1rem"></i></a> -->
     @if (!modelsService.currentUser) { <button (click)="this.modelsService.login()">Login</button> }
-    @else { <button (click)="this.modelsService.logout()">Logout</button> }
+    @else { <button class="logoutBtn" (click)="this.modelsService.logout()">Logout</button> }
     @if (!modelsService.currentUser) { <i class="pi pi-user" style="font-size: 1rem"></i> }
     @else { <img [src]="modelsService.currentUser.photoURL" alt="user" class="user" /> }
   </span>

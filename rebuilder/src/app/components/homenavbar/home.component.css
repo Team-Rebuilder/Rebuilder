@@ -110,3 +110,8 @@
 .iconContainer button:hover {
   background-color: var(--blue);
 }
+
+.logoutBtn:hover {
+  background-color: var(--red) !important;
+  color: #ffffff !important;
+}
