@@ -15,22 +15,22 @@
     <!-- Username Input -->
     <div class="usernameContainer">
       <h1>How can we call you?</h1>
-      <p><button (click)="this.modelsService.login()">Login</button> with your account, or</p>
-      <p>Enter username to continue as a guest</p>
-      <p class="smalltext">You will not be able to update or delete your submissions if you continue as a guest</p>
+      <p>Enter username to continue as guest</p>
       <input
-        pInputText
-        maxlength="30"
-        type="text"
-        id="username"
-        placeholder="Enter username"
-        (keydown.enter)="setUsername(username)"
-        [(ngModel)]="username">
+      pInputText
+      maxlength="30"
+      type="text"
+      id="username"
+      placeholder="Enter username"
+      (keydown.enter)="setUsername(username)"
+      [(ngModel)]="username">
+      <p>or, <button (click)="this.modelsService.login()">Login</button> with a Google account</p>
+      <p class="smalltext">You will not be able to update or delete your submissions<br/>if you continue as guest.</p>
       <p-button
-        [disabled]="!username"
-        label="Next"
-        (click)="setUsername(username)">
-      </p-button>
+      [disabled]="!username"
+      label="Next"
+      (click)="setUsername(username)">
+    </p-button>
     </div>
   }
   @else if(formSubmitted) {
