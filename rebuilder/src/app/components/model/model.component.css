@@ -151,6 +151,13 @@
   color: var(--light-gray);
 }
 
+.chipContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .descContainer {
   display: flex;
   flex-direction: row;
