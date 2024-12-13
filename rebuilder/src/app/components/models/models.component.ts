@@ -63,7 +63,9 @@ export class ModelsComponent {
     this.messageService.add({
       severity: 'info',
       summary: 'Search Mode Changed',
-      detail: this.strictSearch ? 'Strict' : 'Loose'
+      detail: this.strictSearch ?
+        'Strict: Keywords should match exactly' :
+        'Loose: Keywords may loosely match'
     });
   }
 
