@@ -7,6 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ScrollTopModule } from 'primeng/scrolltop';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 import { HomeComponent } from '../homenavbar/home.component';
 import { ModelsService } from '../../services/models.service';
 
@@ -23,14 +25,17 @@ import { ModelsService } from '../../services/models.service';
     ButtonModule,
     TagModule,
     SkeletonModule,
-    ScrollTopModule
+    ScrollTopModule,
+    ToastModule
   ],
   templateUrl: './models.component.html',
-  styleUrl: './models.component.css'
+  styleUrl: './models.component.css',
+  providers: [MessageService]
 })
 export class ModelsComponent {
   modelsService = inject(ModelsService);
   router = inject(Router);
+  messageService = inject(MessageService);
   searchTerm: string = '';
   strictSearch: boolean = false;
   filteredModels: any[] = [];
@@ -50,9 +55,16 @@ export class ModelsComponent {
     return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
+  // Toggle strict search
   toggleStrictSearch() {
     this.strictSearch = !this.strictSearch;
-    this.handleSearchChange();
+
+    // Toast message
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Search Mode Changed',
+      detail: this.strictSearch ? 'Strict' : 'Loose'
+    });
   }
 
   // Filter models based on search term
