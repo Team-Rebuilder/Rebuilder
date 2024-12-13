@@ -60,7 +60,8 @@ export class SubmitComponent {
   uploadedCSVs: File[] = [];
   uploadedMPDs: File[] = [];
 
-  // File Inputs from the DOM
+  // File Inputs from the DOM to allow us to clear them after removing a file:
+  // https://zircon.tech/blog/how-to-reset-input-typefile-in-angular/
   private imageInput = viewChild<ElementRef>('imageInput');
   private pdfInput = viewChild<ElementRef>('pdfInput');
   private csvInput = viewChild<ElementRef>('csvInput');
