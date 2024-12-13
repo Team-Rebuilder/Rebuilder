@@ -49,6 +49,7 @@ export class SubmitComponent {
   formSubmitted: boolean = false;
   isSetNumberValidCount: number = 0;
   isLoading: boolean = false;
+  currentPartCount: number = 0;
 
   // Maximum file size (10 MB)
   MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -224,6 +225,7 @@ export class SubmitComponent {
         break;
       case 'csv':
         this.uploadedCSVs = this.uploadedCSVs.filter((f) => f !== file);
+        this.currentPartCount = 0;
         break;
       case 'mpd':
         this.uploadedMPDs = this.uploadedMPDs.filter((f) => f !== file);
@@ -240,7 +242,6 @@ export class SubmitComponent {
     // Check the set number
     await this.checkInputSetNumbers();
     if (this.isSetNumberValidCount > 0) {
-      // Show an error message
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid set number(s)! Number needs to be valid before submission.' });
       return;
     }
@@ -248,18 +249,37 @@ export class SubmitComponent {
     // Set the loading state
     this.isLoading = true;
 
+    // Standardize non-numeric Bricklink part IDs in CSV file and count parts
+    await this.processCSV(this.uploadedCSVs[0]);
+
     // Calculate source set(s') part count using Rebrickable API
     let sourcePartCount = 0;
-    for (let i = 0; i < this.sourceSets.length; i++) {
-      try {
-        sourcePartCount += await this.getPartCount(this.sourceSets.at(i)?.value);
-      } catch (error) {
-        console.error(error);
+    try {
+      for (let i = 0; i < this.sourceSets.length; i++) {
+        const partCount = await this.getPartCount(this.sourceSets.at(i)?.value);
+        if (!partCount) {
+          throw new Error(`Invalid set number: ${this.sourceSets.at(i)?.value}`);
+        }
+        sourcePartCount += partCount;
       }
-    }
 
-    // Standardize non-numeric Bricklink part IDs in CSV file
-    this.processCSV(this.uploadedCSVs[0]);
+      // Validate that model part count doesn't exceed source part count
+      if (this.currentPartCount > sourcePartCount) {
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: `Model uses ${this.currentPartCount} parts but source sets only provide ${sourcePartCount} parts.` 
+        });
+        this.isLoading = false;
+        return;
+      }
+
+    } catch (error) {
+      console.error(error);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error parsing CSV.' });
+      this.isLoading = false;
+      return;
+    }
 
     try {
       // First, upload the files
@@ -342,73 +362,60 @@ export class SubmitComponent {
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Form reset successfully!' });
   }
 
-  // Check if a set number is valid using Rebrickable API
-  async isSetNumber(number: number): Promise<boolean> {
-    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${number}-1/`, {
+  // Get the part count of a set for a given set number using Rebrickable API
+  async getPartCount(setNumber: number): Promise<number | void> {
+    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
       headers: {
         'Authorization': `key ${rebrickableKey}`
       }
     });
 
     if (response.status === 404) {
-      return false;
+      return;
     }
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return true;
+    const data = await response.json();
+    return data.num_parts;
   }
 
   // Check if the form set numbers are valid
   async checkInputSetNumbers(): Promise<void> {
-    // First, reset the count
     this.isSetNumberValidCount = 0;
 
     try {
-      // List of set numbers
       const setNumFrom = this.SubmitForm.get('sourceSets') as FormArray | null;
 
-      // If the set numbers are empty, show an error message
-      let isEmpty = true;
-      for (let i = 0; i < setNumFrom!.length; i++) {
-        if (setNumFrom!.at(i)?.value) {
-          isEmpty = false;
-          break;
-        }
-      }
+      // Check for empty set numbers
+      let isEmpty = setNumFrom!.controls.every(control => !control.value);
       if (isEmpty) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is empty!' });
         this.isSetNumberValidCount++;
         return;
       }
 
-      // If any of the set number is not a number, show an error message
-      let isNotNumber = true;
-      for (let i = 0; i < setNumFrom!.length; i++) {
-        if (!isNaN(setNumFrom!.at(i)?.value)) {
-          isNotNumber = false;
-          break;
-        }
-      }
-      if (isNotNumber) {
+      // Check for non-numeric values
+      let hasNonNumber = setNumFrom!.controls.some(control => isNaN(control.value));
+      if (hasNonNumber) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is not a number!' });
         this.isSetNumberValidCount++;
         return;
       }
 
-      // If the set number is not valid, show an error message
+      // Validate each set number
       for (let i = 0; i < setNumFrom!.length; i++) {
         try {
-          if (!await this.isSetNumber(+setNumFrom!.at(i)?.value)) {
+          const partCount = await this.getPartCount(+setNumFrom!.at(i)?.value);
+          if (partCount === undefined) {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set number: ${setNumFrom!.at(i)?.value}` });
             this.isSetNumberValidCount++;
           } else {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: `Valid set number: ${setNumFrom!.at(i)?.value}` });
           }
         } catch (error) {
-          // If there is an error, show an error message
           console.error(error);
           this.messageService.add({ severity: 'error', summary: 'Error', detail: `Error checking set number: ${setNumFrom!.at(i)?.value}` });
           this.isSetNumberValidCount++;
@@ -419,42 +426,50 @@ export class SubmitComponent {
     }
   }
 
-  // Get the part count of a set for a given set number using Rebrickable API
-  async getPartCount(setNumber: number): Promise<number> {
-    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
-      headers: {
-        'Authorization': `key ${rebrickableKey}`
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data.num_parts;
-  }
-
   // Swap non-standard part IDs in CSV file (usually prints) with Rebrickable IDs
   // Written with assistance from Copilot
   async processCSV(file: File) {
     Papa.parse(file, {
       complete: async (result) => {
-        const data = result.data as CSVRow[];
-        const lDrawColumn = 2; // LDraw column in Bricklink CSV export
+        try {
+          const data = result.data as CSVRow[];
+          const lDrawColumn = 2; // LDraw column in Bricklink CSV export
+          const quantityColumn = 8; // Quantity column in Bricklink CSV export
+          
+          this.currentPartCount = 0;
 
-        // For each row in the CSV, standardize the LDraw part ID
-        const standardizedCSV = await Promise.all(
-          data.map(async (row: CSVRow) => {
-            row[lDrawColumn] = await this.standardizePartId(row[lDrawColumn] || '');
-            return row;
-          })
-        );
+          // For each row in the CSV, standardize the LDraw part ID and count parts
+          const standardizedCSV = await Promise.all(
+            data.map(async (row: CSVRow) => {
+              if (row[quantityColumn]) {
+                this.currentPartCount += parseInt(row[quantityColumn]) || 0;
+              }
+              row[lDrawColumn] = await this.standardizePartId(row[lDrawColumn] || '');
 
-        const csvString = Papa.unparse(standardizedCSV);
-        const standardizedCSVFile = new File([csvString], file.name, { type: file.type });
+              return row;
+            })
+          );
 
-        this.uploadedCSVs = [standardizedCSVFile];
+          const csvString = Papa.unparse(standardizedCSV);
+          const standardizedCSVFile = new File([csvString], file.name, { type: file.type });
+
+          this.uploadedCSVs = [standardizedCSVFile];
+        } catch (error) {
+          console.error('Error processing CSV:', error);
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Error', 
+            detail: 'Failed to process CSV file.' 
+          });
+        }
+      },
+      error: (error) => {
+        console.error('CSV parsing error:', error);
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Failed to parse CSV file.' 
+        });
       }
     });
   }
@@ -462,7 +477,7 @@ export class SubmitComponent {
   // Standardize a given non-numeric Bricklink part ID to Rebrickable ID
   async standardizePartId(partId: string): Promise<string> {
     // If part ID is already numeric, nothing to be done
-    if (!isNaN(+partId)) {
+    if (!isNaN(+partId) || !partId) {
       return partId;
     }
 
