@@ -2,12 +2,12 @@
 <p-toast />
 <header>
   <div class="searchbar">
-    <div class="searchIconContainer" (click)="toggleStrictSearch()">
+    <div class="searchIconContainer" (click)="toggleStrictSearch()" title="Toggle search mode">
       @if (strictSearch) {
-        <i class="pi pi-search-minus" title="Keywords should match exactly"></i>
+        <i class="pi pi-search-minus"></i>
       }
       @else {
-        <i class="pi pi-search" title="Keywords may loosely match"></i>
+        <i class="pi pi-search"></i>
       }
     </div>
     <input
