@@ -2,8 +2,13 @@
 
 <header>
   <div class="searchbar">
-    <div class="searchIconContainer">
-      <i class="pi pi-search"></i>
+    <div class="searchIconContainer" (click)="toggleStrictSearch()">
+      @if (strictSearch) {
+        <i class="pi pi-search-minus" title="Keywords should match exactly"></i>
+      }
+      @else {
+        <i class="pi pi-search" title="Keywords may loosely match"></i>
+      }
     </div>
     <input
       [(ngModel)]="searchTerm"

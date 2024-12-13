@@ -32,6 +32,7 @@ export class ModelsComponent {
   modelsService = inject(ModelsService);
   router = inject(Router);
   searchTerm: string = '';
+  strictSearch: boolean = false;
   filteredModels: any[] = [];
 
   constructor() {
@@ -49,15 +50,28 @@ export class ModelsComponent {
     return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
+  toggleStrictSearch() {
+    this.strictSearch = !this.strictSearch;
+    this.handleSearchChange();
+  }
+
   // Filter models based on search term
   // Written with the help of AI
   handleSearchChange() {
     if (this.searchTerm.trim() !== '') {
       this.modelsService.models$.subscribe(models => {
         const normalizedSearch = this.normalizeText(this.searchTerm.toLowerCase());
-        this.filteredModels = models.filter(
-          (model: any) => this.normalizeText(model.category.toLowerCase()).startsWith(normalizedSearch)
-        );
+
+        // Filter models based on search term
+        if (this.strictSearch) {
+          this.filteredModels = models.filter(
+            (model: any) => this.normalizeText(model.category.toLowerCase()).startsWith(normalizedSearch)
+          );
+        } else {
+          this.filteredModels = models.filter(
+            (model: any) => this.normalizeText(model.category.toLowerCase()).includes(normalizedSearch)
+          );
+        }
       });
       console.log("model is being filtered");
     } else {
