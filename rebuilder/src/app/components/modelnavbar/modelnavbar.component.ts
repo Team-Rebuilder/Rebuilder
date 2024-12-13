@@ -7,16 +7,14 @@ import { ModelsService } from '../../services/models.service';
 @Component({
   selector: 'app-modelnavbar',
   standalone: true,
-  imports: [
-    TabMenuModule
-  ],
+  imports: [TabMenuModule],
   templateUrl: './modelnavbar.component.html',
   styleUrl: './modelnavbar.component.css'
 })
 export class ModelnavbarComponent {
+  modelsService = inject(ModelsService);
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
-  modelsService = inject(ModelsService);
   id: string | undefined;
   currModel$: any;
   private getScreenWidth: number;
@@ -62,6 +60,7 @@ export class ModelnavbarComponent {
     this.updateMenuItems(this.currModel$?.threemodelUrls?.length > 0);
   }
 
+  // Change the active item when clicked (taken from PrimeNG documentation)
   onActiveItemChange(event: MenuItem) {
     this.activeItem = event;
   }

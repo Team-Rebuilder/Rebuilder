@@ -38,10 +38,10 @@ interface Set {
 export class ModelComponent {
   modelService = inject(ModelsService);
   messageService = inject(MessageService);
-  id = input.required<string>();
-  currModel$: any;
-  sourceSets: Set[] = [];
   router = inject(Router);
+  currModel$: any;
+  id = input.required<string>();
+  sourceSets: Set[] = [];
   tempModelname: string = '';
 
   async ngOnInit(): Promise<void> {

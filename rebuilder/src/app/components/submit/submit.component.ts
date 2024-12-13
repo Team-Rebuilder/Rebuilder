@@ -226,9 +226,9 @@ export class SubmitComponent {
     switch (fileType) {
       case 'image':
         this.uploadedImages = this.uploadedImages.filter((f) => f !== file);
-        if(this.uploadedImages.length === 0) {
+        if (this.uploadedImages.length === 0) {
           // imageInput always exists in the DOM
-           this.imageInput()!.nativeElement.value = '';
+          this.imageInput()!.nativeElement.value = '';
         }
         break;
       case 'pdf':
@@ -288,10 +288,10 @@ export class SubmitComponent {
 
       // Validate that model part count doesn't exceed source part count
       if (this.currentPartCount > sourcePartCount) {
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: `Model uses ${this.currentPartCount} parts but source sets only provide ${sourcePartCount} parts.` 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `Model uses ${this.currentPartCount} parts but source sets only provide ${sourcePartCount} parts.`
         });
         this.isLoading = false;
         return;
@@ -375,6 +375,7 @@ export class SubmitComponent {
     this.uploadedPDFs = [];
     this.uploadedCSVs = [];
     this.uploadedMPDs = [];
+
     // Reset to a single new source set input
     this.SubmitForm.setControl(
       'sourceSets',
@@ -458,7 +459,7 @@ export class SubmitComponent {
           const data = result.data as CSVRow[];
           const lDrawColumn = 2; // LDraw column in Bricklink CSV export
           const quantityColumn = 8; // Quantity column in Bricklink CSV export
-          
+
           this.currentPartCount = 0;
 
           // For each row in the CSV, standardize the LDraw part ID and count parts
@@ -479,19 +480,19 @@ export class SubmitComponent {
           this.uploadedCSVs = [standardizedCSVFile];
         } catch (error) {
           console.error('Error processing CSV:', error);
-          this.messageService.add({ 
-            severity: 'error', 
-            summary: 'Error', 
-            detail: 'Failed to process CSV file.' 
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to process CSV file.'
           });
         }
       },
       error: (error) => {
         console.error('CSV parsing error:', error);
-        this.messageService.add({ 
-          severity: 'error', 
-          summary: 'Error', 
-          detail: 'Failed to parse CSV file.' 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to parse CSV file.'
         });
       }
     });
