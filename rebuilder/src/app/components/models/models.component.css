@@ -79,6 +79,11 @@ header {
 
 .searchIconContainer i {
   color: #afafaf;
+  transition: all 0.1s;
+}
+
+.searchIconContainer i:hover {
+  color: var(--orange);
 }
 
 .categoryIconContainer {
