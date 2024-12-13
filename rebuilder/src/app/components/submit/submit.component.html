@@ -126,7 +126,7 @@
 
       <!-- Image Upload -->
       <div class="upload-container">
-        <input type="file" class="fileinput" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple #imgUpload>
+        <input #imageInput type="file" class="fileinput" accept="image/*" (change)="onFilesSelected($event, 'image')" multiple #imgUpload>
         <p>Upload Image(s)*</p>
         <div class="uploadlist">
           <!-- https://stackoverflow.com/questions/40968069/ngsubmit-is-called-when-press-click-button -->
@@ -150,7 +150,7 @@
 
       <!-- Instruction PDF File Upload -->
       <div class="upload-container">
-        <input type="file" class="fileinput" accept="application/pdf" (change)="onFilesSelected($event, 'pdf')" #pdfUpload>
+        <input #pdfInput type="file" class="fileinput" accept="application/pdf" (change)="onFilesSelected($event, 'pdf')" #pdfUpload>
         <p>Upload Instruction PDF*</p>
         <div class="uploadlist">
           <button type="button" class="upload-btn" (click)="pdfUpload.click()">
@@ -173,7 +173,7 @@
 
       <!-- Parts List csv File Upload -->
       <div class="upload-container">
-        <input type="file" class="fileinput" accept=".csv" (change)="onFilesSelected($event, 'csv')" #csvUpload>
+        <input #csvInput type="file" class="fileinput" accept=".csv" (change)="onFilesSelected($event, 'csv')" #csvUpload>
         <p>Upload Parts List CSV*</p>
         <div class="uploadlist">
           <button type="button" class="upload-btn" (click)="csvUpload.click()">
@@ -196,7 +196,7 @@
 
       <!-- 3D mpd Model Upload -->
       <div class="upload-container">
-        <input type="file" class="fileinput" accept=".mpd" (change)="onFilesSelected($event, 'mpd')" #mpdModelUpload>
+        <input #mpdInput type="file" class="fileinput" accept=".mpd" (change)="onFilesSelected($event, 'mpd')" #mpdModelUpload>
         <p>Upload 3D Model (.mpd)</p>
         <div class="uploadlist">
           <button type="button" class="upload-btn" (click)="mpdModelUpload.click()">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, Validators, FormControl as FromGroup, FormArray } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
@@ -59,6 +59,12 @@ export class SubmitComponent {
   uploadedPDFs: File[] = [];
   uploadedCSVs: File[] = [];
   uploadedMPDs: File[] = [];
+
+  // File Inputs from the DOM
+  private imageInput = viewChild<ElementRef>('imageInput');
+  private pdfInput = viewChild<ElementRef>('pdfInput');
+  private csvInput = viewChild<ElementRef>('csvInput');
+  private mpdInput = viewChild<ElementRef>('mpdInput');
 
   constructor(private messageService: MessageService) {
     this.SubmitForm = new FormGroup({
@@ -219,16 +225,32 @@ export class SubmitComponent {
     switch (fileType) {
       case 'image':
         this.uploadedImages = this.uploadedImages.filter((f) => f !== file);
+        if(this.uploadedImages.length === 0) {
+          // imageInput always exists in the DOM
+           this.imageInput()!.nativeElement.value = '';
+        }
         break;
       case 'pdf':
         this.uploadedPDFs = this.uploadedPDFs.filter((f) => f !== file);
+        if(this.uploadedPDFs.length === 0) {
+          // pdfInput always exists in the DOM
+          this.pdfInput()!.nativeElement.value = '';
+        }
         break;
       case 'csv':
         this.uploadedCSVs = this.uploadedCSVs.filter((f) => f !== file);
         this.currentPartCount = 0;
+        if(this.uploadedCSVs.length === 0) {
+          // csvInput always exists in the DOM
+          this.csvInput()!.nativeElement.value = '';
+        }
         break;
       case 'mpd':
         this.uploadedMPDs = this.uploadedMPDs.filter((f) => f !== file);
+        if(this.uploadedMPDs.length === 0) {
+          // mpdInput always exists in the DOM
+          this.mpdInput()!.nativeElement.value = '';
+        }
         break;
     }
   }
