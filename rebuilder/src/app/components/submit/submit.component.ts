@@ -270,15 +270,14 @@ export class SubmitComponent {
       return;
     }
 
-    // Set the loading state
     this.isLoading = true;
 
-    // Standardize non-numeric Bricklink part IDs in CSV file and count parts
-    await this.processCSV(this.uploadedCSVs[0]);
-
-    // Calculate source set(s') part count using Rebrickable API
-    let sourcePartCount = 0;
     try {
+      // Process CSV to validate format, standardize part IDs, and count parts
+      await this.processCSV(this.uploadedCSVs[0]);
+
+      let sourcePartCount = 0;
+      // Calculate total parts from source sets
       for (let i = 0; i < this.sourceSets.length; i++) {
         const partCount = await this.getPartCount(this.sourceSets.at(i)?.value);
         if (!partCount) {
@@ -292,20 +291,12 @@ export class SubmitComponent {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: `Model uses ${this.currentPartCount} parts but source sets only provide ${sourcePartCount} parts.`
+          detail: `Model uses ${this.currentPartCount} parts but source set(s) only provide(s) ${sourcePartCount} parts.`
         });
         this.isLoading = false;
         return;
       }
 
-    } catch (error) {
-      console.error(error);
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error parsing CSV.' });
-      this.isLoading = false;
-      return;
-    }
-
-    try {
       // First, upload the files
       const imageUrls = this.uploadedImages.length ? await this.modelsService.uploadFiles(this.username, this.uploadedImages, 'image') : [];
       const pdfUrls = this.uploadedPDFs.length ? await this.modelsService.uploadFiles(this.username, this.uploadedPDFs, 'pdf') : [];
@@ -330,6 +321,13 @@ export class SubmitComponent {
 
     } catch (error) {
       console.error(error);
+      this.messageService.add({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: error instanceof Error ? error.message : 'An error occurred processing the submission.'
+      });
+      this.isLoading = false;
+      return;
     }
 
     // Clear the form
@@ -410,57 +408,78 @@ export class SubmitComponent {
 
   // Check if the form set numbers are valid
   async checkInputSetNumbers(): Promise<void> {
-    this.isSetNumberValidCount = 0;
+  this.isSetNumberValidCount = 0;
 
-    try {
-      const setNumFrom = this.SubmitForm.get('sourceSets') as FormArray | null;
+    const setNumFrom = this.SubmitForm.get('sourceSets') as FormArray | null;
 
-      // Check for empty set numbers
-      let isEmpty = setNumFrom!.controls.every(control => !control.value);
-      if (isEmpty) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is empty!' });
-        this.isSetNumberValidCount++;
-        return;
-      }
+    // Check for empty set numbers
+    let isEmpty = setNumFrom!.controls.every(control => !control.value);
+    if (isEmpty) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is empty!' });
+      this.isSetNumberValidCount++;
+      return;
+    }
 
-      // Check for non-numeric values
-      let hasNonNumber = setNumFrom!.controls.some(control => isNaN(control.value));
-      if (hasNonNumber) {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is not a number!' });
-        this.isSetNumberValidCount++;
-        return;
-      }
+    // Check for non-numeric values
+    let hasNonNumber = setNumFrom!.controls.some(control => isNaN(control.value));
+    if (hasNonNumber) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Set number is not a number!' });
+      this.isSetNumberValidCount++;
+      return;
+    }
 
-      // Validate each set number
-      for (let i = 0; i < setNumFrom!.length; i++) {
-        try {
-          const partCount = await this.getPartCount(+setNumFrom!.at(i)?.value);
-          if (partCount === undefined) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set number: ${setNumFrom!.at(i)?.value}` });
-            this.isSetNumberValidCount++;
-          } else {
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: `Valid set number: ${setNumFrom!.at(i)?.value}` });
-          }
-        } catch (error) {
-          console.error(error);
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Error checking set number: ${setNumFrom!.at(i)?.value}` });
+    // Validate each set number
+    for (let i = 0; i < setNumFrom!.length; i++) {
+      try {
+        const partCount = await this.getPartCount(+setNumFrom!.at(i)?.value);
+        if (partCount === undefined) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: `Invalid set number: ${setNumFrom!.at(i)?.value}` });
           this.isSetNumberValidCount++;
+        } else {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: `Valid set number: ${setNumFrom!.at(i)?.value}` });
         }
+      } catch (error) {
+        console.error(error);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: `Error checking set number: ${setNumFrom!.at(i)?.value}` });
+        this.isSetNumberValidCount++;
       }
-    } catch (error) {
-      console.error(error);
     }
   }
 
   // Swap non-standard part IDs in CSV file (usually prints) with Rebrickable IDs
   // Written with assistance from Copilot
   async processCSV(file: File) {
-    Papa.parse(file, {
-      complete: async (result) => {
-        try {
+    return new Promise<void>((resolve, reject) => {
+      Papa.parse(file, {
+        complete: async (result) => {
           const data = result.data as CSVRow[];
-          const lDrawColumn = 2; // LDraw column in Bricklink CSV export
-          const quantityColumn = 8; // Quantity column in Bricklink CSV export
+
+          // The following validation checks were written by Copilot
+          
+          if (data.length < 2) {
+            reject(new Error('CSV file is empty'));
+            return;
+          }
+
+          // Validate required columns
+          const headers = data[0];
+          const ldrawCol = headers.findIndex(h => h === 'LdrawId');
+          const qtyCol = headers.findIndex(h => h === 'Qty');
+          const colorCol = headers.findIndex(h => h === 'ColorName');
+
+          if (ldrawCol === -1 || qtyCol === -1 || colorCol === -1) {
+            reject(new Error('CSV must contain columns: LdrawId, Qty, and ColorName'));
+            return;
+          }
+
+          // Validate Qty values are numeric
+          const invalidQtyRows = data.slice(1).filter(row => 
+            row[qtyCol] && isNaN(Number(row[qtyCol]))
+          );
+          if (invalidQtyRows.length > 0) {
+            reject(new Error('CSV Qty column contains non-numeric values'));
+            return;
+          }
 
           this.currentPartCount = 0;
 
@@ -469,12 +488,11 @@ export class SubmitComponent {
             data[0],
             ...(await Promise.all(
               data.slice(1).map(async (row: CSVRow) => {
-                if (row[quantityColumn]) {
-                  // Keep running total of parts in the CSV
-                  this.currentPartCount += parseInt(row[quantityColumn]) || 0;
+                if (row[qtyCol]) {
+                  // Keep running total of parts in the CSV                  
+                  this.currentPartCount += parseInt(row[qtyCol]) || 0;
                 }
-                row[lDrawColumn] = await this.standardizePartId(row[lDrawColumn] || '');
-
+                row[ldrawCol] = await this.standardizePartId(row[ldrawCol] || '');
                 return row;
               })
             ))
@@ -482,25 +500,11 @@ export class SubmitComponent {
 
           const csvString = Papa.unparse(standardizedCSV);
           const standardizedCSVFile = new File([csvString], file.name, { type: file.type });
-
           this.uploadedCSVs = [standardizedCSVFile];
-        } catch (error) {
-          console.error('Error processing CSV:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Failed to process CSV file.'
-          });
-        }
-      },
-      error: (error) => {
-        console.error('CSV parsing error:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to parse CSV file.'
-        });
-      }
+          resolve();
+        },
+        error: (error) => reject(new Error('Failed to parse CSV file'))
+      });
     });
   }
 
