@@ -118,7 +118,7 @@ export class ModelComponent {
       setTimeout(() => {
       // Redirect to the models page
       this.router.navigate(['../models']);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to delete model'});
       console.error('Error deleting model:', error);
