@@ -17,6 +17,9 @@ import { HomeComponent } from '../homenavbar/home.component';
 import { rebrickableKey } from '../../credentials';
 
 type CSVRow = string[];
+interface inventoryItem {
+  quantity: number;
+}
 
 @Component({
   selector: 'app-submit',
@@ -388,7 +391,7 @@ export class SubmitComponent {
 
   // Get the part count of a set for a given set number using Rebrickable API
   async getPartCount(setNumber: number): Promise<number | void> {
-    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/`, {
+    const response = await fetch(`https://rebrickable.com/api/v3/lego/sets/${setNumber}-1/parts/?page_size=20000`, {
       headers: {
         'Authorization': `key ${rebrickableKey}`
       }
@@ -403,7 +406,12 @@ export class SubmitComponent {
     }
 
     const data = await response.json();
-    return data.num_parts;
+    // Calculate the total quantity of non-minifig parts in the set
+    // Written with assistance from ChatGPT
+    const qty = data.results.reduce((sum: number, inventoryItem: inventoryItem) =>
+      sum + inventoryItem.quantity, 0);
+    console.log(`Set ${setNumber} has ${qty} parts.`);
+    return qty;
   }
 
   // Check if the form set numbers are valid
