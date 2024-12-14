@@ -31,9 +31,13 @@ canvas {
   top: 50%;
   background-color: transparent;
   border: none;
-  i {
-    font-size: 5vw;
-  }
+}
+
+.nav-button i {
+  font-size: 5vw;
+  border-radius: 50%;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
 }
 
 .nav-button:hover {
@@ -42,6 +46,19 @@ canvas {
 
 .nav-button:disabled {
   color: lightgray;
+}
+
+.left,
+.right {
+  transition: all 0.2s;
+}
+
+.left:hover {
+  transform: translateX(-1rem);
+}
+
+.right:hover {
+  transform: translateX(1rem);
 }
 
 #prev {
