@@ -34,6 +34,7 @@ export interface Model {
   description: string;
   sourceSets: number[];
   sourcePartCount: number;
+  modelPartCount: number;
   imageUrls: string[];
   partsListUrls: string[];
   instructionUrls: string[];
@@ -102,6 +103,7 @@ export class ModelsService {
       description: modeldata.description,
       sourceSets: modeldata.sourceSets,
       sourcePartCount: modeldata.sourcePartCount,
+      modelPartCount: modeldata.modelPartCount,
       imageUrls: modeldata.imageUrls,
       instructionUrls: modeldata.instructionUrls,
       partsListUrls: modeldata.partsListUrls,

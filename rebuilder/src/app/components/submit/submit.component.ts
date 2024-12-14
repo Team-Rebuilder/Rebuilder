@@ -320,6 +320,7 @@ export class SubmitComponent {
         description: this.submissionValue.description,
         sourceSets: this.sourceSets.value,
         sourcePartCount: sourcePartCount,
+        modelPartCount: this.currentPartCount,
         imageUrls: imageUrls,
         instructionUrls: pdfUrls,
         partsListUrls: csvUrls,

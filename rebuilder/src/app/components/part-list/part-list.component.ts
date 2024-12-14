@@ -47,13 +47,13 @@ export class PartListComponent {
   async ngOnInit(): Promise<void> {
     this.currModel$ = await this.modelsService.getModelById(this.modelId());
     this.sourcePartCount = this.currModel$.sourcePartCount;
+    this.modelPartCount = this.currModel$.modelPartCount;
     this.partListUrl = this.currModel$.partsListUrls[0];
     try {
       this.partData = (await this.populatePartData());
     } catch {
       this.messageService.add({severity:'error', summary:'Error', detail: 'Error fetching part data.'});
     }
-    this.modelPartCount = this.partData.reduce((sum, part) => sum + parseInt(part.count), 0);
   }
 
   // Fetch part data from the CSV file and return as a list of Part objects
