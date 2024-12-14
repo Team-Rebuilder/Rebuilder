@@ -107,7 +107,7 @@ body {
 /* ================== Image Galleria ================== */
 .p-galleria-item-prev-icon,
 .p-galleria-item-next-icon {
-  color: var(--light-gray);
+  color: var(--dark-gray);
   transition: all 0.2s;
 }
 
