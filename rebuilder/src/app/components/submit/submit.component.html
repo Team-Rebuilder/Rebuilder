@@ -102,7 +102,7 @@
 
       <!-- Source Input -->
       <div class="inputContainer">
-        <label for="sourceSets">Source LEGO*<button type="button" id="checkButton" (click)="checkInputSetNumbers()">Check Source</button></label>
+        <label for="sourceSets">Source LEGO Set(s)*<button type="button" id="checkButton" (click)="checkInputSetNumbers()">Check Source</button></label>
         <div formArrayName="sourceSets">
           @for (sourceSet of sourceSets.controls; track sourceSet.value) {
             <div class="sourceInputContainer">

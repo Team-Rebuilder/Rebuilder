@@ -78,7 +78,7 @@
         <div class="tagContainer">
           <p-tag [value]="model.category" icon="pi pi-bars" severity="info" [rounded]="true" />
           <!-- Add tag indicating 3D model available to view if provided -->
-          @if (model.threemodelUrls.length) { <p-tag value="Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" /> }
+          @if (model.threemodelUrls.length) { <p-tag value="3D Model" icon="pi pi-box" severity="success" [rounded]="true" title="This rebuild has 3D model" /> }
         </div>
       </ng-template>
     </p-card>
