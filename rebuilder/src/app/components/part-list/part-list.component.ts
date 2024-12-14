@@ -117,7 +117,7 @@ export class PartListComponent {
     // Create a dictionary of partId to partImgUrl
     const imageDict: { [key: string]: string } = {};
 
-    // For each partId in the CSV, find the corresponding part image URL
+    // For each partId in the CSV, search for the corresponding part image URL
     await Promise.all(csvPartIds.map(async csvPartId => {
       // Retrieve any entry from Rebrickable API matching the searched partId
       const partDatum = rebrickablePartData.results.find(

@@ -41,12 +41,12 @@ export class ModelComponent {
   router = inject(Router);
   currModel$: any;
   id = input.required<string>();
-  sourceSets: Set[] = [];
+  sourceSetData: Set[] = [];
   tempModelname: string = '';
 
   async ngOnInit(): Promise<void> {
     this.currModel$ = await this.modelService.getModelById(this.id());
-    await this.populateSourceSets();
+    await this.populateSetData();
   }
 
   // Responsive Container Style
@@ -71,20 +71,20 @@ export class ModelComponent {
     return data.set_url;
   }
 
-  // Duplicate check implemented by Copilot
-  async populateSourceSets(): Promise<void> {
+  // Populate the sourceSetData array with objects containing set_num and set_url
+  async populateSetData(): Promise<void> {
     const setNumbers = this.currModel$.sourceSets;
-
+    
     for (const setNumber of setNumbers) {
-      // For each set object, check if its set_num matches the current setNumber
-      const existingSet = this.sourceSets.find(set => set.set_num === setNumber);
+      // Duplicate check implemented by Copilot
+      // If setNumber data was previously fetched and recorded, copy the entry
+      const existingSet = this.sourceSetData.find(set => set.set_num === setNumber);
       if (existingSet) {
-        // Duplicate the existing entry
-        this.sourceSets.push(existingSet);
+        this.sourceSetData.push(existingSet);
       } else {
-        // Fetch the set URL and add a new entry
+        // Fetch the set data (URL) and add a new entry
         const setUrl = await this.getSetUrl(setNumber);
-        this.sourceSets.push({set_num: setNumber, set_url: setUrl});
+        this.sourceSetData.push({set_num: setNumber, set_url: setUrl});
       }
     }
   }

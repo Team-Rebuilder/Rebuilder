@@ -64,8 +64,8 @@ export class ModelsComponent {
       severity: 'info',
       summary: 'Search Mode Changed',
       detail: this.strictSearch ?
-        'Strict: Keywords should match exactly' :
-        'Loose: Keywords may loosely match'
+        'Strict: Keywords match exactly' :
+        'Loose: Keywords match loosely'
     });
   }
 
