@@ -1,7 +1,9 @@
 import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
-import * as pdfjsLib from 'pdfjs-dist';
+// Use the legacy build of pdfjs-dist to avoid compatibility issues
+// https://stackoverflow.com/a/79258182
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.min.mjs';
 
 import { ModelnavbarComponent } from '../modelnavbar/modelnavbar.component';
 import { PDFDocumentProxy } from 'pdfjs-dist';
