@@ -42,12 +42,17 @@ export class PartListComponent {
   modelId = input.required<string>();
   sourceSets: number[] = [];
 
+  numImgRequests: number = 0;
+
   async ngOnInit(): Promise<void> {
     this.currModel$ = await this.modelsService.getModelById(this.modelId());
     this.sourcePartCount = this.currModel$.sourcePartCount;
     this.partListUrl = this.currModel$.partsListUrls[0];
-    // Last 4 lines of standard Bricklink CSV file are not part data
-    this.partData = (await this.populatePartData()).slice(0, -4);
+    try {
+      this.partData = (await this.populatePartData());
+    } catch {
+      this.messageService.add({severity:'error', summary:'Error', detail: 'Error fetching part data.'});
+    }
     this.modelPartCount = this.partData.reduce((sum, part) => sum + parseInt(part.count), 0);
   }
 
@@ -59,7 +64,8 @@ export class PartListComponent {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const csvData = await response.text();
-      const partIdList = await this.parseCsvCol(csvData, 'LdrawId');
+      // Last 4 lines of standard Bricklink CSV file are not part data
+      const partIdList = (await this.parseCsvCol(csvData, 'LdrawId')).slice(0, -4);
       const partCountsList = await this.parseCsvCol(csvData, 'Qty');
       const partColorsList = await this.parseCsvCol(csvData, 'ColorName');
       const partImgs: { [key: string]: string } = await this.getPartImages(partIdList);
@@ -120,6 +126,11 @@ export class PartListComponent {
 
   // If Rebrickable API can't find the part normally, get it using Bricklink ID
   async getBackupImg(brickLinkPartId: string): Promise<string> {
+    this.numImgRequests++;
+    // Hard cap on lifetime fetches to prevent IP ban for excessive requests
+    if (this.numImgRequests > 10 || !brickLinkPartId) {
+      return "";
+    }
     const url = `https://rebrickable.com/api/v3/lego/parts/?bricklink_id=`;
     const response = await fetch(url + brickLinkPartId, {
       headers: {

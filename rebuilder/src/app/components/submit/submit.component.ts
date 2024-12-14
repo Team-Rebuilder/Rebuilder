@@ -50,6 +50,7 @@ export class SubmitComponent {
   isSetNumberValidCount: number = 0;
   isLoading: boolean = false;
   currentPartCount: number = 0;
+  numPartChecks: number = 0;
 
   // Maximum file size (10 MB)
   MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -462,17 +463,21 @@ export class SubmitComponent {
 
           this.currentPartCount = 0;
 
-          // For each row in the CSV, standardize the LDraw part ID and count parts
-          const standardizedCSV = await Promise.all(
-            data.map(async (row: CSVRow) => {
-              if (row[quantityColumn]) {
-                this.currentPartCount += parseInt(row[quantityColumn]) || 0;
-              }
-              row[lDrawColumn] = await this.standardizePartId(row[lDrawColumn] || '');
+          // For each non-header row in the CSV, standardize the LDraw part ID
+          const standardizedCSV = [
+            data[0],
+            ...(await Promise.all(
+              data.slice(1).map(async (row: CSVRow) => {
+                if (row[quantityColumn]) {
+                  // Keep running total of parts in the CSV
+                  this.currentPartCount += parseInt(row[quantityColumn]) || 0;
+                }
+                row[lDrawColumn] = await this.standardizePartId(row[lDrawColumn] || '');
 
-              return row;
-            })
-          );
+                return row;
+              })
+            ))
+          ];
 
           const csvString = Papa.unparse(standardizedCSV);
           const standardizedCSVFile = new File([csvString], file.name, { type: file.type });
@@ -503,6 +508,18 @@ export class SubmitComponent {
     // If part ID is already numeric, nothing to be done
     if (!isNaN(+partId) || !partId) {
       return partId;
+    }
+
+    this.numPartChecks++;
+
+    // Base case: the plain part ID (first numeric portion)
+    const numericPortions = partId.match(/\d+/);
+    const plainId = numericPortions ? numericPortions[0] : partId;
+
+    
+    // Hard cap on number of fetches to prevent IP ban
+    if (this.numPartChecks > 10) {
+      return plainId;
     }
 
     const url = `https://rebrickable.com/api/v3/lego/parts/?bricklink_id=`;
@@ -538,8 +555,8 @@ export class SubmitComponent {
           const stdPartId = data.results[0].part_num;
           return stdPartId;
         } catch (error) {
-          const numericPortions = partId.match(/\d+/);
-          return numericPortions ? numericPortions[0] : partId;
+          // If both fetches fail, return the plainest part ID possible
+          return plainId;
         }
       }
     } catch (error) {
