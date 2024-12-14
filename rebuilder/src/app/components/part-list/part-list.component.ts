@@ -56,6 +56,7 @@ export class PartListComponent {
     this.modelPartCount = this.partData.reduce((sum, part) => sum + parseInt(part.count), 0);
   }
 
+  // Fetch part data from the CSV file and return as a list of Part objects
   async populatePartData(): Promise<Part[]> {
     const csvUrl = this.currModel$.partsListUrls[0];
     try {
@@ -70,6 +71,7 @@ export class PartListComponent {
       const partColorsList = await this.parseCsvCol(csvData, 'ColorName');
       const partImgs: { [key: string]: string } = await this.getPartImages(partIdList);
 
+      // Consolidate CSV part data into a list of Part objects
       const partData: Part[] = partIdList.map((ldrawId, index) => ({
         part_num: ldrawId,
         count: partCountsList[index],
@@ -83,6 +85,7 @@ export class PartListComponent {
     }
   }
 
+  // Parse a CSV column by its name and return an array of values
   // Written with assistance from Github Copilot
   async parseCsvCol(csvText: string, columnName: string): Promise<string[]> {
     const results = Papa.parse(csvText, {
@@ -98,33 +101,39 @@ export class PartListComponent {
     return columnData;
   }
 
-  async getPartImages(bricklinkPartIds: string[]): Promise<{ [key: string]: string }> {
+  // Fetch part images for given list of CSV-derived partIds and encode in dict
+  // Written with assistance from Github Copilot
+  async getPartImages(csvPartIds: string[]): Promise<{ [key: string]: string }> {
     const url = `https://rebrickable.com/api/v3/lego/parts/?part_nums=`;
 
-    // Fetch part images for all partIds in a single request from Rebrickable
-    const response = await fetch(url + bricklinkPartIds.join(','), {
+    // Fetch data for all partIds in a single request from Rebrickable
+    const response = await fetch(url + csvPartIds.join(','), {
       headers: {
         'Authorization': `key ${rebrickableKey}`
       }
     });
     const rebrickablePartData = await response.json();
 
+    // Create a dictionary of partId to partImgUrl
     const imageDict: { [key: string]: string } = {};
 
-    await Promise.all(bricklinkPartIds.map(async bricklinkPartId => {
-      // Look for Rebrickable partDatum with ID === current bricklinkPartId
+    // For each partId in the CSV, find the corresponding part image URL
+    await Promise.all(csvPartIds.map(async csvPartId => {
+      // Retrieve any entry from Rebrickable API matching the searched partId
       const partDatum = rebrickablePartData.results.find(
-        (rebrickablePart: Part) => rebrickablePart.part_num === bricklinkPartId
+        (rebrickablePart: Part) => rebrickablePart.part_num === csvPartId
       );
-      // If partDatum is found, use its part_img_url, else fetch backup image
-      imageDict[bricklinkPartId] = partDatum ? partDatum.part_img_url
-        : await this.getBackupImg(bricklinkPartId);
+      // If part entry found in fetched data, use its part_img_url;
+      // Else attempt backup search using Bricklink ID search
+      imageDict[csvPartId] = partDatum ? partDatum.part_img_url
+        : await this.getBackupImg(csvPartId);
     }));
 
     return imageDict;
   }
 
-  // If Rebrickable API can't find the part normally, get it using Bricklink ID
+  // If Rebrickable API can't find the part normally, try searching Bricklink ID
+  // Returns part image URL for the given Bricklink ID
   async getBackupImg(brickLinkPartId: string): Promise<string> {
     this.numImgRequests++;
     // Hard cap on lifetime fetches to prevent IP ban for excessive requests
