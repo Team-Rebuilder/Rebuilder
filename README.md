@@ -2,7 +2,8 @@
 
 - FA24 CS336 Final Project
 - Daniel Kim, Jason Chew
-- Deployed [here](https://rebuilder-app.web.app/)
+- Try it out [here!](https://rebuilder-app.web.app/)
+  - Note that CRUD operations will be disabled after 2025-01-15
 
 ---
 
