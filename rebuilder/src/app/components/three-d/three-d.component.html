@@ -9,5 +9,6 @@
     <div class="loader"></div>
   </div>
 }
+<!-- Unable to use @if because #canvas must be in the DOM during model load -->
 <canvas #canvas [ngClass]="{loaded: loadComplete}"></canvas>
 
