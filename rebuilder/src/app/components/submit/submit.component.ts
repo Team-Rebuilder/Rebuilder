@@ -410,7 +410,6 @@ export class SubmitComponent {
     // Written with assistance from ChatGPT
     const qty = data.results.reduce((sum: number, inventoryItem: inventoryItem) =>
       sum + inventoryItem.quantity, 0);
-    console.log(`Set ${setNumber} has ${qty} parts.`);
     return qty;
   }
 
